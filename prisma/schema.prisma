@@ -1,0 +1,102 @@
+generator client {
+  provider = "prisma-client"
+  output   = "../src/app/generated/prisma"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model Character {
+  id   String @id @default(cuid())
+  name String @unique
+
+  world             String?
+  vocation          String?
+  level             Int?
+  experience        BigInt?
+  residence         String?
+  sex               String?
+  accountStatus     String?
+  achievementPoints Int?
+
+  guild String?
+
+  lastSyncedAt DateTime?
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+
+  huntSessions     HuntSession[]
+  weeklyProgresses WeeklyProgress[]
+}
+
+model WeeklyProgress {
+  id          String   @id @default(cuid())
+  characterId String
+  weekStart   DateTime
+
+  weeklyTasksCompleted Int @default(0)
+  bountyPointsEarned   Int @default(0)
+
+  createdAt DateTime @default(now())
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, weekStart])
+}
+
+model HuntSession {
+  id Int @id @default(autoincrement())
+
+  characterId String
+  sessionDate DateTime
+
+  sessionStart  DateTime
+  sessionEnd    DateTime
+  sessionLength String
+
+  balance  Int
+  loot     Int
+  supplies Int
+
+  damage         Int
+  damagePerHour  Int
+  healing        Int
+  healingPerHour Int
+
+  rawXpGain    Int
+  rawXpPerHour Int
+  xpGain       Int
+  xpPerHour    Int
+
+  killedMonsters HuntKilledMonster[]
+  lootedItems    HuntLootedItem[]
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  createdAt DateTime @default(now())
+
+  @@unique([characterId, sessionDate])
+}
+
+model HuntKilledMonster {
+  id    Int    @id @default(autoincrement())
+  name  String
+  count Int
+
+  huntSessionId Int
+  huntSession   HuntSession @relation(fields: [huntSessionId], references: [id], onDelete: Cascade)
+
+  @@unique([huntSessionId, name])
+}
+
+model HuntLootedItem {
+  id    Int    @id @default(autoincrement())
+  name  String
+  count Int
+
+  huntSessionId Int
+  huntSession   HuntSession @relation(fields: [huntSessionId], references: [id], onDelete: Cascade)
+
+  @@unique([huntSessionId, name])
+}

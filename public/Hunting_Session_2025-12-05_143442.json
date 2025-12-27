@@ -1,0 +1,760 @@
+{
+    "Balance": "813,820",
+    "Damage": "4,200,571",
+    "Damage/h": "1,208,840",
+    "Healing": "607,251",
+    "Healing/h": "154,554",
+    "Killed Monsters": [
+        {
+            "Count": 1,
+            "Name": "Rukor Zad"
+        },
+        {
+            "Count": 176,
+            "Name": "assassin"
+        },
+        {
+            "Count": 4,
+            "Name": "azure frog"
+        },
+        {
+            "Count": 1,
+            "Name": "badger"
+        },
+        {
+            "Count": 40,
+            "Name": "bandit"
+        },
+        {
+            "Count": 5,
+            "Name": "bat"
+        },
+        {
+            "Count": 3,
+            "Name": "calamary"
+        },
+        {
+            "Count": 43,
+            "Name": "centipede"
+        },
+        {
+            "Count": 2,
+            "Name": "chicken"
+        },
+        {
+            "Count": 126,
+            "Name": "clomp"
+        },
+        {
+            "Count": 38,
+            "Name": "cobra"
+        },
+        {
+            "Count": 4,
+            "Name": "crab"
+        },
+        {
+            "Count": 3,
+            "Name": "crimson frog"
+        },
+        {
+            "Count": 21,
+            "Name": "crocodile"
+        },
+        {
+            "Count": 96,
+            "Name": "crystal spider"
+        },
+        {
+            "Count": 14,
+            "Name": "dark apprentice"
+        },
+        {
+            "Count": 17,
+            "Name": "dark magician"
+        },
+        {
+            "Count": 179,
+            "Name": "dark monk"
+        },
+        {
+            "Count": 21,
+            "Name": "deepling brawler"
+        },
+        {
+            "Count": 1,
+            "Name": "deepling scout"
+        },
+        {
+            "Count": 189,
+            "Name": "deepling worker"
+        },
+        {
+            "Count": 17,
+            "Name": "deepsea blood crab"
+        },
+        {
+            "Count": 3,
+            "Name": "demon skeleton"
+        },
+        {
+            "Count": 4,
+            "Name": "dwarf"
+        },
+        {
+            "Count": 3,
+            "Name": "dwarf soldier"
+        },
+        {
+            "Count": 2,
+            "Name": "flamingo"
+        },
+        {
+            "Count": 136,
+            "Name": "frost giant"
+        },
+        {
+            "Count": 147,
+            "Name": "frost giantess"
+        },
+        {
+            "Count": 20,
+            "Name": "ghost"
+        },
+        {
+            "Count": 18,
+            "Name": "hunter"
+        },
+        {
+            "Count": 158,
+            "Name": "ice golem"
+        },
+        {
+            "Count": 289,
+            "Name": "instable breach brood"
+        },
+        {
+            "Count": 173,
+            "Name": "instable sparkion"
+        },
+        {
+            "Count": 196,
+            "Name": "lizard sentinel"
+        },
+        {
+            "Count": 65,
+            "Name": "lizard snakecharmer"
+        },
+        {
+            "Count": 128,
+            "Name": "lizard templar"
+        },
+        {
+            "Count": 3,
+            "Name": "mammoth"
+        },
+        {
+            "Count": 171,
+            "Name": "massive earth elemental"
+        },
+        {
+            "Count": 19,
+            "Name": "monk"
+        },
+        {
+            "Count": 12,
+            "Name": "mummy"
+        },
+        {
+            "Count": 3,
+            "Name": "orc"
+        },
+        {
+            "Count": 63,
+            "Name": "orc cult fanatic"
+        },
+        {
+            "Count": 185,
+            "Name": "orc cult inquisitor"
+        },
+        {
+            "Count": 159,
+            "Name": "orc cult minion"
+        },
+        {
+            "Count": 35,
+            "Name": "orc cult priest"
+        },
+        {
+            "Count": 73,
+            "Name": "orc cultist"
+        },
+        {
+            "Count": 1,
+            "Name": "orc spearman"
+        },
+        {
+            "Count": 2,
+            "Name": "orc warrior"
+        },
+        {
+            "Count": 2,
+            "Name": "orclops doomhauler"
+        },
+        {
+            "Count": 4,
+            "Name": "penguin"
+        },
+        {
+            "Count": 136,
+            "Name": "sea serpent"
+        },
+        {
+            "Count": 1,
+            "Name": "smuggler"
+        },
+        {
+            "Count": 2,
+            "Name": "spider"
+        },
+        {
+            "Count": 1,
+            "Name": "spit nettle"
+        },
+        {
+            "Count": 109,
+            "Name": "stabilizing dread intruder"
+        },
+        {
+            "Count": 152,
+            "Name": "stabilizing reality reaver"
+        },
+        {
+            "Count": 6,
+            "Name": "stone golem"
+        },
+        {
+            "Count": 124,
+            "Name": "tiger"
+        },
+        {
+            "Count": 5,
+            "Name": "wasp"
+        },
+        {
+            "Count": 233,
+            "Name": "wiggler"
+        },
+        {
+            "Count": 14,
+            "Name": "wild warrior"
+        },
+        {
+            "Count": 80,
+            "Name": "witch"
+        },
+        {
+            "Count": 109,
+            "Name": "wyvern"
+        },
+        {
+            "Count": 122,
+            "Name": "young sea serpent"
+        }
+    ],
+    "Loot": "1,061,096",
+    "Looted Items": [
+        {
+            "Count": 37,
+            "Name": "a strong mana potion"
+        },
+        {
+            "Count": 61,
+            "Name": "a great mana potion"
+        },
+        {
+            "Count": 5,
+            "Name": "a mana potion"
+        },
+        {
+            "Count": 1,
+            "Name": "a glacier mask"
+        },
+        {
+            "Count": 303,
+            "Name": "a small stone"
+        },
+        {
+            "Count": 19,
+            "Name": "a black pearl"
+        },
+        {
+            "Count": 7,
+            "Name": "a small diamond"
+        },
+        {
+            "Count": 42,
+            "Name": "a small sapphire"
+        },
+        {
+            "Count": 63,
+            "Name": "a small ruby"
+        },
+        {
+            "Count": 164429,
+            "Name": "a gold coin"
+        },
+        {
+            "Count": 3,
+            "Name": "a small emerald"
+        },
+        {
+            "Count": 6,
+            "Name": "a small amethyst"
+        },
+        {
+            "Count": 1086,
+            "Name": "a platinum coin"
+        },
+        {
+            "Count": 10,
+            "Name": "a might ring"
+        },
+        {
+            "Count": 2,
+            "Name": "a stealth ring"
+        },
+        {
+            "Count": 1,
+            "Name": "a power ring"
+        },
+        {
+            "Count": 3,
+            "Name": "a time ring"
+        },
+        {
+            "Count": 3,
+            "Name": "a life crystal"
+        },
+        {
+            "Count": 3,
+            "Name": "a terra rod"
+        },
+        {
+            "Count": 1,
+            "Name": "a necrotic rod"
+        },
+        {
+            "Count": 1,
+            "Name": "a wand of decay"
+        },
+        {
+            "Count": 1,
+            "Name": "an ankh"
+        },
+        {
+            "Count": 2,
+            "Name": "a mysterious fetish"
+        },
+        {
+            "Count": 4,
+            "Name": "a stone skin amulet"
+        },
+        {
+            "Count": 1,
+            "Name": "a garlic necklace"
+        },
+        {
+            "Count": 6,
+            "Name": "a dwarven ring"
+        },
+        {
+            "Count": 5,
+            "Name": "a ring of healing"
+        },
+        {
+            "Count": 12,
+            "Name": "a halberd"
+        },
+        {
+            "Count": 1,
+            "Name": "a war hammer"
+        },
+        {
+            "Count": 1,
+            "Name": "an ice rapier"
+        },
+        {
+            "Count": 1,
+            "Name": "a silver dagger"
+        },
+        {
+            "Count": 50,
+            "Name": "a short sword"
+        },
+        {
+            "Count": 1,
+            "Name": "a templar scytheblade"
+        },
+        {
+            "Count": 5,
+            "Name": "a warrior helmet"
+        },
+        {
+            "Count": 1,
+            "Name": "a horseman helmet"
+        },
+        {
+            "Count": 2,
+            "Name": "an orange"
+        },
+        {
+            "Count": 1,
+            "Name": "a roll"
+        },
+        {
+            "Count": 3,
+            "Name": "an egg"
+        },
+        {
+            "Count": 40,
+            "Name": "a red mushroom"
+        },
+        {
+            "Count": 30,
+            "Name": "a brown mushroom"
+        },
+        {
+            "Count": 3,
+            "Name": "a star herb"
+        },
+        {
+            "Count": 3,
+            "Name": "a shadow herb"
+        },
+        {
+            "Count": 39,
+            "Name": "a dead snake"
+        },
+        {
+            "Count": 1,
+            "Name": "a dead snake"
+        },
+        {
+            "Count": 1,
+            "Name": "sniper gloves"
+        },
+        {
+            "Count": 12,
+            "Name": "lizard leather"
+        },
+        {
+            "Count": 2,
+            "Name": "spider silk"
+        },
+        {
+            "Count": 14,
+            "Name": "a lizard scale"
+        },
+        {
+            "Count": 1,
+            "Name": "a chicken feather"
+        },
+        {
+            "Count": 2,
+            "Name": "a fish fin"
+        },
+        {
+            "Count": 1,
+            "Name": "a honeycomb"
+        },
+        {
+            "Count": 9,
+            "Name": "a green piece of cloth"
+        },
+        {
+            "Count": 8,
+            "Name": "a blue piece of cloth"
+        },
+        {
+            "Count": 5,
+            "Name": "a yellow piece of cloth"
+        },
+        {
+            "Count": 4,
+            "Name": "a hardened bone"
+        },
+        {
+            "Count": 1,
+            "Name": "a shard"
+        },
+        {
+            "Count": 1,
+            "Name": "a wyvern fang"
+        },
+        {
+            "Count": 4,
+            "Name": "a furry club"
+        },
+        {
+            "Count": 4,
+            "Name": "a berserk potion"
+        },
+        {
+            "Count": 24,
+            "Name": "an ice cube"
+        },
+        {
+            "Count": 53,
+            "Name": "a great spirit potion"
+        },
+        {
+            "Count": 16,
+            "Name": "an ultimate health potion"
+        },
+        {
+            "Count": 6,
+            "Name": "an orc tusk"
+        },
+        {
+            "Count": 1,
+            "Name": "a focus cape"
+        },
+        {
+            "Count": 2,
+            "Name": "an underworld rod"
+        },
+        {
+            "Count": 2,
+            "Name": "a northwind rod"
+        },
+        {
+            "Count": 2,
+            "Name": "a wand of starstorm"
+        },
+        {
+            "Count": 11,
+            "Name": "a heavily rusted armor"
+        },
+        {
+            "Count": 5,
+            "Name": "a rusted armor"
+        },
+        {
+            "Count": 63,
+            "Name": "a small topaz"
+        },
+        {
+            "Count": 1,
+            "Name": "bloody pincers"
+        },
+        {
+            "Count": 1,
+            "Name": "a cobra tongue"
+        },
+        {
+            "Count": 66,
+            "Name": "a cultish robe"
+        },
+        {
+            "Count": 11,
+            "Name": "a wyvern talisman"
+        },
+        {
+            "Count": 5,
+            "Name": "a witch broom"
+        },
+        {
+            "Count": 10,
+            "Name": "a frost giant pelt"
+        },
+        {
+            "Count": 30,
+            "Name": "a frosty heart"
+        },
+        {
+            "Count": 17,
+            "Name": "a sea serpent scale"
+        },
+        {
+            "Count": 16,
+            "Name": "an orc tooth"
+        },
+        {
+            "Count": 4,
+            "Name": "a piece of crocodile leather"
+        },
+        {
+            "Count": 6,
+            "Name": "striped fur"
+        },
+        {
+            "Count": 2,
+            "Name": "a centipede leg"
+        },
+        {
+            "Count": 14,
+            "Name": "a dark rosary"
+        },
+        {
+            "Count": 74,
+            "Name": "a lump of earth"
+        },
+        {
+            "Count": 10,
+            "Name": "thick fur"
+        },
+        {
+            "Count": 1,
+            "Name": "a sulphurous stone"
+        },
+        {
+            "Count": 2,
+            "Name": "a clay lump"
+        },
+        {
+            "Count": 1,
+            "Name": "a hunter's quiver"
+        },
+        {
+            "Count": 22,
+            "Name": "orcish gear"
+        },
+        {
+            "Count": 4,
+            "Name": "a shamanic hood"
+        },
+        {
+            "Count": 27,
+            "Name": "orc leather"
+        },
+        {
+            "Count": 6,
+            "Name": "a skull belt"
+        },
+        {
+            "Count": 9,
+            "Name": "a rope belt"
+        },
+        {
+            "Count": 1,
+            "Name": "a safety pin"
+        },
+        {
+            "Count": 2,
+            "Name": "coal"
+        },
+        {
+            "Count": 2,
+            "Name": "a heavy trident"
+        },
+        {
+            "Count": 3,
+            "Name": "an eye of a deepling"
+        },
+        {
+            "Count": 14,
+            "Name": "deepling scales"
+        },
+        {
+            "Count": 14,
+            "Name": "a blue crystal shard"
+        },
+        {
+            "Count": 15,
+            "Name": "a violet crystal shard"
+        },
+        {
+            "Count": 6,
+            "Name": "a green crystal shard"
+        },
+        {
+            "Count": 7,
+            "Name": "a green crystal splinter"
+        },
+        {
+            "Count": 4,
+            "Name": "a brown crystal splinter"
+        },
+        {
+            "Count": 34,
+            "Name": "a blue crystal splinter"
+        },
+        {
+            "Count": 28,
+            "Name": "a cyan crystal fragment"
+        },
+        {
+            "Count": 6,
+            "Name": "a red crystal fragment"
+        },
+        {
+            "Count": 3,
+            "Name": "a green crystal fragment"
+        },
+        {
+            "Count": 20,
+            "Name": "condensed energy"
+        },
+        {
+            "Count": 14,
+            "Name": "a sparkion claw"
+        },
+        {
+            "Count": 8,
+            "Name": "a sparkion tail"
+        },
+        {
+            "Count": 16,
+            "Name": "sparkion legs"
+        },
+        {
+            "Count": 16,
+            "Name": "sparkion stings"
+        },
+        {
+            "Count": 39,
+            "Name": "plasma pearls"
+        },
+        {
+            "Count": 5,
+            "Name": "strange proto matter"
+        },
+        {
+            "Count": 11,
+            "Name": "solid rage"
+        },
+        {
+            "Count": 24,
+            "Name": "a crystal bone"
+        },
+        {
+            "Count": 14,
+            "Name": "a glistening bone"
+        },
+        {
+            "Count": 12,
+            "Name": "a small energy ball"
+        },
+        {
+            "Count": 1,
+            "Name": "a beetle carapace"
+        },
+        {
+            "Count": 36,
+            "Name": "bug meat"
+        },
+        {
+            "Count": 3,
+            "Name": "a sliver"
+        }
+    ],
+    "Raw XP Gain": "3,325,811",
+    "Raw XP/h": "884,159",
+    "Session end": "2025-12-05, 14:34:42",
+    "Session length": "05:07h",
+    "Session start": "2025-12-05, 09:27:08",
+    "Supplies": "247,276",
+    "XP Gain": "3,649,938",
+    "XP/h": "884,159"
+}
