@@ -7,6 +7,19 @@ datasource db {
   provider = "postgresql"
 }
 
+model User {
+  id           String @id @default(cuid())
+  name         String
+  username     String @unique
+  passwordHash String
+
+  characters    Character[]
+  partySessions PartySession[]
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
 model Character {
   id   String @id @default(cuid())
   name String @unique
@@ -19,8 +32,10 @@ model Character {
   sex               String?
   accountStatus     String?
   achievementPoints Int?
+  guild             String?
 
-  guild String?
+  userId String?
+  user   User?   @relation(fields: [userId], references: [id])
 
   lastSyncedAt DateTime?
   createdAt    DateTime  @default(now())
@@ -28,6 +43,16 @@ model Character {
 
   huntSessions     HuntSession[]
   weeklyProgresses WeeklyProgress[]
+}
+
+model PartySession {
+  id     String @id @default(cuid())
+  userId String
+  user   User   @relation(fields: [userId], references: [id])
+
+  name      String?
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
 }
 
 model WeeklyProgress {

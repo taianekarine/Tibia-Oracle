@@ -50,6 +50,7 @@ export type CharacterMinAggregateOutputType = {
   accountStatus: string | null
   achievementPoints: number | null
   guild: string | null
+  userId: string | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -67,6 +68,7 @@ export type CharacterMaxAggregateOutputType = {
   accountStatus: string | null
   achievementPoints: number | null
   guild: string | null
+  userId: string | null
   lastSyncedAt: Date | null
   createdAt: Date | null
   updatedAt: Date | null
@@ -84,6 +86,7 @@ export type CharacterCountAggregateOutputType = {
   accountStatus: number
   achievementPoints: number
   guild: number
+  userId: number
   lastSyncedAt: number
   createdAt: number
   updatedAt: number
@@ -115,6 +118,7 @@ export type CharacterMinAggregateInputType = {
   accountStatus?: true
   achievementPoints?: true
   guild?: true
+  userId?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -132,6 +136,7 @@ export type CharacterMaxAggregateInputType = {
   accountStatus?: true
   achievementPoints?: true
   guild?: true
+  userId?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -149,6 +154,7 @@ export type CharacterCountAggregateInputType = {
   accountStatus?: true
   achievementPoints?: true
   guild?: true
+  userId?: true
   lastSyncedAt?: true
   createdAt?: true
   updatedAt?: true
@@ -253,6 +259,7 @@ export type CharacterGroupByOutputType = {
   accountStatus: string | null
   achievementPoints: number | null
   guild: string | null
+  userId: string | null
   lastSyncedAt: Date | null
   createdAt: Date
   updatedAt: Date
@@ -293,9 +300,11 @@ export type CharacterWhereInput = {
   accountStatus?: Prisma.StringNullableFilter<"Character"> | string | null
   achievementPoints?: Prisma.IntNullableFilter<"Character"> | number | null
   guild?: Prisma.StringNullableFilter<"Character"> | string | null
+  userId?: Prisma.StringNullableFilter<"Character"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"Character"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Character"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Character"> | Date | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   huntSessions?: Prisma.HuntSessionListRelationFilter
   weeklyProgresses?: Prisma.WeeklyProgressListRelationFilter
 }
@@ -312,9 +321,11 @@ export type CharacterOrderByWithRelationInput = {
   accountStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   achievementPoints?: Prisma.SortOrderInput | Prisma.SortOrder
   guild?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
+  user?: Prisma.UserOrderByWithRelationInput
   huntSessions?: Prisma.HuntSessionOrderByRelationAggregateInput
   weeklyProgresses?: Prisma.WeeklyProgressOrderByRelationAggregateInput
 }
@@ -334,9 +345,11 @@ export type CharacterWhereUniqueInput = Prisma.AtLeast<{
   accountStatus?: Prisma.StringNullableFilter<"Character"> | string | null
   achievementPoints?: Prisma.IntNullableFilter<"Character"> | number | null
   guild?: Prisma.StringNullableFilter<"Character"> | string | null
+  userId?: Prisma.StringNullableFilter<"Character"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableFilter<"Character"> | Date | string | null
   createdAt?: Prisma.DateTimeFilter<"Character"> | Date | string
   updatedAt?: Prisma.DateTimeFilter<"Character"> | Date | string
+  user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   huntSessions?: Prisma.HuntSessionListRelationFilter
   weeklyProgresses?: Prisma.WeeklyProgressListRelationFilter
 }, "id" | "name">
@@ -353,6 +366,7 @@ export type CharacterOrderByWithAggregationInput = {
   accountStatus?: Prisma.SortOrderInput | Prisma.SortOrder
   achievementPoints?: Prisma.SortOrderInput | Prisma.SortOrder
   guild?: Prisma.SortOrderInput | Prisma.SortOrder
+  userId?: Prisma.SortOrderInput | Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrderInput | Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -378,6 +392,7 @@ export type CharacterScalarWhereWithAggregatesInput = {
   accountStatus?: Prisma.StringNullableWithAggregatesFilter<"Character"> | string | null
   achievementPoints?: Prisma.IntNullableWithAggregatesFilter<"Character"> | number | null
   guild?: Prisma.StringNullableWithAggregatesFilter<"Character"> | string | null
+  userId?: Prisma.StringNullableWithAggregatesFilter<"Character"> | string | null
   lastSyncedAt?: Prisma.DateTimeNullableWithAggregatesFilter<"Character"> | Date | string | null
   createdAt?: Prisma.DateTimeWithAggregatesFilter<"Character"> | Date | string
   updatedAt?: Prisma.DateTimeWithAggregatesFilter<"Character"> | Date | string
@@ -398,6 +413,7 @@ export type CharacterCreateInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutCharactersInput
   huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
   weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
 }
@@ -414,6 +430,7 @@ export type CharacterUncheckedCreateInput = {
   accountStatus?: string | null
   achievementPoints?: number | null
   guild?: string | null
+  userId?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -436,6 +453,7 @@ export type CharacterUpdateInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
 }
@@ -452,6 +470,7 @@ export type CharacterUncheckedUpdateInput = {
   accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -471,6 +490,7 @@ export type CharacterCreateManyInput = {
   accountStatus?: string | null
   achievementPoints?: number | null
   guild?: string | null
+  userId?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -505,9 +525,20 @@ export type CharacterUncheckedUpdateManyInput = {
   accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+}
+
+export type CharacterListRelationFilter = {
+  every?: Prisma.CharacterWhereInput
+  some?: Prisma.CharacterWhereInput
+  none?: Prisma.CharacterWhereInput
+}
+
+export type CharacterOrderByRelationAggregateInput = {
+  _count?: Prisma.SortOrder
 }
 
 export type CharacterCountOrderByAggregateInput = {
@@ -522,6 +553,7 @@ export type CharacterCountOrderByAggregateInput = {
   accountStatus?: Prisma.SortOrder
   achievementPoints?: Prisma.SortOrder
   guild?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -545,6 +577,7 @@ export type CharacterMaxOrderByAggregateInput = {
   accountStatus?: Prisma.SortOrder
   achievementPoints?: Prisma.SortOrder
   guild?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -562,6 +595,7 @@ export type CharacterMinOrderByAggregateInput = {
   accountStatus?: Prisma.SortOrder
   achievementPoints?: Prisma.SortOrder
   guild?: Prisma.SortOrder
+  userId?: Prisma.SortOrder
   lastSyncedAt?: Prisma.SortOrder
   createdAt?: Prisma.SortOrder
   updatedAt?: Prisma.SortOrder
@@ -578,8 +612,46 @@ export type CharacterScalarRelationFilter = {
   isNot?: Prisma.CharacterWhereInput
 }
 
-export type StringFieldUpdateOperationsInput = {
-  set?: string
+export type CharacterCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput> | Prisma.CharacterCreateWithoutUserInput[] | Prisma.CharacterUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutUserInput | Prisma.CharacterCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.CharacterCreateManyUserInputEnvelope
+  connect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+}
+
+export type CharacterUncheckedCreateNestedManyWithoutUserInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput> | Prisma.CharacterCreateWithoutUserInput[] | Prisma.CharacterUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutUserInput | Prisma.CharacterCreateOrConnectWithoutUserInput[]
+  createMany?: Prisma.CharacterCreateManyUserInputEnvelope
+  connect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+}
+
+export type CharacterUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput> | Prisma.CharacterCreateWithoutUserInput[] | Prisma.CharacterUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutUserInput | Prisma.CharacterCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.CharacterUpsertWithWhereUniqueWithoutUserInput | Prisma.CharacterUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.CharacterCreateManyUserInputEnvelope
+  set?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  disconnect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  delete?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  connect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  update?: Prisma.CharacterUpdateWithWhereUniqueWithoutUserInput | Prisma.CharacterUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.CharacterUpdateManyWithWhereWithoutUserInput | Prisma.CharacterUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.CharacterScalarWhereInput | Prisma.CharacterScalarWhereInput[]
+}
+
+export type CharacterUncheckedUpdateManyWithoutUserNestedInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput> | Prisma.CharacterCreateWithoutUserInput[] | Prisma.CharacterUncheckedCreateWithoutUserInput[]
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutUserInput | Prisma.CharacterCreateOrConnectWithoutUserInput[]
+  upsert?: Prisma.CharacterUpsertWithWhereUniqueWithoutUserInput | Prisma.CharacterUpsertWithWhereUniqueWithoutUserInput[]
+  createMany?: Prisma.CharacterCreateManyUserInputEnvelope
+  set?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  disconnect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  delete?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  connect?: Prisma.CharacterWhereUniqueInput | Prisma.CharacterWhereUniqueInput[]
+  update?: Prisma.CharacterUpdateWithWhereUniqueWithoutUserInput | Prisma.CharacterUpdateWithWhereUniqueWithoutUserInput[]
+  updateMany?: Prisma.CharacterUpdateManyWithWhereWithoutUserInput | Prisma.CharacterUpdateManyWithWhereWithoutUserInput[]
+  deleteMany?: Prisma.CharacterScalarWhereInput | Prisma.CharacterScalarWhereInput[]
 }
 
 export type NullableStringFieldUpdateOperationsInput = {
@@ -604,10 +676,6 @@ export type NullableBigIntFieldUpdateOperationsInput = {
 
 export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
-}
-
-export type DateTimeFieldUpdateOperationsInput = {
-  set?: Date | string
 }
 
 export type CharacterCreateNestedOneWithoutWeeklyProgressesInput = {
@@ -638,7 +706,7 @@ export type CharacterUpdateOneRequiredWithoutHuntSessionsNestedInput = {
   update?: Prisma.XOR<Prisma.XOR<Prisma.CharacterUpdateToOneWithWhereWithoutHuntSessionsInput, Prisma.CharacterUpdateWithoutHuntSessionsInput>, Prisma.CharacterUncheckedUpdateWithoutHuntSessionsInput>
 }
 
-export type CharacterCreateWithoutWeeklyProgressesInput = {
+export type CharacterCreateWithoutUserInput = {
   id?: string
   name: string
   world?: string | null
@@ -654,6 +722,92 @@ export type CharacterCreateWithoutWeeklyProgressesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
+  weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
+}
+
+export type CharacterUncheckedCreateWithoutUserInput = {
+  id?: string
+  name: string
+  world?: string | null
+  vocation?: string | null
+  level?: number | null
+  experience?: bigint | number | null
+  residence?: string | null
+  sex?: string | null
+  accountStatus?: string | null
+  achievementPoints?: number | null
+  guild?: string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  huntSessions?: Prisma.HuntSessionUncheckedCreateNestedManyWithoutCharacterInput
+  weeklyProgresses?: Prisma.WeeklyProgressUncheckedCreateNestedManyWithoutCharacterInput
+}
+
+export type CharacterCreateOrConnectWithoutUserInput = {
+  where: Prisma.CharacterWhereUniqueInput
+  create: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput>
+}
+
+export type CharacterCreateManyUserInputEnvelope = {
+  data: Prisma.CharacterCreateManyUserInput | Prisma.CharacterCreateManyUserInput[]
+  skipDuplicates?: boolean
+}
+
+export type CharacterUpsertWithWhereUniqueWithoutUserInput = {
+  where: Prisma.CharacterWhereUniqueInput
+  update: Prisma.XOR<Prisma.CharacterUpdateWithoutUserInput, Prisma.CharacterUncheckedUpdateWithoutUserInput>
+  create: Prisma.XOR<Prisma.CharacterCreateWithoutUserInput, Prisma.CharacterUncheckedCreateWithoutUserInput>
+}
+
+export type CharacterUpdateWithWhereUniqueWithoutUserInput = {
+  where: Prisma.CharacterWhereUniqueInput
+  data: Prisma.XOR<Prisma.CharacterUpdateWithoutUserInput, Prisma.CharacterUncheckedUpdateWithoutUserInput>
+}
+
+export type CharacterUpdateManyWithWhereWithoutUserInput = {
+  where: Prisma.CharacterScalarWhereInput
+  data: Prisma.XOR<Prisma.CharacterUpdateManyMutationInput, Prisma.CharacterUncheckedUpdateManyWithoutUserInput>
+}
+
+export type CharacterScalarWhereInput = {
+  AND?: Prisma.CharacterScalarWhereInput | Prisma.CharacterScalarWhereInput[]
+  OR?: Prisma.CharacterScalarWhereInput[]
+  NOT?: Prisma.CharacterScalarWhereInput | Prisma.CharacterScalarWhereInput[]
+  id?: Prisma.StringFilter<"Character"> | string
+  name?: Prisma.StringFilter<"Character"> | string
+  world?: Prisma.StringNullableFilter<"Character"> | string | null
+  vocation?: Prisma.StringNullableFilter<"Character"> | string | null
+  level?: Prisma.IntNullableFilter<"Character"> | number | null
+  experience?: Prisma.BigIntNullableFilter<"Character"> | bigint | number | null
+  residence?: Prisma.StringNullableFilter<"Character"> | string | null
+  sex?: Prisma.StringNullableFilter<"Character"> | string | null
+  accountStatus?: Prisma.StringNullableFilter<"Character"> | string | null
+  achievementPoints?: Prisma.IntNullableFilter<"Character"> | number | null
+  guild?: Prisma.StringNullableFilter<"Character"> | string | null
+  userId?: Prisma.StringNullableFilter<"Character"> | string | null
+  lastSyncedAt?: Prisma.DateTimeNullableFilter<"Character"> | Date | string | null
+  createdAt?: Prisma.DateTimeFilter<"Character"> | Date | string
+  updatedAt?: Prisma.DateTimeFilter<"Character"> | Date | string
+}
+
+export type CharacterCreateWithoutWeeklyProgressesInput = {
+  id?: string
+  name: string
+  world?: string | null
+  vocation?: string | null
+  level?: number | null
+  experience?: bigint | number | null
+  residence?: string | null
+  sex?: string | null
+  accountStatus?: string | null
+  achievementPoints?: number | null
+  guild?: string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutCharactersInput
+  huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUncheckedCreateWithoutWeeklyProgressesInput = {
@@ -668,6 +822,7 @@ export type CharacterUncheckedCreateWithoutWeeklyProgressesInput = {
   accountStatus?: string | null
   achievementPoints?: number | null
   guild?: string | null
+  userId?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -705,6 +860,7 @@ export type CharacterUpdateWithoutWeeklyProgressesInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
 }
 
@@ -720,6 +876,7 @@ export type CharacterUncheckedUpdateWithoutWeeklyProgressesInput = {
   accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
@@ -741,6 +898,7 @@ export type CharacterCreateWithoutHuntSessionsInput = {
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutCharactersInput
   weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
 }
 
@@ -756,6 +914,7 @@ export type CharacterUncheckedCreateWithoutHuntSessionsInput = {
   accountStatus?: string | null
   achievementPoints?: number | null
   guild?: string | null
+  userId?: string | null
   lastSyncedAt?: Date | string | null
   createdAt?: Date | string
   updatedAt?: Date | string
@@ -793,6 +952,7 @@ export type CharacterUpdateWithoutHuntSessionsInput = {
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
 }
 
@@ -808,10 +968,83 @@ export type CharacterUncheckedUpdateWithoutHuntSessionsInput = {
   accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
   guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
   lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+}
+
+export type CharacterCreateManyUserInput = {
+  id?: string
+  name: string
+  world?: string | null
+  vocation?: string | null
+  level?: number | null
+  experience?: bigint | number | null
+  residence?: string | null
+  sex?: string | null
+  accountStatus?: string | null
+  achievementPoints?: number | null
+  guild?: string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+}
+
+export type CharacterUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  world?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  experience?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  residence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
+  weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
+}
+
+export type CharacterUncheckedUpdateWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  world?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  experience?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  residence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  huntSessions?: Prisma.HuntSessionUncheckedUpdateManyWithoutCharacterNestedInput
+  weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+}
+
+export type CharacterUncheckedUpdateManyWithoutUserInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  world?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  experience?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  residence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
 }
 
 
@@ -866,9 +1099,11 @@ export type CharacterSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   accountStatus?: boolean
   achievementPoints?: boolean
   guild?: boolean
+  userId?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
   huntSessions?: boolean | Prisma.Character$huntSessionsArgs<ExtArgs>
   weeklyProgresses?: boolean | Prisma.Character$weeklyProgressesArgs<ExtArgs>
   _count?: boolean | Prisma.CharacterCountOutputTypeDefaultArgs<ExtArgs>
@@ -886,9 +1121,11 @@ export type CharacterSelectCreateManyAndReturn<ExtArgs extends runtime.Types.Ext
   accountStatus?: boolean
   achievementPoints?: boolean
   guild?: boolean
+  userId?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
 }, ExtArgs["result"]["character"]>
 
 export type CharacterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
@@ -903,9 +1140,11 @@ export type CharacterSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.Ext
   accountStatus?: boolean
   achievementPoints?: boolean
   guild?: boolean
+  userId?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
 }, ExtArgs["result"]["character"]>
 
 export type CharacterSelectScalar = {
@@ -920,23 +1159,30 @@ export type CharacterSelectScalar = {
   accountStatus?: boolean
   achievementPoints?: boolean
   guild?: boolean
+  userId?: boolean
   lastSyncedAt?: boolean
   createdAt?: boolean
   updatedAt?: boolean
 }
 
-export type CharacterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "world" | "vocation" | "level" | "experience" | "residence" | "sex" | "accountStatus" | "achievementPoints" | "guild" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["character"]>
+export type CharacterOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "name" | "world" | "vocation" | "level" | "experience" | "residence" | "sex" | "accountStatus" | "achievementPoints" | "guild" | "userId" | "lastSyncedAt" | "createdAt" | "updatedAt", ExtArgs["result"]["character"]>
 export type CharacterInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
   huntSessions?: boolean | Prisma.Character$huntSessionsArgs<ExtArgs>
   weeklyProgresses?: boolean | Prisma.Character$weeklyProgressesArgs<ExtArgs>
   _count?: boolean | Prisma.CharacterCountOutputTypeDefaultArgs<ExtArgs>
 }
-export type CharacterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
-export type CharacterIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {}
+export type CharacterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
+}
+export type CharacterIncludeUpdateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  user?: boolean | Prisma.Character$userArgs<ExtArgs>
+}
 
 export type $CharacterPayload<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   name: "Character"
   objects: {
+    user: Prisma.$UserPayload<ExtArgs> | null
     huntSessions: Prisma.$HuntSessionPayload<ExtArgs>[]
     weeklyProgresses: Prisma.$WeeklyProgressPayload<ExtArgs>[]
   }
@@ -952,6 +1198,7 @@ export type $CharacterPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     accountStatus: string | null
     achievementPoints: number | null
     guild: string | null
+    userId: string | null
     lastSyncedAt: Date | null
     createdAt: Date
     updatedAt: Date
@@ -1349,6 +1596,7 @@ readonly fields: CharacterFieldRefs;
  */
 export interface Prisma__CharacterClient<T, Null = never, ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs, GlobalOmitOptions = {}> extends Prisma.PrismaPromise<T> {
   readonly [Symbol.toStringTag]: "PrismaPromise"
+  user<T extends Prisma.Character$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   huntSessions<T extends Prisma.Character$huntSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$huntSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HuntSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   weeklyProgresses<T extends Prisma.Character$weeklyProgressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$weeklyProgressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WeeklyProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
@@ -1391,6 +1639,7 @@ export interface CharacterFieldRefs {
   readonly accountStatus: Prisma.FieldRef<"Character", 'String'>
   readonly achievementPoints: Prisma.FieldRef<"Character", 'Int'>
   readonly guild: Prisma.FieldRef<"Character", 'String'>
+  readonly userId: Prisma.FieldRef<"Character", 'String'>
   readonly lastSyncedAt: Prisma.FieldRef<"Character", 'DateTime'>
   readonly createdAt: Prisma.FieldRef<"Character", 'DateTime'>
   readonly updatedAt: Prisma.FieldRef<"Character", 'DateTime'>
@@ -1643,6 +1892,10 @@ export type CharacterCreateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    */
   data: Prisma.CharacterCreateManyInput | Prisma.CharacterCreateManyInput[]
   skipDuplicates?: boolean
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CharacterIncludeCreateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1713,6 +1966,10 @@ export type CharacterUpdateManyAndReturnArgs<ExtArgs extends runtime.Types.Exten
    * Limit how many Characters to update.
    */
   limit?: number
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CharacterIncludeUpdateManyAndReturn<ExtArgs> | null
 }
 
 /**
@@ -1779,6 +2036,25 @@ export type CharacterDeleteManyArgs<ExtArgs extends runtime.Types.Extensions.Int
    * Limit how many Characters to delete.
    */
   limit?: number
+}
+
+/**
+ * Character.user
+ */
+export type Character$userArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the User
+   */
+  select?: Prisma.UserSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the User
+   */
+  omit?: Prisma.UserOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.UserInclude<ExtArgs> | null
+  where?: Prisma.UserWhereInput
 }
 
 /**

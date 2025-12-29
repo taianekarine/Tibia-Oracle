@@ -51,7 +51,9 @@ export const AnyNull = runtime.AnyNull
 
 
 export const ModelName = {
+  User: 'User',
   Character: 'Character',
+  PartySession: 'PartySession',
   WeeklyProgress: 'WeeklyProgress',
   HuntSession: 'HuntSession',
   HuntKilledMonster: 'HuntKilledMonster',
@@ -74,6 +76,18 @@ export const TransactionIsolationLevel = {
 export type TransactionIsolationLevel = (typeof TransactionIsolationLevel)[keyof typeof TransactionIsolationLevel]
 
 
+export const UserScalarFieldEnum = {
+  id: 'id',
+  name: 'name',
+  username: 'username',
+  passwordHash: 'passwordHash',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type UserScalarFieldEnum = (typeof UserScalarFieldEnum)[keyof typeof UserScalarFieldEnum]
+
+
 export const CharacterScalarFieldEnum = {
   id: 'id',
   name: 'name',
@@ -86,12 +100,24 @@ export const CharacterScalarFieldEnum = {
   accountStatus: 'accountStatus',
   achievementPoints: 'achievementPoints',
   guild: 'guild',
+  userId: 'userId',
   lastSyncedAt: 'lastSyncedAt',
   createdAt: 'createdAt',
   updatedAt: 'updatedAt'
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
+
+
+export const PartySessionScalarFieldEnum = {
+  id: 'id',
+  userId: 'userId',
+  name: 'name',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type PartySessionScalarFieldEnum = (typeof PartySessionScalarFieldEnum)[keyof typeof PartySessionScalarFieldEnum]
 
 
 export const WeeklyProgressScalarFieldEnum = {
