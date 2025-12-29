@@ -1,11 +1,10 @@
 "use client";
 
 /*
-  Esse componente é a SIDEBAR.
-  Regra de ouro aqui:
-  - Ela EXECUTA ações (criar, deletar, importar)
-  - Ela NÃO é dona dos dados
-  - Ela apenas LÊ os dados via React Query
+  SIDEBAR
+  - UI pura
+  - Executa ações
+  - NÃO conhece regras de auth
 */
 
 import * as React from "react";
@@ -41,28 +40,18 @@ import { Trash2, UserPlus, Upload } from "lucide-react";
 
 import { useCharacterHeader } from "@/hooks/useCharacterHeader";
 import { useCharacterList } from "@/hooks/useCharacterList";
+import { useApi } from "@/hooks/useApi"; // 🔑 NOVO
 import { useQueryClient } from "@tanstack/react-query";
 
-/*
-  Tipo simples apenas para tipagem do front.
-  NÃO é modelo do banco.
-*/
 type Character = {
   id: string;
   name: string;
 };
 
 export function AppSidebar() {
-  /*
-    Hook que controla o header "x-character-name".
-    Ele não tem relação direta com React Query.
-  */
+  const api = useApi(); // 🔑 API já autenticada
   const { setCharacterFromInput } = useCharacterHeader();
 
-  /*
-    Estados puramente de UI.
-    Nada aqui tem relação com dados do backend.
-  */
   const [createOpen, setCreateOpen] = React.useState(false);
   const [importOpen, setImportOpen] = React.useState(false);
 
@@ -72,49 +61,20 @@ export function AppSidebar() {
 
   const [loading, setLoading] = React.useState(false);
 
-  /*
-    🔑 LEITURA DOS DADOS
-    useCharacterList é a ÚNICA fonte de verdade da lista de personagens.
-    - Busca do backend
-    - Cache compartilhado
-    - Atualização automática após invalidate
-  */
   const { data: characters = [], isLoading } = useCharacterList();
-
-  /*
-    Acesso ao cache do React Query.
-    Usado APENAS para invalidar após ações.
-  */
   const queryClient = useQueryClient();
 
-  /*
-    =========================
-    AÇÕES QUE MUDAM O BANCO
-    =========================
-    Regra:
-    - Executa ação
-    - Se deu certo -> invalidate
-  */
-
   async function handleConfirmCreate() {
-    console.log("[CHARACTER][CREATE] Confirmando criação");
-
     if (!characterName.trim()) return;
+
+    console.log("[CHARACTER][CREATE]", characterName);
 
     setLoading(true);
 
-    await fetch("/api/characters", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({ name: characterName }),
+    await api.post("/api/characters", {
+      body: { name: characterName },
     });
 
-    /*
-      🔁 Aqui acontece a mágica:
-      - avisa que a lista de personagens mudou
-      - todos os componentes que usam useCharacterList()
-        vão refazer o fetch automaticamente
-    */
     queryClient.invalidateQueries({ queryKey: ["characters"] });
 
     setLoading(false);
@@ -123,59 +83,41 @@ export function AppSidebar() {
   }
 
   async function handleDelete(name: string) {
-    const ok = confirm(`Deseja realmente excluir o personagem "${name}"?`);
+    const ok = confirm(`Excluir personagem "${name}"?`);
     if (!ok) return;
 
     console.log("[CHARACTER][DELETE]", name);
 
-    await fetch(`/api/characters/${name}`, { method: "DELETE" });
+    await api.delete(`/api/characters/${name}`);
 
-    /*
-      Novamente:
-      - backend mudou
-      - frontend invalida cache
-    */
     queryClient.invalidateQueries({ queryKey: ["characters"] });
   }
 
   async function handleImportHunt() {
-    if (!selectedCharacter || !huntFile) return;
+  if (!selectedCharacter || !huntFile) return;
 
-    console.log("[HUNT][IMPORT] Personagem:", selectedCharacter);
+  console.log("[HUNT][IMPORT]", selectedCharacter);
 
-    setCharacterFromInput(selectedCharacter, true);
+  setCharacterFromInput(selectedCharacter, false);
 
-    const formData = new FormData();
-    formData.append("file", huntFile);
+  const formData = new FormData();
+  formData.append("file", huntFile);
 
-    setLoading(true);
+  setLoading(true);
 
-    await fetch("/api/hunt-sessions", {
-      method: "POST",
-      headers: {
-        "x-character-name": selectedCharacter,
-      },
-      body: formData,
-    });
+  await api.post("/api/hunt-sessions", {
+    body: formData,
+    characterName: selectedCharacter,
+  });
 
-    /*
-      Import altera dados relacionados ao personagem.
-      Mesmo que a lista não mude hoje,
-      invalidar mantém o fluxo consistente.
-    */
-    queryClient.invalidateQueries({ queryKey: ["characters"] });
+  queryClient.invalidateQueries({ queryKey: ["characters"] });
 
-    setLoading(false);
-    setImportOpen(false);
-    setSelectedCharacter("");
-    setHuntFile(null);
-  }
+  setLoading(false);
+  setImportOpen(false);
+  setSelectedCharacter("");
+  setHuntFile(null);
+}
 
-  /*
-    =========================
-    RENDER
-    =========================
-  */
   return (
     <Sidebar>
       <SidebarHeader className="p-4">
@@ -221,7 +163,7 @@ export function AppSidebar() {
         Backend manda, frontend obedece.
       </SidebarFooter>
 
-      {/* ===== Dialog Criar Personagem ===== */}
+      {/* Dialog Criar */}
       <Dialog open={createOpen} onOpenChange={setCreateOpen}>
         <DialogContent>
           <DialogHeader>
@@ -229,9 +171,9 @@ export function AppSidebar() {
           </DialogHeader>
 
           <Input
-            placeholder="Nome do personagem"
             value={characterName}
             onChange={(e) => setCharacterName(e.target.value)}
+            placeholder="Nome do personagem"
           />
 
           <DialogFooter>
@@ -242,17 +184,14 @@ export function AppSidebar() {
         </DialogContent>
       </Dialog>
 
-      {/* ===== Dialog Importar Hunt ===== */}
+      {/* Dialog Importar */}
       <Dialog open={importOpen} onOpenChange={setImportOpen}>
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Importar Hunt</DialogTitle>
           </DialogHeader>
 
-          <Select
-            value={selectedCharacter}
-            onValueChange={setSelectedCharacter}
-          >
+          <Select value={selectedCharacter} onValueChange={setSelectedCharacter}>
             <SelectTrigger>
               <SelectValue placeholder="Selecione o personagem" />
             </SelectTrigger>
