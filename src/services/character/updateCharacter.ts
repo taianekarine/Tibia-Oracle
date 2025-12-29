@@ -2,8 +2,21 @@ import { prisma } from "@/lib/prisma";
 import { getCharacterFromTibia } from "../tibia/getCharacterFromTibia";
 import { mapTibiaCharacterToPrisma } from "@/mappers/tibiaCharacterMapper";
 
-export async function updateCharacter(name: string) {
-  console.log("[SERVICE] Atualizando character:", name);
+type UpdateCharacterInput = {
+  userId: string;
+  name: string;
+};
+
+export async function updateCharacter({ userId, name }: UpdateCharacterInput) {
+  console.log("[SERVICE] Atualizando character:", name, "user:", userId);
+
+  const existing = await prisma.character.findFirst({
+    where: { userId, name },
+  });
+
+  if (!existing) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
 
   const tibiaCharacter = await getCharacterFromTibia(name);
 
@@ -13,8 +26,12 @@ export async function updateCharacter(name: string) {
 
   const data = mapTibiaCharacterToPrisma(tibiaCharacter);
 
-  return prisma.character.update({
-    where: { name },
+  await prisma.character.updateMany({
+    where: { userId, name },
     data,
+  });
+
+  return prisma.character.findFirst({
+    where: { userId, name },
   });
 }

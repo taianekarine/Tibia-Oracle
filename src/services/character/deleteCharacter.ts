@@ -1,9 +1,14 @@
 import { prisma } from "@/lib/prisma";
 
-export async function deleteCharacter(name: string) {
-  console.log("[SERVICE] Deletando character:", name);
+type DeleteCharacterInput = {
+  userId: string;
+  name: string;
+};
 
-  return prisma.character.delete({
-    where: { name },
+export async function deleteCharacter({ userId, name }: DeleteCharacterInput) {
+  console.log("[SERVICE] Deletando character:", name, "user:", userId);
+
+  await prisma.character.deleteMany({
+    where: { userId, name },
   });
 }

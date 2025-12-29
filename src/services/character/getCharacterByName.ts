@@ -1,9 +1,20 @@
 import { prisma } from "@/lib/prisma";
 
-export async function getCharacterByName(name: string) {
-  console.log("[DB] Buscando character no banco:", name);
+type GetCharacterByNameInput = {
+  userId: string;
+  name: string;
+};
 
-  return prisma.character.findUnique({
-    where: { name },
+export async function getCharacterByName({
+  userId,
+  name,
+}: GetCharacterByNameInput) {
+  console.log("[SERVICE] Buscando character:", name, "user:", userId);
+
+  return prisma.character.findFirst({
+    where: {
+      userId,
+      name,
+    },
   });
 }

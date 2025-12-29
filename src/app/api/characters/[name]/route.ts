@@ -8,12 +8,20 @@ type RouteParams = {
 };
 
 export async function GET(
-  _: Request,
+  req: Request,
   { params }: RouteParams
 ) {
   const { name } = await params;
+  const userId = req.headers.get("x-user-id");
 
-  console.log("[API] GET /characters/:name", name);
+  console.log("[API] GET /characters/:name", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
 
   if (!name) {
     return NextResponse.json(
@@ -22,7 +30,10 @@ export async function GET(
     );
   }
 
-  const character = await getCharacterByName(name);
+  const character = await getCharacterByName({
+    userId,
+    name,
+  });
 
   if (!character) {
     return NextResponse.json(
@@ -31,21 +42,34 @@ export async function GET(
     );
   }
 
-  const { id, ...rest } = character;
+  const { id: _id, ...rest } = character;
+
   return NextResponse.json(rest);
 }
 
 export async function PUT(
-  _: Request,
+  req: Request,
   { params }: RouteParams
 ) {
   const { name } = await params;
+  const userId = req.headers.get("x-user-id");
 
-  console.log("[API] PUT /characters/:name", name);
+  console.log("[API] PUT /characters/:name", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
 
   try {
-    const character = await updateCharacter(name);
-    const { id, ...rest } = character;
+    const character = await updateCharacter({
+      userId,
+      name,
+    });
+    const {...rest } = character;
+
     return NextResponse.json(rest);
   } catch {
     return NextResponse.json(
@@ -56,13 +80,25 @@ export async function PUT(
 }
 
 export async function DELETE(
-  _: Request,
+  req: Request,
   { params }: RouteParams
 ) {
   const { name } = await params;
+  const userId = req.headers.get("x-user-id");
 
-  console.log("[API] DELETE /characters/:name", name);
+  console.log("[API] DELETE /characters/:name", name, "user:", userId);
 
-  await deleteCharacter(name);
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  await deleteCharacter({
+    userId,
+    name,
+  });
+
   return NextResponse.json({ message: "Character deletado" });
 }

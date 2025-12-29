@@ -1,11 +1,14 @@
 import { prisma } from "@/lib/prisma";
 
-export async function listCharacters() {
-  console.log("[DB] Listando todos os characters");
+export async function listCharacters(userId: string) {
+  console.log("[SERVICE] Listando characters do user:", userId);
 
   return prisma.character.findMany({
+    where: {
+      userId,
+    },
     orderBy: {
-      name: "asc",
+      createdAt: "desc",
     },
   });
 }
