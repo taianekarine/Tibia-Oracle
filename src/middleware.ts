@@ -1,9 +1,15 @@
 import { NextRequest, NextResponse } from "next/server";
-import jwt from "jsonwebtoken";
+import { jwtVerify } from "jose";
 
-const JWT_SECRET = process.env.JWT_SECRET as string;
+const JWT_SECRET = process.env.JWT_SECRET;
 
-export function middleware(req: NextRequest) {
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET não definido");
+}
+
+const secret = new TextEncoder().encode(JWT_SECRET);
+
+export async function middleware(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
 
   if (!authHeader) {
@@ -13,21 +19,40 @@ export function middleware(req: NextRequest) {
     );
   }
 
-  const [, token] = authHeader.split(" ");
+  const [type, token] = authHeader.split(" ");
 
-  if (!token) {
+  if (type !== "Bearer" || !token) {
     return NextResponse.json(
-      { error: "Token inválido" },
+      { error: "Token mal formatado" },
       { status: 401 }
     );
   }
 
   try {
-    const payload = jwt.verify(token, JWT_SECRET);
-    console.log("[AUTH][MIDDLEWARE] Token válido", payload);
+    const { payload } = await jwtVerify(token, secret);
 
-    return NextResponse.next();
-  } catch {
+    const userId = payload.userId as string;
+
+    if (!userId) {
+      return NextResponse.json(
+        { error: "Token sem userId" },
+        { status: 401 }
+      );
+    }
+
+    console.log("[AUTH][MIDDLEWARE][JOSE] userId:", userId);
+
+    const headers = new Headers(req.headers);
+    headers.set("x-user-id", userId);
+
+    return NextResponse.next({
+      request: {
+        headers,
+      },
+    });
+  } catch (err) {
+    console.error("[AUTH][MIDDLEWARE][JOSE] Erro JWT", err);
+
     return NextResponse.json(
       { error: "Token inválido ou expirado" },
       { status: 401 }
@@ -36,5 +61,8 @@ export function middleware(req: NextRequest) {
 }
 
 export const config = {
-  matcher: ["/api/protected/:path*"],
+  matcher: [
+    "/api/characters/:path*",
+    "/api/hunt-sessions/:path*",
+  ],
 };

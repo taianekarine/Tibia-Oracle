@@ -3,6 +3,7 @@ import { loginUser } from "@/services/auth.service";
 
 export async function POST(req: Request) {
   console.log("[API] POST /auth/login");
+  console.log("[AUTH][LOGIN] JWT_SECRET:", process.env.JWT_SECRET);
 
   try {
     const body = await req.json();

@@ -18,6 +18,14 @@ export async function POST(req: Request) {
   const { name } = await req.json();
 
   console.log("[API] POST /characters:", name);
+  const userId = req.headers.get("x-user-id");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
 
   if (!name) {
     return NextResponse.json(
