@@ -1,93 +1,104 @@
-import { NextRequest, NextResponse } from "next/server";
-import { parseTextToJson } from "@/lib/hunt/parseTextToJson";
-import { normalizeHuntJson } from "@/lib/hunt/normalize";
-import { validateHunt } from "@/lib/hunt/validateHunt";
-import { persistHunt } from "@/lib/hunt/persistHunt";
+import { NextResponse } from "next/server";
+import { createHuntSession } from "@/services/hunt-session/createHuntSession";
+import { listHuntSessions } from "@/services/hunt-session/listHuntSessions";
 
-export async function POST(req: NextRequest) {
+
+export async function POST(req: Request) {
   console.log("[API] POST /hunt-sessions");
 
-    const characterName = req.headers.get("x-character-name");
+  const userId = req.headers.get("x-user-id");
+  const characterName = req.headers.get("x-character-name");
 
-     console.log("[API] x-character-name:", characterName);
-
-    if (!characterName || characterName.trim() === "") {
-      return NextResponse.json(
-        { error: "Header x-character-name é obrigatório" },
-        { status: 400 }
-      );
-    }
-
-  try {
-    const characterName = req.headers.get("x-character-name");
-
-    if (!characterName) {
-      return NextResponse.json(
-        { error: "Header x-character-name é obrigatório" },
-        { status: 400 }
-      );
-    }
-
-    const contentType = req.headers.get("content-type") || "";
-    let payload: any;
-
-    // 1️⃣ MULTIPART (UPLOAD DE ARQUIVO)
-    if (contentType.includes("multipart/form-data")) {
-      console.log("[API] Payload recebido como MULTIPART");
-
-      const formData = await req.formData();
-      const file = formData.get("file");
-
-      if (!file || !(file instanceof File)) {
-        throw new Error("Arquivo .json não encontrado no form-data");
-      }
-
-      if (!file.name.endsWith(".json")) {
-        throw new Error("Apenas arquivos .json são permitidos");
-      }
-
-      const text = await file.text();
-      payload = JSON.parse(text);
-    }
-
-    // 2️⃣ JSON PURO
-    else if (contentType.includes("application/json")) {
-      console.log("[API] Payload recebido como JSON");
-      payload = await req.json();
-    }
-
-    // 3️⃣ TEXTO CRU
-    else {
-      console.log("[API] Payload recebido como TEXTO");
-      const text = await req.text();
-      payload = parseTextToJson(text);
-    }
-
-    const normalized = normalizeHuntJson(payload);
-
-    const character = await validateHunt({
-      characterName,
-      data: {
-        sessionStart: normalized.sessionStart,
-        sessionEnd: normalized.sessionEnd,
-        sessionLength: normalized.sessionLength,
-        xpGain: normalized.xpGain,
-        rawXpGain: normalized.rawXpGain,
-        loot: normalized.loot,
-        supplies: normalized.supplies,
-        balance: normalized.balance,
-      },
-    });
-
-
-    const hunt = await persistHunt(character.id, normalized);
-
-    return NextResponse.json({ success: true, hunt });
-  } catch (error: any) {
-    console.error("[API][ERROR]", error.message);
+  if (!userId) {
     return NextResponse.json(
-      { error: error.message },
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!characterName) {
+    return NextResponse.json(
+      { error: "Character não informado" },
       { status: 400 }
     );
+  }
+
+  const formData = await req.formData();
+  const file = formData.get("file");
+
+  if (!(file instanceof File)) {
+    return NextResponse.json(
+      { error: "Arquivo de hunt não enviado" },
+      { status: 400 }
+    );
+  }
+
+  const rawText = await file.text();
+
+  try {
+    const huntSession = await createHuntSession({
+      userId,
+      characterName,
+      rawData: rawText,
+    });
+
+    return NextResponse.json(huntSession, { status: 201 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      if (err.message === "CHARACTER_NOT_FOUND") {
+        return NextResponse.json(
+          { error: "Character não pertence ao usuário" },
+          { status: 403 }
+        );
+      }
+
+      if (err.name === "SyntaxError") {
+        return NextResponse.json(
+          { error: "Arquivo de hunt inválido ou corrompido" },
+          { status: 400 }
+        );
+      }
+    }
+
+    throw err;
+  }
+}
+
+export async function GET(req: Request) {
+  console.log("[API] GET /hunt-sessions");
+
+  const userId = req.headers.get("x-user-id");
+  const characterName = req.headers.get("x-character-name");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!characterName) {
+    return NextResponse.json(
+      { error: "Character não informado" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const hunts = await listHuntSessions({
+      userId,
+      characterName,
+    });
+
+    return NextResponse.json(hunts);
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "CHARACTER_NOT_FOUND") {
+      return NextResponse.json(
+        { error: "Character não pertence ao usuário" },
+        { status: 403 }
+      );
+    }
+
+    throw err;
   }
 }

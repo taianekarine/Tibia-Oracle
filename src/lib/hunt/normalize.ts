@@ -15,38 +15,59 @@ function parseDate(value: string): Date {
   return date;
 }
 
-export function normalizeHuntJson(raw: any) {
+function parseRawInput(raw: unknown): Record<string, any> {
+  // Caso já seja objeto (ex: testes)
+  if (typeof raw === "object" && raw !== null) {
+    return raw as Record<string, any>;
+  }
+
+  // Caso venha como string (arquivo)
+  if (typeof raw === "string") {
+    try {
+      return JSON.parse(raw);
+    } catch (err) {
+      console.error("[HUNT][NORMALIZE] JSON inválido", err);
+      throw new Error("Arquivo de hunt não é um JSON válido");
+    }
+  }
+
+  throw new Error("Formato de hunt inválido");
+}
+
+export function normalizeHunt(raw: unknown) {
   console.log("[HUNT][NORMALIZE] Normalizando dados");
+
+  const data = parseRawInput(raw);
 
   const toInt = (value: string | number | undefined) => {
     if (value === undefined) return 0;
     return Number(String(value).replace(/,/g, ""));
   };
 
-  const sessionStart = parseDate(raw["Session start"]);
-  const sessionEnd = parseDate(raw["Session end"]);
+  const sessionStart = parseDate(data["Session start"]);
+  const sessionEnd = parseDate(data["Session end"]);
 
   return {
     sessionStart,
     sessionEnd,
-    sessionLength: raw["Session length"],
+    sessionLength: data["Session length"],
 
-    balance: toInt(raw["Balance"]),
-    loot: toInt(raw["Loot"]),
-    supplies: toInt(raw["Supplies"]),
+    balance: toInt(data["Balance"]),
+    loot: toInt(data["Loot"]),
+    supplies: toInt(data["Supplies"]),
 
-    damage: toInt(raw["Damage"]),
-    damagePerHour: toInt(raw["Damage/h"]),
-    healing: toInt(raw["Healing"]),
-    healingPerHour: toInt(raw["Healing/h"]),
+    damage: toInt(data["Damage"]),
+    damagePerHour: toInt(data["Damage/h"]),
+    healing: toInt(data["Healing"]),
+    healingPerHour: toInt(data["Healing/h"]),
 
-    rawXpGain: toInt(raw["Raw XP Gain"]),
-    rawXpPerHour: toInt(raw["Raw XP/h"]),
-    xpGain: toInt(raw["XP Gain"]),
-    xpPerHour: toInt(raw["XP/h"]),
+    rawXpGain: toInt(data["Raw XP Gain"]),
+    rawXpPerHour: toInt(data["Raw XP/h"]),
+    xpGain: toInt(data["XP Gain"]),
+    xpPerHour: toInt(data["XP/h"]),
 
-    killedMonsters: raw["Killed Monsters"] ?? [],
-    lootedItems: raw["Looted Items"] ?? [],
+    killedMonsters: data["Killed Monsters"] ?? [],
+    lootedItems: data["Looted Items"] ?? [],
   };
 }
 
