@@ -1,6 +1,7 @@
 "use client";
 
 import { useState } from "react";
+
 import {
   Dialog,
   DialogContent,
@@ -10,31 +11,49 @@ import {
 } from "@/components/ui/dialog";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { apiFetch } from "@/lib/api";
+
+import { apiRequest } from "@/services/api/apiClient";
+
+type RegisterFormState = {
+  name: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Erro inesperado ao criar conta";
+}
 
 export function RegisterDialog() {
-  const [open, setOpen] = useState(false);
-  const [created, setCreated] = useState(false);
-  const [loading, setLoading] = useState(false);
+  const [open, setOpen] = useState<boolean>(false);
+  const [created, setCreated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  const [form, setForm] = useState({
+  const [form, setForm] = useState<RegisterFormState>({
     name: "",
     username: "",
     password: "",
     confirmPassword: "",
   });
 
-  function updateField(field: string, value: string) {
+  function updateField<K extends keyof RegisterFormState>(
+    field: K,
+    value: string
+  ): void {
     setForm((prev) => ({ ...prev, [field]: value }));
   }
 
-  async function handleRegister() {
-    if (
-      !form.name.trim() ||
-      !form.username.trim() ||
-      !form.password
-    ) {
+  async function handleRegister(): Promise<void> {
+    const name = form.name.trim();
+    const username = form.username.trim();
+
+    if (!name || !username || !form.password) {
       setError("Todos os campos são obrigatórios");
       return;
     }
@@ -48,28 +67,34 @@ export function RegisterDialog() {
     setError(null);
 
     try {
-      await apiFetch("/api/auth/register", {
-        method: "POST",
-        body: JSON.stringify({
-          name: form.name.trim(),
-          username: form.username.trim(),
+      await apiRequest<void, {
+        name: string;
+        username: string;
+        password: string;
+      }>("POST", "/api/auth/register", {
+        body: {
+          name,
+          username,
           password: form.password,
-        }),
+        },
       });
 
-      console.log("[AUTH] Cadastro realizado");
+      console.log("[AUTH][REGISTER] Cadastro realizado");
 
       setCreated(true);
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      console.error("[AUTH][REGISTER] Erro", err);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
   }
 
-  function goToLogin() {
+  function goToLogin(): void {
     setOpen(false);
     setCreated(false);
+    setError(null);
+
     setForm({
       name: "",
       username: "",
@@ -96,15 +121,21 @@ export function RegisterDialog() {
             <Input
               placeholder="Nome"
               value={form.name}
-              onChange={(e) => updateField("name", e.target.value)}
+              onChange={(e) =>
+                updateField("name", e.target.value)
+              }
+              disabled={loading}
             />
+
             <Input
               placeholder="Usuário"
               value={form.username}
               onChange={(e) =>
                 updateField("username", e.target.value)
               }
+              disabled={loading}
             />
+
             <Input
               type="password"
               placeholder="Senha"
@@ -112,7 +143,9 @@ export function RegisterDialog() {
               onChange={(e) =>
                 updateField("password", e.target.value)
               }
+              disabled={loading}
             />
+
             <Input
               type="password"
               placeholder="Confirmar senha"
@@ -120,6 +153,7 @@ export function RegisterDialog() {
               onChange={(e) =>
                 updateField("confirmPassword", e.target.value)
               }
+              disabled={loading}
             />
 
             {error && (

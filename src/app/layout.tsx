@@ -2,7 +2,6 @@ import "./globals.css"                    // ✅ IMPORTANTE: garante tokens no b
 import type { ReactNode } from "react"
 import Script from "next/script"
 import { ThemeProvider } from "@/components/theme/theme-provider"
-import { CharacterProvider } from "@/contexts/CharacterContext"
 import { Providers } from "./providers"
 
 export default function RootLayout({ children }: { children: ReactNode }) {
@@ -19,7 +18,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
       </head>
       <body>
         <Providers>
-          <CharacterProvider>
+
             <ThemeProvider
               attribute="class"
               defaultTheme="light"
@@ -28,7 +27,7 @@ export default function RootLayout({ children }: { children: ReactNode }) {
             >
               {children}
             </ThemeProvider>
-          </CharacterProvider>
+
         </Providers>
       </body>
     </html>

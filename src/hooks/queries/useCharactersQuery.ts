@@ -7,7 +7,7 @@ type Character = {
   name: string;
 };
 
-export function useCharacterList() {
+export function useCharactersQuery() {
   const api = useApi();
   const token = getAuthToken();
 

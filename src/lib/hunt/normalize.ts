@@ -1,55 +1,92 @@
-function parseDate(value: string): Date {
-  if (!value) {
-    throw new Error("Data ausente no payload");
+import {
+  NormalizedHunt,
+  HuntMonster,
+  HuntLootItem,
+} from "@/types/hunt";
+
+/**
+ * Estrutura mínima esperada do analyser.
+ * Tudo é string ou número porque é isso que o Tibia gera.
+ */
+type RawHuntData = {
+  ["Session start"]: string;
+  ["Session end"]: string;
+  ["Session length"]: string;
+
+  ["Balance"]: string | number;
+  ["Loot"]: string | number;
+  ["Supplies"]: string | number;
+
+  ["Damage"]: string | number;
+  ["Damage/h"]: string | number;
+  ["Healing"]: string | number;
+  ["Healing/h"]: string | number;
+
+  ["Raw XP Gain"]: string | number;
+  ["Raw XP/h"]: string | number;
+  ["XP Gain"]: string | number;
+  ["XP/h"]: string | number;
+
+  ["Killed Monsters"]: {
+    Name: string;
+    Count: number;
+  }[];
+
+  ["Looted Items"]: {
+    Name: string;
+    Count: number;
+  }[];
+};
+
+/* -------------------------------------------------- */
+/* Parse externo (único lugar flexível)               */
+/* -------------------------------------------------- */
+
+function parseRawInput(raw: string | object): RawHuntData {
+  const parsed =
+    typeof raw === "string" ? JSON.parse(raw) : raw;
+
+  if (typeof parsed !== "object" || parsed === null) {
+    throw new Error("Hunt analyser inválido");
   }
 
-  // Converte "2025-12-05, 09:27:08" → "2025-12-05T09:27:08"
+  return parsed as RawHuntData;
+}
+
+/* -------------------------------------------------- */
+/* Utils determinísticos                              */
+/* -------------------------------------------------- */
+
+function parseDate(value: string): Date {
   const isoLike = value.replace(", ", "T");
   const date = new Date(isoLike);
 
-  if (isNaN(date.getTime())) {
-    console.error("[HUNT][DATE_PARSE_ERROR]", value);
-    throw new Error(`Data inválida recebida: ${value}`);
+  if (Number.isNaN(date.getTime())) {
+    throw new Error(`Data inválida: ${value}`);
   }
 
   return date;
 }
 
-function parseRawInput(raw: unknown): Record<string, any> {
-  // Caso já seja objeto (ex: testes)
-  if (typeof raw === "object" && raw !== null) {
-    return raw as Record<string, any>;
-  }
-
-  // Caso venha como string (arquivo)
-  if (typeof raw === "string") {
-    try {
-      return JSON.parse(raw);
-    } catch (err) {
-      console.error("[HUNT][NORMALIZE] JSON inválido", err);
-      throw new Error("Arquivo de hunt não é um JSON válido");
-    }
-  }
-
-  throw new Error("Formato de hunt inválido");
+function toInt(value: string | number): number {
+  if (typeof value === "number") return value;
+  return Number(value.replace(/,/g, ""));
 }
 
-export function normalizeHunt(raw: unknown) {
+/* -------------------------------------------------- */
+/* Normalização principal                             */
+/* -------------------------------------------------- */
+
+export function normalizeHunt(
+  raw: string | object
+): NormalizedHunt {
   console.log("[HUNT][NORMALIZE] Normalizando dados");
 
   const data = parseRawInput(raw);
 
-  const toInt = (value: string | number | undefined) => {
-    if (value === undefined) return 0;
-    return Number(String(value).replace(/,/g, ""));
-  };
-
-  const sessionStart = parseDate(data["Session start"]);
-  const sessionEnd = parseDate(data["Session end"]);
-
   return {
-    sessionStart,
-    sessionEnd,
+    sessionStart: parseDate(data["Session start"]),
+    sessionEnd: parseDate(data["Session end"]),
     sessionLength: data["Session length"],
 
     balance: toInt(data["Balance"]),
@@ -66,11 +103,28 @@ export function normalizeHunt(raw: unknown) {
     xpGain: toInt(data["XP Gain"]),
     xpPerHour: toInt(data["XP/h"]),
 
-    killedMonsters: data["Killed Monsters"] ?? [],
-    lootedItems: data["Looted Items"] ?? [],
+    killedMonsters: data["Killed Monsters"].map(
+      (m): HuntMonster => ({
+        name: m.Name,
+        count: m.Count,
+      })
+    ),
+
+    lootedItems: data["Looted Items"].map(
+      (i): HuntLootItem => ({
+        name: i.Name,
+        count: i.Count,
+      })
+    ),
   };
 }
 
-export function normalizeCharacterName(name: string): string {
+/* -------------------------------------------------- */
+/* Normalização de nome                               */
+/* -------------------------------------------------- */
+
+export function normalizeCharacterName(
+  name: string
+): string {
   return name.trim();
 }

@@ -7,7 +7,7 @@ import { useTheme } from "next-themes"
 import { Button } from "@/components/ui/button"
 import ThemeColorDropdown from "@/components/theme/theme-color-dropdown"
 
-export default function ModeToggle() {
+export function ModeToggle() {
   const { resolvedTheme, setTheme } = useTheme()
   const [mounted, setMounted] = useState(false)
 

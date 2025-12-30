@@ -1,9 +1,18 @@
 import { prisma } from "@/lib/prisma";
+import { NormalizedHunt } from "@/types/hunt";
 
-export async function persistHunt(characterId: string, data: any) {
+type CountableItem = {
+  name: string;
+  count: number;
+};
+
+export async function persistHunt(
+  characterId: string,
+  data: NormalizedHunt
+) {
   console.log("[HUNT][PERSIST] Salvando hunt session");
 
-  return prisma.$transaction(async tx => {
+  return prisma.$transaction(async (tx) => {
     const hunt = await tx.huntSession.create({
       data: {
         characterId,
@@ -29,18 +38,21 @@ export async function persistHunt(characterId: string, data: any) {
       },
     });
 
-    function aggregate(items: { Name: string; Count: number }[]) {
+    function aggregate(items: CountableItem[]): CountableItem[] {
       const map = new Map<string, number>();
 
       for (const item of items) {
-        if (!item.Name || item.Count <= 0) continue;
-        map.set(item.Name, (map.get(item.Name) ?? 0) + item.Count);
+        if (!item.name || item.count <= 0) continue;
+
+        map.set(
+          item.name,
+          (map.get(item.name) ?? 0) + item.count
+        );
       }
 
-      return Array.from(map.entries()).map(([name, count]) => ({
-        name,
-        count,
-      }));
+      return Array.from(map.entries()).map(
+        ([name, count]) => ({ name, count })
+      );
     }
 
     const monsters = aggregate(data.killedMonsters);
@@ -64,28 +76,6 @@ export async function persistHunt(characterId: string, data: any) {
         },
       });
     }
-
-
-
-    // for (const monster of data.killedMonsters) {
-    //   await tx.huntKilledMonster.create({
-    //     data: {
-    //       huntSessionId: hunt.id,
-    //       name: monster.Name,
-    //       count: monster.Count,
-    //     },
-    //   });
-    // }
-
-    // for (const item of data.lootedItems) {
-    //   await tx.huntLootedItem.create({
-    //     data: {
-    //       huntSessionId: hunt.id,
-    //       name: item.Name,
-    //       count: item.Count,
-    //     },
-    //   });
-    // }
 
     return hunt;
   });

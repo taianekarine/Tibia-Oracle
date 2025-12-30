@@ -1,24 +1,33 @@
 "use client";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCharacterHeader } from "@/hooks/state/useActiveCharacter";
+import { useDashboard } from "@/contexts/DashboardContext";
 
-type Props = {
+type CharacterCardProps = {
   characterName: string;
 };
 
-export function CharacterCard({ characterName }: Props) {
-  const { setCharacterFromInput } = useCharacterHeader();
+export function CharacterCard({
+  characterName,
+}: CharacterCardProps) {
+  const { setActiveCharacter } = useDashboard();
 
-  function handleSelect() {
+  function handleSelect(): void {
     console.log("[CHARACTER][SELECT]", characterName);
-    setCharacterFromInput(characterName, true); // aqui SIM sincroniza URL
+    setActiveCharacter(characterName, true);
   }
 
   return (
     <Card
+      role="button"
+      tabIndex={0}
       onClick={handleSelect}
-      className="cursor-pointer hover:bg-muted"
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSelect();
+        }
+      }}
+      className="cursor-pointer hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
     >
       <CardHeader>
         <CardTitle>{characterName}</CardTitle>

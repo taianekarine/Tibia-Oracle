@@ -2,21 +2,33 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLogin } from "@/hooks/useLogin";
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Erro inesperado ao realizar login";
+}
 
 export function LoginForm() {
   const router = useRouter();
   const { login } = useLogin();
 
-  const [username, setUsername] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string | null>(null);
 
-  async function handleLogin() {
-    if (!username.trim() || !password) {
+  async function handleLogin(): Promise<void> {
+    const normalizedUsername = username.trim();
+
+    if (!normalizedUsername || !password) {
       setError("Usuário e senha são obrigatórios");
       return;
     }
@@ -25,13 +37,14 @@ export function LoginForm() {
     setError(null);
 
     try {
-      await login(username.trim(), password);
+      await login(normalizedUsername, password);
 
-      console.log("[AUTH] Login OK");
+      console.log("[AUTH][LOGIN] Sucesso");
 
       router.push("/dashboard");
-    } catch (err: any) {
-      setError(err.message);
+    } catch (err: unknown) {
+      console.error("[AUTH][LOGIN] Erro", err);
+      setError(getErrorMessage(err));
     } finally {
       setLoading(false);
     }
@@ -43,6 +56,7 @@ export function LoginForm() {
         placeholder="Usuário"
         value={username}
         onChange={(e) => setUsername(e.target.value)}
+        disabled={loading}
       />
 
       <Input
@@ -50,9 +64,12 @@ export function LoginForm() {
         placeholder="Senha"
         value={password}
         onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
       />
 
-      {error && <p className="text-sm text-red-500">{error}</p>}
+      {error && (
+        <p className="text-sm text-red-500">{error}</p>
+      )}
 
       <Button
         className="w-full"
