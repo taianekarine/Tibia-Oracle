@@ -1,7 +1,7 @@
 "use client";
 
 import { Card, CardHeader, CardTitle } from "@/components/ui/card";
-import { useCharacterHeader } from "@/hooks/useCharacterHeader";
+import { useCharacterHeader } from "@/hooks/state/useActiveCharacter";
 
 type Props = {
   characterName: string;

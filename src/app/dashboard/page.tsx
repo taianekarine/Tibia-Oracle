@@ -1,32 +1,17 @@
 "use client";
 
 import { CharacterCard } from "@/components/character/character-card";
-import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { AppSidebar } from "@/components/layout/app-sidebar";
+import { DashboardHeader } from "@/components/layout/dashboard-header";
 
-import {
-  Breadcrumb,
-  BreadcrumbItem,
-  BreadcrumbLink,
-  BreadcrumbList,
-  BreadcrumbPage,
-  BreadcrumbSeparator,
-} from "@/components/ui/breadcrumb";
-
-import { Separator } from "@/components/ui/separator";
 import {
   SidebarInset,
   SidebarProvider,
-  SidebarTrigger,
 } from "@/components/ui/sidebar";
 
-import { useCharacterList } from "@/hooks/useCharacterList";
+import { useCharacterList } from "@/hooks/queries/useCharactersQuery";
 
 export default function Page() {
-  /*
-    🔑 AQUI está a correção real:
-    A lista de personagens vem do React Query,
-    não de um fetch isolado.
-  */
   const { data: characters = [], isLoading } = useCharacterList();
 
   return (
@@ -34,27 +19,7 @@ export default function Page() {
       <AppSidebar />
 
       <SidebarInset>
-        <header className="flex h-16 shrink-0 items-center gap-2">
-          <div className="flex items-center gap-2 px-4">
-            <SidebarTrigger className="-ml-1" />
-
-            <Separator orientation="vertical" className="mr-2 h-4" />
-
-            <Breadcrumb>
-              <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
-              </BreadcrumbList>
-            </Breadcrumb>
-          </div>
-        </header>
+        <DashboardHeader />
 
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
           <div className="grid auto-rows-min gap-4 md:grid-cols-4">

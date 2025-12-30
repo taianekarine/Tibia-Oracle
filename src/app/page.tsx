@@ -1,5 +1,5 @@
 import { LoginForm } from "@/components/auth/login-form";
-import { RegisterDialog } from "@/components/auth/register-dialog";
+import { RegisterDialog } from "@/components/dialogs/register-dialog";
 
 export default function HomePage() {
   return (

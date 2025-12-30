@@ -38,8 +38,8 @@ import { ScrollArea } from "@/components/ui/scroll-area";
 
 import { Trash2, UserPlus, Upload } from "lucide-react";
 
-import { useCharacterHeader } from "@/hooks/useCharacterHeader";
-import { useCharacterList } from "@/hooks/useCharacterList";
+import { useCharacterHeader } from "@/hooks/state/useActiveCharacter";
+import { useCharacterList } from "@/hooks/queries/useCharactersQuery";
 import { useApi } from "@/hooks/useApi"; // 🔑 NOVO
 import { useQueryClient } from "@tanstack/react-query";
 
