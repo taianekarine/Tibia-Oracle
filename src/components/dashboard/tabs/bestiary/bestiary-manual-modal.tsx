@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import {
   Dialog,
   DialogContent,
@@ -11,7 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 
-type Props = {
+type BestiaryManualModalProps = {
   open: boolean;
   onOpenChange: (open: boolean) => void;
   characterName: string;
@@ -27,51 +27,76 @@ export function BestiaryManualModal({
   monsterName,
   initialManualKills,
   onSuccess,
-}: Props) {
-  const [manualKills, setManualKills] = useState("");
-  const [loading, setLoading] = useState(false);
+}: BestiaryManualModalProps) {
+  const [manualKills, setManualKills] = useState<string>(() => {
+    return initialManualKills !== undefined
+      ? String(initialManualKills)
+      : "";
+  });
 
+  const [loading, setLoading] = useState<boolean>(false);
+
+  /**
+   * Sincroniza o valor SOMENTE quando:
+   * - o modal abre
+   * - ou o valor inicial muda
+   *
+   * Isso evita renderizações em cascata
+   * e satisfaz o ESLint sem desligar regra.
+   */
   useEffect(() => {
+    if (!open) return;
+
     setManualKills(
       initialManualKills !== undefined
         ? String(initialManualKills)
         : ""
     );
-  }, [initialManualKills]);
+  }, [open, initialManualKills]);
 
-  async function handleSave() {
+  async function handleSave(): Promise<void> {
     setLoading(true);
 
-    await fetch("/api/bestiary/manual", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        characterName,
-        monsterName,
-        manualKills: Number(manualKills),
-      }),
-    });
+    try {
+      await fetch("/api/bestiary/manual", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          characterName,
+          monsterName,
+          manualKills: Number(manualKills),
+        }),
+      });
 
-    setLoading(false);
-    onOpenChange(false);
-    onSuccess();
+      onSuccess();
+      onOpenChange(false);
+    } finally {
+      setLoading(false);
+    }
   }
 
-  async function handleRemove() {
+  async function handleRemove(): Promise<void> {
     setLoading(true);
 
-    await fetch("/api/bestiary/manual", {
-      method: "DELETE",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify({
-        characterName,
-        monsterName,
-      }),
-    });
+    try {
+      await fetch("/api/bestiary/manual", {
+        method: "DELETE",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          characterName,
+          monsterName,
+        }),
+      });
 
-    setLoading(false);
-    onOpenChange(false);
-    onSuccess();
+      onSuccess();
+      onOpenChange(false);
+    } finally {
+      setLoading(false);
+    }
   }
 
   return (

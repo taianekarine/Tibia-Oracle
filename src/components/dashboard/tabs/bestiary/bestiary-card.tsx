@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { Button } from "@/components/ui/button";
 import { BestiaryMonster } from "@/types/bestiary";
 
@@ -13,10 +14,12 @@ export function BestiaryCard({ monster, onManualKill }: Props) {
     <div className="border rounded-lg p-4 space-y-3">
       {/* Linha 1 */}
       <div className="flex items-center gap-3">
-        <img
+        <Image
           src={monster.image}
           alt={monster.name}
-          className="w-10 h-10 object-contain"
+          width={40}
+          height={40}
+          className="object-contain"
         />
 
         <div className="flex-1 font-medium">

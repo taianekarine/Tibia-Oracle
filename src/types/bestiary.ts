@@ -1,13 +1,15 @@
 export type BestiarySource = "hunt" | "manual";
 
 export type BestiaryMonster = {
+  id: string;
   name: string;
   type: string;
-  charms: number;
-  killComplete: number;
   image: string;
+  charms: number;
   totalKilled: number;
   completed: boolean;
+  killComplete: number;
+  manualKilled: number; 
   source: BestiarySource;
 };
 
@@ -19,3 +21,4 @@ export type BestiaryFilters = {
   charms: number | null;
   completed: boolean | null;
 };
+

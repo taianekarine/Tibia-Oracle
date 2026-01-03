@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo, useState } from "react";
+import { useCallback, useEffect, useMemo, useState } from "react";
 import {
   BestiaryByType,
   BestiaryFilters,
@@ -34,7 +34,7 @@ export function BestiaryTab({
     completed: null,
   });
 
-  async function load() {
+  const load = useCallback(async () => {
     if (mode !== "character" || !characterName) {
       setData({});
       return;
@@ -65,11 +65,11 @@ export function BestiaryTab({
     } finally {
       setLoading(false);
     }
-  }
+  }, [mode, characterName]);
 
   useEffect(() => {
     load();
-  }, [mode, characterName]);
+  }, [load]);
 
   const filteredData = useMemo<BestiaryByType>(() => {
     if (!data) return {};
@@ -173,16 +173,20 @@ export function BestiaryTab({
         )
       )}
 
-      <BestiaryManualModal
-        open={open}
-        onOpenChange={setOpen}
-        characterName={characterName!}
-        monsterName={selectedMonster?.name}
-        initialManualKills={
-          selectedMonster?.manualKilled
-        }
-        onSuccess={load}
-      />
+      {selectedMonster && (
+        <BestiaryManualModal
+          open={open}
+          onOpenChange={setOpen}
+          characterName={characterName!}
+          monsterName={selectedMonster.name}
+          initialManualKills={
+            "manualKilled" in selectedMonster
+              ? (selectedMonster as any).manualKilled
+              : undefined
+          }
+          onSuccess={load}
+        />
+      )}
     </div>
   );
 }
