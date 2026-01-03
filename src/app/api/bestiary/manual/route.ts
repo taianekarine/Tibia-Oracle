@@ -1,21 +1,37 @@
-import { NextResponse } from "next/server";
-import { setBestiaryManualKills } from "@/services/bestiary/setBestiaryManualKills";
+import { NextRequest, NextResponse } from "next/server";
 import { removeBestiaryManualKills } from "@/services/bestiary/removeBestiaryManualKills";
 
-export async function POST(req: Request) {
+export async function DELETE(req: NextRequest) {
   const body = await req.json();
 
-  console.log("[API] POST /bestiary/manual", body);
-
-  const result = await setBestiaryManualKills(body);
-  return NextResponse.json(result);
-}
-
-export async function DELETE(req: Request) {
-  const body = await req.json();
+  const {
+    characterName,
+    monsterName,
+    manualKills,
+  }: {
+    characterName?: string;
+    monsterName?: string;
+    manualKills?: number;
+  } = body;
 
   console.log("[API] DELETE /bestiary/manual", body);
 
-  await removeBestiaryManualKills(body.characterName, body.monsterName);
-  return NextResponse.json({ ok: true });
+  if (
+    !characterName ||
+    !monsterName ||
+    typeof manualKills !== "number"
+  ) {
+    return NextResponse.json(
+      { error: "Payload inválido" },
+      { status: 400 }
+    );
+  }
+
+  await removeBestiaryManualKills(
+    characterName,
+    monsterName,
+    manualKills
+  );
+
+  return NextResponse.json({ success: true });
 }
