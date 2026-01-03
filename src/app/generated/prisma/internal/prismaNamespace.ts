@@ -386,6 +386,7 @@ type FieldRefInputType<Model, FieldType> = Model extends never ? never : FieldRe
 export const ModelName = {
   User: 'User',
   Character: 'Character',
+  CharacterBestiaryOverride: 'CharacterBestiaryOverride',
   PartySession: 'PartySession',
   WeeklyProgress: 'WeeklyProgress',
   HuntSession: 'HuntSession',
@@ -406,7 +407,7 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
     omit: GlobalOmitOptions
   }
   meta: {
-    modelProps: "user" | "character" | "partySession" | "weeklyProgress" | "huntSession" | "huntKilledMonster" | "huntLootedItem"
+    modelProps: "user" | "character" | "characterBestiaryOverride" | "partySession" | "weeklyProgress" | "huntSession" | "huntKilledMonster" | "huntLootedItem"
     txIsolationLevel: TransactionIsolationLevel
   }
   model: {
@@ -555,6 +556,80 @@ export type TypeMap<ExtArgs extends runtime.Types.Extensions.InternalArgs = runt
         count: {
           args: Prisma.CharacterCountArgs<ExtArgs>
           result: runtime.Types.Utils.Optional<Prisma.CharacterCountAggregateOutputType> | number
+        }
+      }
+    }
+    CharacterBestiaryOverride: {
+      payload: Prisma.$CharacterBestiaryOverridePayload<ExtArgs>
+      fields: Prisma.CharacterBestiaryOverrideFieldRefs
+      operations: {
+        findUnique: {
+          args: Prisma.CharacterBestiaryOverrideFindUniqueArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload> | null
+        }
+        findUniqueOrThrow: {
+          args: Prisma.CharacterBestiaryOverrideFindUniqueOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        findFirst: {
+          args: Prisma.CharacterBestiaryOverrideFindFirstArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload> | null
+        }
+        findFirstOrThrow: {
+          args: Prisma.CharacterBestiaryOverrideFindFirstOrThrowArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        findMany: {
+          args: Prisma.CharacterBestiaryOverrideFindManyArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>[]
+        }
+        create: {
+          args: Prisma.CharacterBestiaryOverrideCreateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        createMany: {
+          args: Prisma.CharacterBestiaryOverrideCreateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        createManyAndReturn: {
+          args: Prisma.CharacterBestiaryOverrideCreateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>[]
+        }
+        delete: {
+          args: Prisma.CharacterBestiaryOverrideDeleteArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        update: {
+          args: Prisma.CharacterBestiaryOverrideUpdateArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        deleteMany: {
+          args: Prisma.CharacterBestiaryOverrideDeleteManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateMany: {
+          args: Prisma.CharacterBestiaryOverrideUpdateManyArgs<ExtArgs>
+          result: BatchPayload
+        }
+        updateManyAndReturn: {
+          args: Prisma.CharacterBestiaryOverrideUpdateManyAndReturnArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>[]
+        }
+        upsert: {
+          args: Prisma.CharacterBestiaryOverrideUpsertArgs<ExtArgs>
+          result: runtime.Types.Utils.PayloadToResult<Prisma.$CharacterBestiaryOverridePayload>
+        }
+        aggregate: {
+          args: Prisma.CharacterBestiaryOverrideAggregateArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.AggregateCharacterBestiaryOverride>
+        }
+        groupBy: {
+          args: Prisma.CharacterBestiaryOverrideGroupByArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CharacterBestiaryOverrideGroupByOutputType>[]
+        }
+        count: {
+          args: Prisma.CharacterBestiaryOverrideCountArgs<ExtArgs>
+          result: runtime.Types.Utils.Optional<Prisma.CharacterBestiaryOverrideCountAggregateOutputType> | number
         }
       }
     }
@@ -1000,6 +1075,19 @@ export const CharacterScalarFieldEnum = {
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
 
 
+export const CharacterBestiaryOverrideScalarFieldEnum = {
+  id: 'id',
+  characterId: 'characterId',
+  monsterName: 'monsterName',
+  manualKills: 'manualKills',
+  source: 'source',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CharacterBestiaryOverrideScalarFieldEnum = (typeof CharacterBestiaryOverrideScalarFieldEnum)[keyof typeof CharacterBestiaryOverrideScalarFieldEnum]
+
+
 export const PartySessionScalarFieldEnum = {
   id: 'id',
   userId: 'userId',
@@ -1263,6 +1351,7 @@ export type PrismaClientOptions = ({
 export type GlobalOmitConfig = {
   user?: Prisma.UserOmit
   character?: Prisma.CharacterOmit
+  characterBestiaryOverride?: Prisma.CharacterBestiaryOverrideOmit
   partySession?: Prisma.PartySessionOmit
   weeklyProgress?: Prisma.WeeklyProgressOmit
   huntSession?: Prisma.HuntSessionOmit

@@ -10,6 +10,7 @@
  */
 export type * from './models/User'
 export type * from './models/Character'
+export type * from './models/CharacterBestiaryOverride'
 export type * from './models/PartySession'
 export type * from './models/WeeklyProgress'
 export type * from './models/HuntSession'

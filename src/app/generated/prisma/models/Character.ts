@@ -307,6 +307,7 @@ export type CharacterWhereInput = {
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   huntSessions?: Prisma.HuntSessionListRelationFilter
   weeklyProgresses?: Prisma.WeeklyProgressListRelationFilter
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideListRelationFilter
 }
 
 export type CharacterOrderByWithRelationInput = {
@@ -328,6 +329,7 @@ export type CharacterOrderByWithRelationInput = {
   user?: Prisma.UserOrderByWithRelationInput
   huntSessions?: Prisma.HuntSessionOrderByRelationAggregateInput
   weeklyProgresses?: Prisma.WeeklyProgressOrderByRelationAggregateInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideOrderByRelationAggregateInput
 }
 
 export type CharacterWhereUniqueInput = Prisma.AtLeast<{
@@ -352,6 +354,7 @@ export type CharacterWhereUniqueInput = Prisma.AtLeast<{
   user?: Prisma.XOR<Prisma.UserNullableScalarRelationFilter, Prisma.UserWhereInput> | null
   huntSessions?: Prisma.HuntSessionListRelationFilter
   weeklyProgresses?: Prisma.WeeklyProgressListRelationFilter
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideListRelationFilter
 }, "id" | "name">
 
 export type CharacterOrderByWithAggregationInput = {
@@ -416,6 +419,7 @@ export type CharacterCreateInput = {
   user?: Prisma.UserCreateNestedOneWithoutCharactersInput
   huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
   weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUncheckedCreateInput = {
@@ -436,6 +440,7 @@ export type CharacterUncheckedCreateInput = {
   updatedAt?: Date | string
   huntSessions?: Prisma.HuntSessionUncheckedCreateNestedManyWithoutCharacterInput
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUpdateInput = {
@@ -456,6 +461,7 @@ export type CharacterUpdateInput = {
   user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterUncheckedUpdateInput = {
@@ -476,6 +482,7 @@ export type CharacterUncheckedUpdateInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   huntSessions?: Prisma.HuntSessionUncheckedUpdateManyWithoutCharacterNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterCreateManyInput = {
@@ -678,6 +685,20 @@ export type NullableDateTimeFieldUpdateOperationsInput = {
   set?: Date | string | null
 }
 
+export type CharacterCreateNestedOneWithoutBestiaryOverridesInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedCreateWithoutBestiaryOverridesInput>
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutBestiaryOverridesInput
+  connect?: Prisma.CharacterWhereUniqueInput
+}
+
+export type CharacterUpdateOneRequiredWithoutBestiaryOverridesNestedInput = {
+  create?: Prisma.XOR<Prisma.CharacterCreateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedCreateWithoutBestiaryOverridesInput>
+  connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutBestiaryOverridesInput
+  upsert?: Prisma.CharacterUpsertWithoutBestiaryOverridesInput
+  connect?: Prisma.CharacterWhereUniqueInput
+  update?: Prisma.XOR<Prisma.XOR<Prisma.CharacterUpdateToOneWithWhereWithoutBestiaryOverridesInput, Prisma.CharacterUpdateWithoutBestiaryOverridesInput>, Prisma.CharacterUncheckedUpdateWithoutBestiaryOverridesInput>
+}
+
 export type CharacterCreateNestedOneWithoutWeeklyProgressesInput = {
   create?: Prisma.XOR<Prisma.CharacterCreateWithoutWeeklyProgressesInput, Prisma.CharacterUncheckedCreateWithoutWeeklyProgressesInput>
   connectOrCreate?: Prisma.CharacterCreateOrConnectWithoutWeeklyProgressesInput
@@ -723,6 +744,7 @@ export type CharacterCreateWithoutUserInput = {
   updatedAt?: Date | string
   huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
   weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUncheckedCreateWithoutUserInput = {
@@ -742,6 +764,7 @@ export type CharacterUncheckedCreateWithoutUserInput = {
   updatedAt?: Date | string
   huntSessions?: Prisma.HuntSessionUncheckedCreateNestedManyWithoutCharacterInput
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterCreateOrConnectWithoutUserInput = {
@@ -791,6 +814,102 @@ export type CharacterScalarWhereInput = {
   updatedAt?: Prisma.DateTimeFilter<"Character"> | Date | string
 }
 
+export type CharacterCreateWithoutBestiaryOverridesInput = {
+  id?: string
+  name: string
+  world?: string | null
+  vocation?: string | null
+  level?: number | null
+  experience?: bigint | number | null
+  residence?: string | null
+  sex?: string | null
+  accountStatus?: string | null
+  achievementPoints?: number | null
+  guild?: string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  user?: Prisma.UserCreateNestedOneWithoutCharactersInput
+  huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
+  weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
+}
+
+export type CharacterUncheckedCreateWithoutBestiaryOverridesInput = {
+  id?: string
+  name: string
+  world?: string | null
+  vocation?: string | null
+  level?: number | null
+  experience?: bigint | number | null
+  residence?: string | null
+  sex?: string | null
+  accountStatus?: string | null
+  achievementPoints?: number | null
+  guild?: string | null
+  userId?: string | null
+  lastSyncedAt?: Date | string | null
+  createdAt?: Date | string
+  updatedAt?: Date | string
+  huntSessions?: Prisma.HuntSessionUncheckedCreateNestedManyWithoutCharacterInput
+  weeklyProgresses?: Prisma.WeeklyProgressUncheckedCreateNestedManyWithoutCharacterInput
+}
+
+export type CharacterCreateOrConnectWithoutBestiaryOverridesInput = {
+  where: Prisma.CharacterWhereUniqueInput
+  create: Prisma.XOR<Prisma.CharacterCreateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedCreateWithoutBestiaryOverridesInput>
+}
+
+export type CharacterUpsertWithoutBestiaryOverridesInput = {
+  update: Prisma.XOR<Prisma.CharacterUpdateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedUpdateWithoutBestiaryOverridesInput>
+  create: Prisma.XOR<Prisma.CharacterCreateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedCreateWithoutBestiaryOverridesInput>
+  where?: Prisma.CharacterWhereInput
+}
+
+export type CharacterUpdateToOneWithWhereWithoutBestiaryOverridesInput = {
+  where?: Prisma.CharacterWhereInput
+  data: Prisma.XOR<Prisma.CharacterUpdateWithoutBestiaryOverridesInput, Prisma.CharacterUncheckedUpdateWithoutBestiaryOverridesInput>
+}
+
+export type CharacterUpdateWithoutBestiaryOverridesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  world?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  experience?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  residence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
+  huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
+  weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
+}
+
+export type CharacterUncheckedUpdateWithoutBestiaryOverridesInput = {
+  id?: Prisma.StringFieldUpdateOperationsInput | string
+  name?: Prisma.StringFieldUpdateOperationsInput | string
+  world?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  vocation?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  level?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  experience?: Prisma.NullableBigIntFieldUpdateOperationsInput | bigint | number | null
+  residence?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  sex?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  accountStatus?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  achievementPoints?: Prisma.NullableIntFieldUpdateOperationsInput | number | null
+  guild?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  userId?: Prisma.NullableStringFieldUpdateOperationsInput | string | null
+  lastSyncedAt?: Prisma.NullableDateTimeFieldUpdateOperationsInput | Date | string | null
+  createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
+  huntSessions?: Prisma.HuntSessionUncheckedUpdateManyWithoutCharacterNestedInput
+  weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+}
+
 export type CharacterCreateWithoutWeeklyProgressesInput = {
   id?: string
   name: string
@@ -808,6 +927,7 @@ export type CharacterCreateWithoutWeeklyProgressesInput = {
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCharactersInput
   huntSessions?: Prisma.HuntSessionCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUncheckedCreateWithoutWeeklyProgressesInput = {
@@ -827,6 +947,7 @@ export type CharacterUncheckedCreateWithoutWeeklyProgressesInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   huntSessions?: Prisma.HuntSessionUncheckedCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterCreateOrConnectWithoutWeeklyProgressesInput = {
@@ -862,6 +983,7 @@ export type CharacterUpdateWithoutWeeklyProgressesInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterUncheckedUpdateWithoutWeeklyProgressesInput = {
@@ -881,6 +1003,7 @@ export type CharacterUncheckedUpdateWithoutWeeklyProgressesInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   huntSessions?: Prisma.HuntSessionUncheckedUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterCreateWithoutHuntSessionsInput = {
@@ -900,6 +1023,7 @@ export type CharacterCreateWithoutHuntSessionsInput = {
   updatedAt?: Date | string
   user?: Prisma.UserCreateNestedOneWithoutCharactersInput
   weeklyProgresses?: Prisma.WeeklyProgressCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterUncheckedCreateWithoutHuntSessionsInput = {
@@ -919,6 +1043,7 @@ export type CharacterUncheckedCreateWithoutHuntSessionsInput = {
   createdAt?: Date | string
   updatedAt?: Date | string
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedCreateNestedManyWithoutCharacterInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedCreateNestedManyWithoutCharacterInput
 }
 
 export type CharacterCreateOrConnectWithoutHuntSessionsInput = {
@@ -954,6 +1079,7 @@ export type CharacterUpdateWithoutHuntSessionsInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   user?: Prisma.UserUpdateOneWithoutCharactersNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterUncheckedUpdateWithoutHuntSessionsInput = {
@@ -973,6 +1099,7 @@ export type CharacterUncheckedUpdateWithoutHuntSessionsInput = {
   createdAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterCreateManyUserInput = {
@@ -1009,6 +1136,7 @@ export type CharacterUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   huntSessions?: Prisma.HuntSessionUpdateManyWithoutCharacterNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterUncheckedUpdateWithoutUserInput = {
@@ -1028,6 +1156,7 @@ export type CharacterUncheckedUpdateWithoutUserInput = {
   updatedAt?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   huntSessions?: Prisma.HuntSessionUncheckedUpdateManyWithoutCharacterNestedInput
   weeklyProgresses?: Prisma.WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput
+  bestiaryOverrides?: Prisma.CharacterBestiaryOverrideUncheckedUpdateManyWithoutCharacterNestedInput
 }
 
 export type CharacterUncheckedUpdateManyWithoutUserInput = {
@@ -1055,11 +1184,13 @@ export type CharacterUncheckedUpdateManyWithoutUserInput = {
 export type CharacterCountOutputType = {
   huntSessions: number
   weeklyProgresses: number
+  bestiaryOverrides: number
 }
 
 export type CharacterCountOutputTypeSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   huntSessions?: boolean | CharacterCountOutputTypeCountHuntSessionsArgs
   weeklyProgresses?: boolean | CharacterCountOutputTypeCountWeeklyProgressesArgs
+  bestiaryOverrides?: boolean | CharacterCountOutputTypeCountBestiaryOverridesArgs
 }
 
 /**
@@ -1086,6 +1217,13 @@ export type CharacterCountOutputTypeCountWeeklyProgressesArgs<ExtArgs extends ru
   where?: Prisma.WeeklyProgressWhereInput
 }
 
+/**
+ * CharacterCountOutputType without action
+ */
+export type CharacterCountOutputTypeCountBestiaryOverridesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  where?: Prisma.CharacterBestiaryOverrideWhereInput
+}
+
 
 export type CharacterSelect<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetSelect<{
   id?: boolean
@@ -1106,6 +1244,7 @@ export type CharacterSelect<ExtArgs extends runtime.Types.Extensions.InternalArg
   user?: boolean | Prisma.Character$userArgs<ExtArgs>
   huntSessions?: boolean | Prisma.Character$huntSessionsArgs<ExtArgs>
   weeklyProgresses?: boolean | Prisma.Character$weeklyProgressesArgs<ExtArgs>
+  bestiaryOverrides?: boolean | Prisma.Character$bestiaryOverridesArgs<ExtArgs>
   _count?: boolean | Prisma.CharacterCountOutputTypeDefaultArgs<ExtArgs>
 }, ExtArgs["result"]["character"]>
 
@@ -1170,6 +1309,7 @@ export type CharacterInclude<ExtArgs extends runtime.Types.Extensions.InternalAr
   user?: boolean | Prisma.Character$userArgs<ExtArgs>
   huntSessions?: boolean | Prisma.Character$huntSessionsArgs<ExtArgs>
   weeklyProgresses?: boolean | Prisma.Character$weeklyProgressesArgs<ExtArgs>
+  bestiaryOverrides?: boolean | Prisma.Character$bestiaryOverridesArgs<ExtArgs>
   _count?: boolean | Prisma.CharacterCountOutputTypeDefaultArgs<ExtArgs>
 }
 export type CharacterIncludeCreateManyAndReturn<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
@@ -1185,6 +1325,7 @@ export type $CharacterPayload<ExtArgs extends runtime.Types.Extensions.InternalA
     user: Prisma.$UserPayload<ExtArgs> | null
     huntSessions: Prisma.$HuntSessionPayload<ExtArgs>[]
     weeklyProgresses: Prisma.$WeeklyProgressPayload<ExtArgs>[]
+    bestiaryOverrides: Prisma.$CharacterBestiaryOverridePayload<ExtArgs>[]
   }
   scalars: runtime.Types.Extensions.GetPayloadResult<{
     id: string
@@ -1599,6 +1740,7 @@ export interface Prisma__CharacterClient<T, Null = never, ExtArgs extends runtim
   user<T extends Prisma.Character$userArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$userArgs<ExtArgs>>): Prisma.Prisma__UserClient<runtime.Types.Result.GetResult<Prisma.$UserPayload<ExtArgs>, T, "findUniqueOrThrow", GlobalOmitOptions> | null, null, ExtArgs, GlobalOmitOptions>
   huntSessions<T extends Prisma.Character$huntSessionsArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$huntSessionsArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$HuntSessionPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   weeklyProgresses<T extends Prisma.Character$weeklyProgressesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$weeklyProgressesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$WeeklyProgressPayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
+  bestiaryOverrides<T extends Prisma.Character$bestiaryOverridesArgs<ExtArgs> = {}>(args?: Prisma.Subset<T, Prisma.Character$bestiaryOverridesArgs<ExtArgs>>): Prisma.PrismaPromise<runtime.Types.Result.GetResult<Prisma.$CharacterBestiaryOverridePayload<ExtArgs>, T, "findMany", GlobalOmitOptions> | Null>
   /**
    * Attaches callbacks for the resolution and/or rejection of the Promise.
    * @param onfulfilled The callback to execute when the Promise is resolved.
@@ -2103,6 +2245,30 @@ export type Character$weeklyProgressesArgs<ExtArgs extends runtime.Types.Extensi
   take?: number
   skip?: number
   distinct?: Prisma.WeeklyProgressScalarFieldEnum | Prisma.WeeklyProgressScalarFieldEnum[]
+}
+
+/**
+ * Character.bestiaryOverrides
+ */
+export type Character$bestiaryOverridesArgs<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
+  /**
+   * Select specific fields to fetch from the CharacterBestiaryOverride
+   */
+  select?: Prisma.CharacterBestiaryOverrideSelect<ExtArgs> | null
+  /**
+   * Omit specific fields from the CharacterBestiaryOverride
+   */
+  omit?: Prisma.CharacterBestiaryOverrideOmit<ExtArgs> | null
+  /**
+   * Choose, which related nodes to fetch as well
+   */
+  include?: Prisma.CharacterBestiaryOverrideInclude<ExtArgs> | null
+  where?: Prisma.CharacterBestiaryOverrideWhereInput
+  orderBy?: Prisma.CharacterBestiaryOverrideOrderByWithRelationInput | Prisma.CharacterBestiaryOverrideOrderByWithRelationInput[]
+  cursor?: Prisma.CharacterBestiaryOverrideWhereUniqueInput
+  take?: number
+  skip?: number
+  distinct?: Prisma.CharacterBestiaryOverrideScalarFieldEnum | Prisma.CharacterBestiaryOverrideScalarFieldEnum[]
 }
 
 /**

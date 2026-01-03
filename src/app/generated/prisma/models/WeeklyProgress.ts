@@ -437,14 +437,6 @@ export type WeeklyProgressUncheckedUpdateManyWithoutCharacterNestedInput = {
   deleteMany?: Prisma.WeeklyProgressScalarWhereInput | Prisma.WeeklyProgressScalarWhereInput[]
 }
 
-export type IntFieldUpdateOperationsInput = {
-  set?: number
-  increment?: number
-  decrement?: number
-  multiply?: number
-  divide?: number
-}
-
 export type WeeklyProgressCreateWithoutCharacterInput = {
   id?: string
   weekStart: Date | string

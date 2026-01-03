@@ -43,6 +43,26 @@ model Character {
 
   huntSessions     HuntSession[]
   weeklyProgresses WeeklyProgress[]
+
+  bestiaryOverrides CharacterBestiaryOverride[]
+}
+
+model CharacterBestiaryOverride {
+  id String @id @default(cuid())
+
+  characterId String
+  monsterName String
+
+  manualKills Int
+
+  source String @default("manual")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+
+  character Character @relation(fields: [characterId], references: [id], onDelete: Cascade)
+
+  @@unique([characterId, monsterName])
 }
 
 model PartySession {

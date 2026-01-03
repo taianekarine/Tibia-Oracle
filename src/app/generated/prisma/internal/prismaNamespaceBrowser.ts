@@ -53,6 +53,7 @@ export const AnyNull = runtime.AnyNull
 export const ModelName = {
   User: 'User',
   Character: 'Character',
+  CharacterBestiaryOverride: 'CharacterBestiaryOverride',
   PartySession: 'PartySession',
   WeeklyProgress: 'WeeklyProgress',
   HuntSession: 'HuntSession',
@@ -107,6 +108,19 @@ export const CharacterScalarFieldEnum = {
 } as const
 
 export type CharacterScalarFieldEnum = (typeof CharacterScalarFieldEnum)[keyof typeof CharacterScalarFieldEnum]
+
+
+export const CharacterBestiaryOverrideScalarFieldEnum = {
+  id: 'id',
+  characterId: 'characterId',
+  monsterName: 'monsterName',
+  manualKills: 'manualKills',
+  source: 'source',
+  createdAt: 'createdAt',
+  updatedAt: 'updatedAt'
+} as const
+
+export type CharacterBestiaryOverrideScalarFieldEnum = (typeof CharacterBestiaryOverrideScalarFieldEnum)[keyof typeof CharacterBestiaryOverrideScalarFieldEnum]
 
 
 export const PartySessionScalarFieldEnum = {

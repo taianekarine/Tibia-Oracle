@@ -1,0 +1,2151 @@
+[
+  {
+    "name": "Azure Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Azure_Frog.png"
+  },
+  {
+    "name": "Bog Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Bog_Frog.png"
+  },
+  {
+    "name": "Coral Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Coral_Frog.png"
+  },
+  {
+    "name": "Crimson Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Crimson_Frog.png"
+  },
+  {
+    "name": "Filth Toad",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Filth_Toad.png"
+  },
+  {
+    "name": "Green Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Green_Frog.png"
+  },
+  {
+    "name": "Infernal Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Infernal_Frog.png"
+  },
+  {
+    "name": "Makara",
+    "type": "Amphibic",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Makara.png"
+  },
+  {
+    "name": "Orchid Frog",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Orchid_Frog.png"
+  },
+  {
+    "name": "Salamander",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Salamander.png"
+  },
+  {
+    "name": "Toad",
+    "type": "Amphibic",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Toad.png"
+  },
+  { 
+    "name": "Blood Crab", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Blood_Crab.png" },
+  { 
+    "name": "Abyssal Calamary", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Abyssal_Calamary.png" },
+  { 
+    "name": "Calamary", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Calamary.png" },
+  { 
+    "name": "Crab", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Crab.png" },
+  { 
+    "name": "Crustacea Gigantica", "type": "Aquatic", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Crustacea_Gigantica.png" },
+  { 
+    "name": "Deathling Scout", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Deathling_Scout.png" },
+  { 
+    "name": "Deathling Spellsinger", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Deathling_Spellsinger.png" },
+  { 
+    "name": "Deepling Brawler", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Brawler.png" },
+  { 
+    "name": "Deepling Elite", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Elite.png" },
+  { 
+    "name": "Deepling Guard", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Guard.png" },
+  { 
+    "name": "Deepling Master Librarian", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Master_Librarian.png" },
+  { 
+    "name": "Deepling Scout", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Scout.png" },
+  { 
+    "name": "Deepling Spellsinger", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Spellsinger.png" },
+  { 
+    "name": "Deepling Tyrant", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Deepling_Tyrant.png" },
+  { 
+    "name": "Deepling Warrior", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Deepling_Warrior.png" },
+  { 
+    "name": "Deepling Worker", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Deepling_Worker.png" },
+  { 
+    "name": "Deepsea Blood Crab", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Deepsea_Blood_Crab.png" },
+  { 
+    "name": "Fish", "type": "Aquatic", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Fish.png" },
+  { 
+    "name": "Jellyfish", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Jellyfish.png" },
+  { 
+    "name": "Manta Ray", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Manta_Ray.png" },
+  { 
+    "name": "Northern Pike", "type": "Aquatic", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Northern_Pike.png" },
+  { 
+    "name": "Quara Constrictor", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Constrictor.png" },
+  { 
+    "name": "Quara Constrictor Scout", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Constrictor_Scout.png" },
+  { 
+    "name": "Quara Hydromancer", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Hydromancer.png" },
+  { 
+    "name": "Quara Hydromancer Scout", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Hydromancer_Scout.png" },
+  { 
+    "name": "Quara Looter", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Quara_Looter.png" },
+  { 
+    "name": "Quara Mantassin", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Mantassin.png" },
+  { 
+    "name": "Quara Mantassin Scout", "type": "Aquatic", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Quara_Mantassin_Scout.png" },
+  { 
+    "name": "Quara Pincher", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Pincher.png" },
+  { 
+    "name": "Quara Pincher Scout", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Pincher_Scout.png" },
+  { 
+    "name": "Quara Plunderer", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Quara_Plunderer.png" },
+  { 
+    "name": "Quara Predator", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Predator.png" },
+  { 
+    "name": "Quara Predator Scout", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Quara_Predator_Scout.png" },
+  { 
+    "name": "Quara Raider", "type": "Aquatic", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Quara_Raider.png" },
+  { 
+    "name": "Renegade Quara Constrictor", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Renegade_Quara_Constrictor.png" },
+  { 
+    "name": "Renegade Quara Hydromancer", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Renegade_Quara_Hydromancer.png" },
+  { 
+    "name": "Renegade Quara Mantassin", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Renegade_Quara_Mantassin.png" },
+  { 
+    "name": "Renegade Quara Pincher", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Renegade_Quara_Pincher.png" },
+  { 
+    "name": "Renegade Quara Predator", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Renegade_Quara_Predator.png" },
+  { 
+    "name": "Shark", "type": "Aquatic", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Shark.png" },
+  {
+    "name": "Agrestic Chicken",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Agrestic_Chicken.png"
+  },
+  {
+    "name": "Berserker Chicken",
+    "type": "Bird",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Berserker_Chicken.png"
+  },
+  {
+    "name": "Carnivostrich",
+    "type": "Bird",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Carnivostrich.png"
+  },
+  {
+    "name": "Cave Parrot",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Cave_Parrot.png"
+  },
+  {
+    "name": "Chicken",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Chicken.png"
+  },
+  {
+    "name": "Demon Parrot",
+    "type": "Bird",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Demon_Parrot.png"
+  },
+  {
+    "name": "Dire Penguin",
+    "type": "Bird",
+    "difficulty_en": "Easy",
+    "charms": 30,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Dire_Penguin.png"
+  },
+  {
+    "name": "Flamingo",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Flamingo.png"
+  },
+  {
+    "name": "Harpy",
+    "type": "Bird",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Harpy.png"
+  },
+  {
+    "name": "Headpecker",
+    "type": "Bird",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Headpecker.png"
+  },
+  {
+    "name": "Jungle Moa",
+    "type": "Bird",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Jungle_Moa.png"
+  },
+  {
+    "name": "Marsh Stalker",
+    "type": "Bird",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Marsh_Stalker.png"
+  },
+  {
+    "name": "Parrot",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Parrot.png"
+  },
+  {
+    "name": "Penguin",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Penguin.png"
+  },
+  {
+    "name": "Pigeon",
+    "type": "Bird",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Pigeon.png"
+  },
+  {
+    "name": "Seagull",
+    "type": "Bird",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Seagull.png"
+  },
+  {
+    "name": "Terror Bird",
+    "type": "Bird",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Terror_Bird.png"
+  },
+  {
+    "name": "Animated Snowman",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Animated_Snowman.png"
+  },
+  {
+    "name": "Cake Golem",
+    "type": "Construct",
+    "difficulty_en": "Easy",
+    "charms": 30,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Cake_Golem.png"
+  },
+  {
+    "name": "Clay Guardian",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Clay_Guardian.png"
+  },
+  {
+    "name": "Damaged Crystal Golem",
+    "type": "Construct",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Damaged_Crystal_Golem.png"
+  },
+  {
+    "name": "Damaged Worker Golem",
+    "type": "Construct",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Damaged_Worker_Golem.png"
+  },
+  {
+    "name": "Diamond Servant",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Diamond_Servant.png"
+  },
+  {
+    "name": "Diamond Servant Replica",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Diamond_Servant_Replica.png"
+  },
+  {
+    "name": "Enraged Crystal Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Enraged_Crystal_Golem.png"
+  },
+  {
+    "name": "Eternal Guardian",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Eternal_Guardian.png"
+  },
+  {
+    "name": "Gingerbread Man",
+    "type": "Construct",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Gingerbread_Man.png"
+  },
+  {
+    "name": "Glooth Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Glooth_Golem.png"
+  },
+  {
+    "name": "Goggle Cake",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Goggle_Cake.png"
+  },
+  {
+    "name": "Golden Servant",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Golden_Servant.png"
+  },
+  {
+    "name": "Golden Servant Replica",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Golden_Servant_Replica.png"
+  },
+  {
+    "name": "Ice Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ice_Golem.png"
+  },
+  {
+    "name": "Infected Weeper",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Infected_Weeper.png"
+  },
+  {
+    "name": "Iron Servant",
+    "type": "Construct",
+    "difficulty_en": "Easy",
+    "charms": 30,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Iron_Servant.png"
+  },
+  {
+    "name": "Iron Servant Replica",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Iron_Servant_Replica.png"
+  },
+  {
+    "name": "Lava Golem",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Lava_Golem.png"
+  },
+  {
+    "name": "Magma Crawler",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Magma_Crawler.png"
+  },
+  {
+    "name": "Metal Gargoyle",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Metal_Gargoyle.png"
+  },
+  {
+    "name": "Orewalker",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Orewalker.png"
+  },
+  {
+    "name": "Rotten Golem",
+    "type": "Construct",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Rotten_Golem.png"
+  },
+  {
+    "name": "Rustheap Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Rustheap_Golem.png"
+  },
+  {
+    "name": "Sandstone Scorpion",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Sandstone_Scorpion.png"
+  },
+  {
+    "name": "Shrieking Cry-Stal",
+    "type": "Construct",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Shrieking_Cry-Stal.png"
+  },
+  {
+    "name": "Stone Devourer",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Stone_Devourer.png"
+  },
+  {
+    "name": "Stone Golem",
+    "type": "Construct",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Stone_Golem.png"
+  },
+  {
+    "name": "Walker",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Walker.png"
+  },
+  {
+    "name": "Walking Pillar",
+    "type": "Construct",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Walking_Pillar.png"
+  },
+  {
+    "name": "Wandering Pillar",
+    "type": "Construct",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Wandering_Pillar.png"
+  },
+  {
+    "name": "War Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/War_Golem.png"
+  },
+  {
+    "name": "Weeper",
+    "type": "Construct",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Weeper.png"
+  },
+  {
+    "name": "Worker Golem",
+    "type": "Construct",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Worker_Golem.png"
+  },
+  { "name": "Arachnophobica", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Arachnophobica.png" },
+  { "name": "Armadile", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Armadile.png" },
+  { "name": "Bashmu", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Bashmu.png" },
+  { "name": "Blue Djinn", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Blue_Djinn.png" },
+  { "name": "Bog Raider", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Bog_Raider.png" },
+  { "name": "Bonelord", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Bonelord.png" },
+  { "name": "Candy Horror", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Candy_Horror.png" },
+  { "name": "Choking Fear", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Choking_Fear.png" },
+  { "name": "Crypt Warden", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Crypt_Warden.png" },
+  { "name": "Crystal Spider", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Crystal_Spider.png" },
+  { "name": "Crystal Wolf", "type": "Magical", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Crystal_Wolf.png" },
+  { "name": "Crystalcrusher", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Crystalcrusher.png" },
+  { "name": "Darklight Construct", "type": "Magical", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Darklight_Construct.png" },
+  { "name": "Darklight Emitter", "type": "Magical", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Darklight_Emitter.png" },
+  { "name": "Darklight Source", "type": "Magical", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Darklight_Source.png" },
+  { "name": "Darklight Striker", "type": "Magical", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Darklight_Striker.png" },
+  { "name": "Dragonling", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Dragonling.png" },
+  { "name": "Efreet", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Efreet.png" },
+  { "name": "Elder Bonelord", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Elder_Bonelord.png" },
+  { "name": "Elder Forest Fury", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Elder_Forest_Fury.png" },
+  { "name": "Enfeebled Silencer", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Enfeebled_Silencer.png" },
+  { "name": "Feral Sphinx", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Feral_Sphinx.png" },
+  { "name": "Feversleep", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Feversleep.png" },
+  { "name": "Forest Fury", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Forest_Fury.png" },
+  { "name": "Frazzlemaw", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Frazzlemaw.png" },
+  { "name": "Gargoyle", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Gargoyle.png" },
+  { "name": "Gazer", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Gazer.png" },
+  { "name": "Girtablilu Warrior", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Girtablilu_Warrior.png" },
+  { "name": "Green Djinn", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Green_Djinn.png" },
+  { "name": "Gryphon", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Gryphon.png" },
+  { "name": "Guzzlemaw", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Guzzlemaw.png" },
+  { "name": "Juvenile Bashmu", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Juvenile_Bashmu.png" },
+  { "name": "Lamassu", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Lamassu.png" },
+  { "name": "Lumbering Carnivor", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lumbering_Carnivor.png" },
+  { "name": "Manticore", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Manticore.png" },
+  { "name": "Marid", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Marid.png" },
+  { "name": "Medusa", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Medusa.png" },
+  { "name": "Menacing Carnivor", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Menacing_Carnivor.png" },
+  { "name": "Midnight Panther", "type": "Magical", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Midnight_Panther.png" },
+  { "name": "Nibblemaw", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Nibblemaw.png" },
+  { "name": "Nightmare", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Nightmare.png" },
+  { "name": "Nightmare Scion", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Nightmare_Scion.png" },
+  { "name": "Nightstalker", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Nightstalker.png" },
+  { "name": "Phantasm", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Phantasm.png" },
+  { "name": "Redeemed Soul", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Redeemed_Soul.png" },
+  { "name": "Retching Horror", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Retching_Horror.png" },
+  { "name": "Rorc", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Rorc.png" },
+  { "name": "Shock Head", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Shock_Head.png" },
+  { "name": "Sight of Surrender", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Sight_of_Surrender.png" },
+  { "name": "Silencer", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Silencer.png" },
+  { "name": "Sphinx", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Sphinx.png" },
+  { "name": "Spiky Carnivor", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Spiky_Carnivor.png" },
+  { "name": "Tainted Soul", "type": "Magical", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Tainted_Soul.png" },
+  { "name": "Terrorsleep", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Terrorsleep.png" },
+  { "name": "Thanatursus", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Thanatursus.png" },
+  { "name": "Thornfire Wolf", "type": "Magical", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Thornfire_Wolf.png" },
+  { "name": "Venerable Girtablilu", "type": "Magical", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Venerable_Girtablilu.png" },
+  { "name": "Weakened Frazzlemaw", "type": "Magical", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Weakened_Frazzlemaw.png" },
+  { "name": "Askarak Demon", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Askarak_Demon.png" },
+  { "name": "Askarak Lord", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Askarak_Lord.png" },
+  { "name": "Askarak Prince", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Askarak_Prince.png" },
+  { "name": "Brachiodemon", "type": "Demon", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Brachiodemon.png" },
+  { "name": "Brinebrute Inferniarch", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Brinebrute_Inferniarch.png" },
+  { "name": "Broodrider Inferniarch", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Broodrider_Inferniarch.png" },
+  { "name": "Dark Torturer", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Dark_Torturer.png" },
+  { "name": "Dawnfire Asura", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Dawnfire_Asura.png" },
+  { "name": "Demon", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Demon.png" },
+  { "name": "Demon Outcast", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Demon_Outcast.png" },
+  { "name": "Destroyer", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Destroyer.png" },
+  { "name": "Diabolic Imp", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Diabolic_Imp.png" },
+  { "name": "Duskbringer", "type": "Demon", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Duskbringer.png" },
+  { "name": "Fire Devil", "type": "Demon", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Fire_Devil.png" },
+  { "name": "Floating Savant", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Floating_Savant.png" },
+  { "name": "Frost Flower Asura", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Frost_Flower_Asura.png" },
+  { "name": "Fury", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Fury.png" },
+  { "name": "Infernal Demon", "type": "Demon", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Infernal_Demon.png" },
+  { "name": "Juggernaut", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Juggernaut.png" },
+  { "name": "Many Faces", "type": "Demon", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Many_Faces.png" },
+  { "name": "Midnight Asura", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Midnight_Asura.png" },
+  { "name": "Nightfiend", "type": "Demon", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Nightfiend.png" },
+  { "name": "Shaburak Demon", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Shaburak_Demon.png" },
+  { "name": "Shaburak Lord", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Shaburak_Lord.png" },
+  { "name": "Shaburak Prince", "type": "Demon", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Shaburak_Prince.png" },
+  { "name": "True Dawnfire Asura", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/True_Dawnfire_Asura.png" },
+  { "name": "True Frost Flower Asura", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/True_Frost_Flower_Asura.png" },
+  { "name": "True Midnight Asura", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/True_Midnight_Asura.png" },
+  { "name": "Vexclaw", "type": "Demon", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Vexclaw.png" },
+  {
+    "name": "Albino Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Albino_Dragon.png"
+  },
+  {
+    "name": "Dragolisk",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Dragolisk.png"
+  },
+  {
+    "name": "Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Dragon.png"
+  },
+  {
+    "name": "Dragon Hatchling",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Dragon_Hatchling.png"
+  },
+  {
+    "name": "Dragon Lord",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Dragon_Lord.png"
+  },
+  {
+    "name": "Dragon Lord Hatchling",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Dragon_Lord_Hatchling.png"
+  },
+  {
+    "name": "Draken Abomination",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Draken_Abomination.png"
+  },
+  {
+    "name": "Draken Elite",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Draken_Elite.png"
+  },
+  {
+    "name": "Draken Spellweaver",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Draken_Spellweaver.png"
+  },
+  {
+    "name": "Draken Warmaster",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Draken_Warmaster.png"
+  },
+  {
+    "name": "Elder Wyrm",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Elder_Wyrm.png"
+  },
+  {
+    "name": "Frost Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Frost_Dragon.png"
+  },
+  {
+    "name": "Frost Dragon Hatchling",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Frost_Dragon_Hatchling.png"
+  },
+  {
+    "name": "Ghastly Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ghastly_Dragon.png"
+  },
+  {
+    "name": "Haunted Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Haunted_Dragon.png"
+  },
+  {
+    "name": "Hydra",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Hydra.png"
+  },
+  {
+    "name": "Ice Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ice_Dragon.png"
+  },
+  {
+    "name": "Mega Dragon",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Mega_Dragon.png"
+  },
+  {
+    "name": "Wardragon",
+    "type": "Dragon",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Wardragon.png"
+  },
+  {
+    "name": "Wyrm",
+    "type": "Dragon",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Wyrm.png"
+  },
+  {
+    "name": "Candy Floss Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Candy_Floss_Elemental.png"
+  },
+  {
+    "name": "Cliff Strider",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Cliff_Strider.png"
+  },
+  {
+    "name": "Converter",
+    "type": "Elemental",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Converter.png"
+  },
+  {
+    "name": "Earth Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Earth_Elemental.png"
+  },
+  {
+    "name": "Energy Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Energy_Elemental.png"
+  },
+  {
+    "name": "Fire Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Fire_Elemental.png"
+  },
+  {
+    "name": "Foam Stalker",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Foam_Stalker.png"
+  },
+  {
+    "name": "Furious Fire Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Furious_Fire_Elemental.png"
+  },
+  {
+    "name": "High Voltage Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/High_Voltage_Elemental.png"
+  },
+  {
+    "name": "Honey Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Honey_Elemental.png"
+  },
+  {
+    "name": "Ironblight",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ironblight.png"
+  },
+  {
+    "name": "Knowledge Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Knowledge_Elemental.png"
+  },
+  {
+    "name": "Lava Lurker",
+    "type": "Elemental",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Lava_Lurker.png"
+  },
+  {
+    "name": "Massive Earth Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Massive_Earth_Elemental.png"
+  },
+  {
+    "name": "Massive Energy Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Massive_Energy_Elemental.png"
+  },
+  {
+    "name": "Massive Fire Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Massive_Fire_Elemental.png"
+  },
+  {
+    "name": "Massive Water Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Massive_Water_Elemental.png"
+  },
+  {
+    "name": "Raging Fire",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Raging_Fire.png"
+  },
+  {
+    "name": "Ravenous Lava Lurker",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ravenous_Lava_Lurker.png"
+  },
+  {
+    "name": "Sulphur Spouter",
+    "type": "Elemental",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Sulphur_Spouter.png"
+  },
+  {
+    "name": "Turbulent Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Turbulent_Elemental.png"
+  },
+  {
+    "name": "Water Elemental",
+    "type": "Elemental",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Water_Elemental.png"
+  },
+  {
+    "name": "Breach Brood",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Breach_Brood.png"
+  },
+  {
+    "name": "Courage Leech",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Courage_Leech.png"
+  },
+  {
+    "name": "Dread Intruder",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Dread_Intruder.png"
+  },
+  {
+    "name": "Instable Breach Brood",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Instable_Breach_Brood.png"
+  },
+  {
+    "name": "Instable Sparkion",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Instable_Sparkion.png"
+  },
+  {
+    "name": "Mitmah Scout",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Mitmah_Scout.png"
+  },
+  {
+    "name": "Mitmah Seer",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Mitmah_Seer.png"
+  },
+  {
+    "name": "Reality Reaver",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Reality_Reaver.png"
+  },
+  {
+    "name": "Sparkion",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Sparkion.png"
+  },
+  {
+    "name": "Stabilizing Dread Intruder",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Stabilizing_Dread_Intruder.png"
+  },
+  {
+    "name": "Stabilizing Reality Reaver",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Stabilizing_Reality_Reaver.png"
+  },
+  {
+    "name": "Yielothax",
+    "type": "Extra Dimensional",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Yielothax.png"
+  },
+  {
+    "name": "Angry Sugar Fairy",
+    "type": "Fey",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Angry_Sugar_Fairy.png"
+  },
+  {
+    "name": "Arctic Faun",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Arctic_Faun.png"
+  },
+  {
+    "name": "Boogy",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Boogy.png"
+  },
+  {
+    "name": "Cream Blob",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Cream_Blob.png"
+  },
+  {
+    "name": "Dark Faun",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Dark_Faun.png"
+  },
+  {
+    "name": "Dryad",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Dryad.png"
+  },
+  {
+    "name": "Faun",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Faun.png"
+  },
+  {
+    "name": "Fruit Drop",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Fruit_Drop.png"
+  },
+  {
+    "name": "Nymph",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Nymph.png"
+  },
+  {
+    "name": "Percht",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Percht.png"
+  },
+  {
+    "name": "Pixie",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Pixie.png"
+  },
+  {
+    "name": "Pooka",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Pooka.png"
+  },
+  {
+    "name": "Schiach",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Schiach.png"
+  },
+  {
+    "name": "Sugar Cube",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Sugar_Cube.png"
+  },
+  {
+    "name": "Sugar Cube Worker",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Sugar_Cube_Worker.png"
+  },
+  {
+    "name": "Swan Maiden",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Swan_Maiden.png"
+  },
+  {
+    "name": "Truffle",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Truffle.png"
+  },
+  {
+    "name": "Truffle Cook",
+    "type": "Fey",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Truffle_Cook.png"
+  },
+  {
+    "name": "Twisted Pooka",
+    "type": "Fey",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Twisted_Pooka.png"
+  },
+  {
+    "name": "Wisp",
+    "type": "Fey",
+    "difficulty_en": "Trivial",
+    "charms": 5,
+    "kill_complete_bestiary": 250,
+    "image": "https://tibiadraptor.com/images/monsters/Wisp.png"
+  },
+  {
+    "name": "Behemoth",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Behemoth.png"
+  },
+  {
+    "name": "Bellicose Orger",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Bellicose_Orger.png"
+  },
+  {
+    "name": "Cyclops",
+    "type": "Giant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Cyclops.png"
+  },
+  {
+    "name": "Cyclops Drone",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Cyclops_Drone.png"
+  },
+  {
+    "name": "Cyclops Smith",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Cyclops_Smith.png"
+  },
+  {
+    "name": "Frost Giant",
+    "type": "Giant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Frost_Giant.png"
+  },
+  {
+    "name": "Frost Giantess",
+    "type": "Giant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Frost_Giantess.png"
+  },
+  {
+    "name": "Hulking Prehemoth",
+    "type": "Giant",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Hulking_Prehemoth.png"
+  },
+  {
+    "name": "Loricate Orger",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Loricate_Orger.png"
+  },
+  {
+    "name": "Ogre Brute",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Brute.png"
+  },
+  {
+    "name": "Ogre Rowdy",
+    "type": "Giant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Rowdy.png"
+  },
+  {
+    "name": "Ogre Ruffian",
+    "type": "Giant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Ruffian.png"
+  },
+  {
+    "name": "Ogre Sage",
+    "type": "Giant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Sage.png"
+  },
+  {
+    "name": "Ogre Savage",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Savage.png"
+  },
+  {
+    "name": "Ogre Shaman",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ogre_Shaman.png"
+  },
+  {
+    "name": "Orclops Doomhauler",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Orclops_Doomhauler.png"
+  },
+  {
+    "name": "Orclops Ravager",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Orclops_Ravager.png"
+  },
+  {
+    "name": "Orger",
+    "type": "Giant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Orger.png"
+  },
+  { "name": "Acolyte of Darkness", "type": "Human", "difficulty_en": "Easy", "charms": 30, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Acolyte_of_Darkness.png" },
+  { "name": "Acolyte of the Cult", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Acolyte_of_the_Cult.png" },
+  { "name": "Adept of the Cult", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Adept_of_the_Cult.png" },
+  { "name": "Adventurer", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Adventurer.png" },
+  { "name": "Amazon", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Amazon.png" },
+  { "name": "Assassin", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Assassin.png" },
+  { "name": "Bandit", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Bandit.png" },
+  { "name": "Barbarian Bloodwalker", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Barbarian_Bloodwalker.png" },
+  { "name": "Black Sphinx Acolyte", "type": "Human", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Black_Sphinx_Acolyte.png" },
+  { "name": "Burning Gladiator", "type": "Human", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Burning_Gladiator.png" },
+  { "name": "Cobra Assassin", "type": "Human", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Cobra_Assassin.png" },
+  { "name": "Cult Believer", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Cult_Believer.png" },
+  { "name": "Dark Magician", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Dark_Magician.png" },
+  { "name": "Doomsday Cultist", "type": "Human", "difficulty_en": "Easy", "charms": 30, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Doomsday_Cultist.png" },
+  { "name": "Hero", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Hero.png" },
+  { "name": "Hunter", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Hunter.png" },
+  { "name": "Infernalist", "type": "Human", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Infernalist.png" },
+  { "name": "Monk", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Monk.png" },
+  { "name": "Necromancer", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Necromancer.png" },
+  { "name": "Nomad", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Nomad.png" },
+  { "name": "Pirate Buccaneer", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Pirate_Buccaneer.png" },
+  { "name": "Valkyrie", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Valkyrie.png" },
+  { "name": "Warlock", "type": "Human", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Warlock.png" },
+  { "name": "Witch", "type": "Human", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Witch.png" },
+  { "name": "Barkless Devotee", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Barkless_Devotee.png" },
+  { "name": "Barkless Fanatic", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Barkless_Fanatic.png" },
+  { "name": "Boar Man", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Boar_Man.png" },
+  { "name": "Broken Shaper", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Broken_Shaper.png" },
+  { "name": "Bulltaur Alchemist", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Bulltaur_Alchemist.png" },
+  { "name": "Bulltaur Brute", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Bulltaur_Brute.png" },
+  { "name": "Bulltaur Forgepriest", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Bulltaur_Forgepriest.png" },
+  { "name": "Chakoya Toolshaper", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Chakoya_Toolshaper.png" },
+  { "name": "Chakoya Tribewarden", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Chakoya_Tribewarden.png" },
+  { "name": "Chakoya Windcaller", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Chakoya_Windcaller.png" },
+  { "name": "Corym Charlatan", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Corym_Charlatan.png" },
+  { "name": "Corym Skirmisher", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Corym_Skirmisher.png" },
+  { "name": "Corym Vanguard", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Corym_Vanguard.png" },
+  { "name": "Crape Man", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Crape_Man.png" },
+  { "name": "Dwarf", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Dwarf.png" },
+  { "name": "Dwarf Geomancer", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Dwarf_Geomancer.png" },
+  { "name": "Dwarf Guard", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Dwarf_Guard.png" },
+  { "name": "Elf", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Elf.png" },
+  { "name": "Elf Arcanist", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Elf_Arcanist.png" },
+  { "name": "Elf Overseer", "type": "Humanoid", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Elf_Overseer.png" },
+  { "name": "Goblin", "type": "Humanoid", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Goblin.png" },
+  { "name": "Goblin Leader", "type": "Humanoid", "difficulty_en": "Easy", "charms": 30, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Goblin_Leader.png" },
+  { "name": "Minotaur", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Minotaur.png" },
+  { "name": "Minotaur Amazon", "type": "Humanoid", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Minotaur_Amazon.png" },
+  { "name": "Orc", "type": "Humanoid", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Orc.png" },
+  { "name": "Orc Warlord", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Orc_Warlord.png" },
+  { "name": "Troll", "type": "Humanoid", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Troll.png" },
+  { "name": "Troll Guard", "type": "Humanoid", "difficulty_en": "Easy", "charms": 30, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Troll_Guard.png" },
+  { "name": "Worm Priestess", "type": "Humanoid", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Worm_Priestess.png" },
+  {
+    "name": "Animated Feather",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Animated_Feather.png"
+  },
+  {
+    "name": "Biting Book",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Biting_Book.png"
+  },
+  {
+    "name": "Bluebeak",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Bluebeak.png"
+  },
+  {
+    "name": "Brain Squid",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Brain_Squid.png"
+  },
+  {
+    "name": "Bramble Wyrmling",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Bramble_Wyrmling.png"
+  },
+  {
+    "name": "Burning Book",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Burning_Book.png"
+  },
+  {
+    "name": "Cinder Wyrmling",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Cinder_Wyrmling.png"
+  },
+  {
+    "name": "Crusader",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Crusader.png"
+  },
+  {
+    "name": "Cursed Book",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Cursed_Book.png"
+  },
+  {
+    "name": "Energetic Book",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Energetic_Book.png"
+  },
+  {
+    "name": "Energuardian of Tales",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Energuardian_of_Tales.png"
+  },
+  {
+    "name": "Flying Book",
+    "type": "Inkborn",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Flying_Book.png"
+  },
+  {
+    "name": "Guardian of Tales",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Guardian_of_Tales.png"
+  },
+  {
+    "name": "Hawk Hopper",
+    "type": "Inkborn",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Hawk_Hopper.png"
+  },
+  {
+    "name": "Headwalker",
+    "type": "Inkborn",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Headwalker.png"
+  },
+  {
+    "name": "Icecold Book",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Icecold_Book.png"
+  },
+  {
+    "name": "Ink Blob",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Ink_Blob.png"
+  },
+  {
+    "name": "Ink Splash",
+    "type": "Inkborn",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Ink_Splash.png"
+  },
+  {
+    "name": "Lion Hydra",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Lion_Hydra.png"
+  },
+  {
+    "name": "Rage Squid",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Rage_Squid.png"
+  },
+  {
+    "name": "Shell Drake",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Shell_Drake.png"
+  },
+  {
+    "name": "Squid Warden",
+    "type": "Inkborn",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Squid_Warden.png"
+  },
+  {
+    "name": "Cunning Werepanther",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Cunning_Werepanther.png"
+  },
+  {
+    "name": "Feral Werecrocodile",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Feral_Werecrocodile.png"
+  },
+  {
+    "name": "Werebadger",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werebadger.png"
+  },
+  {
+    "name": "Werebear",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werebear.png"
+  },
+  {
+    "name": "Wereboar",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Wereboar.png"
+  },
+  {
+    "name": "Werecrocodile",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Werecrocodile.png"
+  },
+  {
+    "name": "Werefox",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werefox.png"
+  },
+  {
+    "name": "Werehyaena",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werehyaena.png"
+  },
+  {
+    "name": "Werehyaena Shaman",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werehyaena_Shaman.png"
+  },
+  {
+    "name": "Werelion",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Werelion.png"
+  },
+  {
+    "name": "Werelioness",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Werelioness.png"
+  },
+  {
+    "name": "Werepanther",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Werepanther.png"
+  },
+  {
+    "name": "Weretiger",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Weretiger.png"
+  },
+  {
+    "name": "Werewolf",
+    "type": "Lycanthrope",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Werewolf.png"
+  },
+  {
+    "name": "White Weretiger",
+    "type": "Lycanthrope",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/White_Weretiger.png"
+  },
+  { "name": "Badger", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Badger.png" },
+  { "name": "Baleful Bunny", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Baleful_Bunny.png" },
+  { "name": "Bat", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Bat.png" },
+  { "name": "Bear", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Bear.png" },
+  { "name": "Black Sheep", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Black_Sheep.png" },
+  { "name": "Boar", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Boar.png" },
+  { "name": "Cat", "type": "Mammal", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Cat.png" },
+  { "name": "Cave Rat", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Cave_Rat.png" },
+  { "name": "Clomp", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Clomp.png" },
+  { "name": "Cow", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Cow.png" },
+  { "name": "Deer", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Deer.png" },
+  { "name": "Dog", "type": "Mammal", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Dog.png" },
+  { "name": "Doom Deer", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Doom_Deer.png" },
+  { "name": "Dromedary", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Dromedary.png" },
+  { "name": "Elephant", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Elephant.png" },
+  { "name": "Evil Sheep", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Evil_Sheep.png" },
+  { "name": "Evil Sheep Lord", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Evil_Sheep_Lord.png" },
+  { "name": "Exotic Bat", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Exotic_Bat.png" },
+  { "name": "Fox", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Fox.png" },
+  { "name": "Gloom Wolf", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Gloom_Wolf.png" },
+  { "name": "Gnarlhound", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Gnarlhound.png" },
+  { "name": "Gore Horn", "type": "Mammal", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Gore_Horn.png" },
+  { "name": "Gorerilla", "type": "Mammal", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Gorerilla.png" },
+  { "name": "Horse (Cinza)", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Horse_(Cinza).png" },
+  { "name": "Horse (Marrom Escuro)", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Horse_(Marrom_Escuro).png" },
+  { "name": "Horse (Marrom)", "type": "Mammal", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Horse_(Marrom).png" },
+  { "name": "Hot Dog", "type": "Mammal", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Hot_Dog.png" },
+  { "name": "Husky", "type": "Mammal", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Husky.png" },
+  { "name": "Hyaena", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Hyaena.png" },
+  { "name": "Imperial", "type": "Mammal", "difficulty_en": "Trivial", "charms": 10, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Imperial.png" },
+  { "name": "Killer Rabbit", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Killer_Rabbit.png" },
+  { "name": "Kongra", "type": "Mammal", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Kongra.png" },
+  { "name": "Bane of Light", "type": "Undead", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Bane_of_Light.png" },
+  { "name": "Banshee", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Banshee.png" },
+  { "name": "Betrayed Wraith", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Betrayed_Wraith.png" },
+  { "name": "Blightwalker", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Blightwalker.png" },
+  { "name": "Blood Beast", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Blood_Beast.png" },
+  { "name": "Bonebeast", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Bonebeast.png" },
+  { "name": "Bony Sea Devil", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Bony_Sea_Devil.png" },
+  { "name": "Braindeath", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Braindeath.png" },
+  { "name": "Burster Spectre", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Burster_Spectre.png" },
+  { "name": "Capricious Phantom", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Capricious_Phantom.png" },
+  { "name": "Corrupted Ghost", "type": "Undead", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Corrupted_Ghost.png" },
+  { "name": "Corrupted Skeleton", "type": "Undead", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Corrupted_Skeleton.png" },
+  { "name": "Creepy Crawler", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Creepy_Crawler.png" },
+  { "name": "Crypt Construct", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Crypt_Construct.png" },
+  { "name": "Crypt Fiend", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Crypt_Fiend.png" },
+  { "name": "Crypt Mage", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Crypt_Mage.png" },
+  { "name": "Crypt Shambler", "type": "Undead", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Crypt_Shambler.png" },
+  { "name": "Crypt Warrior", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Crypt_Warrior.png" },
+  { "name": "Cursed Ape", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Cursed_Ape.png" },
+  { "name": "Cursed Prospector", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Cursed_Prospector.png" },
+  { "name": "Cyclursus", "type": "Undead", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Cyclursus.png" },
+  { "name": "Death Priest", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Death_Priest.png" },
+  { "name": "Demon Skeleton", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Demon_Skeleton.png" },
+  { "name": "Distorted Phantom", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Distorted_Phantom.png" },
+  { "name": "Druid's Apparition", "type": "Undead", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Druid's_Apparition.png" },
+  { "name": "Elder Mummy", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Elder_Mummy.png" },
+  { "name": "Zombie", "type": "Undead", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Zombie.png" },
+  {
+    "name": "Bane Bringer",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Bane_Bringer.png"
+  },
+  {
+    "name": "Branchy Crawler",
+    "type": "Plant",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Branchy_Crawler.png"
+  },
+  {
+    "name": "Carniphila",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Carniphila.png"
+  },
+  {
+    "name": "Cloak of Terror",
+    "type": "Plant",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Cloak_of_Terror.png"
+  },
+  {
+    "name": "Glooth Anemone",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Glooth_Anemone.png"
+  },
+  {
+    "name": "Haunted Treeling",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Haunted_Treeling.png"
+  },
+  {
+    "name": "Hideous Fungus",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Hideous_Fungus.png"
+  },
+  {
+    "name": "Humongous Fungus",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Humongous_Fungus.png"
+  },
+  {
+    "name": "Lavafungus",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Lavafungus.png"
+  },
+  {
+    "name": "Leaf Golem",
+    "type": "Plant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Leaf_Golem.png"
+  },
+  {
+    "name": "Omnivora",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Omnivora.png"
+  },
+  {
+    "name": "Rootthing Amber Shaper",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Rootthing_Amber_Shaper.png"
+  },
+  {
+    "name": "Rootthing Bug Tracker",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Rootthing_Bug_Tracker.png"
+  },
+  {
+    "name": "Rootthing Nutshell",
+    "type": "Plant",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Rootthing_Nutshell.png"
+  },
+  {
+    "name": "Spit Nettle",
+    "type": "Plant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Spit_Nettle.png"
+  },
+  {
+    "name": "Stalking Stalk",
+    "type": "Plant",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Stalking_Stalk.png"
+  },
+  {
+    "name": "Swampling",
+    "type": "Plant",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Swampling.png"
+  },
+  {
+    "name": "Wilting Leaf Golem",
+    "type": "Plant",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Wilting_Leaf_Golem.png"
+  },
+  { "name": "Adult Goanna", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Adult_Goanna.png" },
+  { "name": "Cobra", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Cobra.png" },
+  { "name": "Crocodile", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Crocodile.png" },
+  { "name": "Draptor", "type": "Reptile", "difficulty_en": "Medium", "charms": 50, "kill_complete_bestiary": 5, "image": "https://tibiadraptor.com/images/monsters/Draptor.png" },
+  { "name": "Emerald Tortoise", "type": "Reptile", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Emerald_Tortoise.png" },
+  { "name": "Killer Caiman", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Killer_Caiman.png" },
+  { "name": "Lizard Chosen", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Chosen.png" },
+  { "name": "Lizard Dragon Priest", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Dragon_Priest.png" },
+  { "name": "Lizard High Guard", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_High_Guard.png" },
+  { "name": "Lizard Legionnaire", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Legionnaire.png" },
+  { "name": "Lizard Magistratus", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Magistratus.png" },
+  { "name": "Lizard Noble", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Lizard_Noble.png" },
+  { "name": "Lizard Sentinel", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Lizard_Sentinel.png" },
+  { "name": "Lizard Snakecharmer", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Snakecharmer.png" },
+  { "name": "Lizard Templar", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Lizard_Templar.png" },
+  { "name": "Lizard Zaogun", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lizard_Zaogun.png" },
+  { "name": "Mantosaurus", "type": "Reptile", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Mantosaurus.png" },
+  { "name": "Mercurial Menace", "type": "Reptile", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Mercurial_Menace.png" },
+  { "name": "Naga Archer", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Naga_Archer.png" },
+  { "name": "Naga Warrior", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Naga_Warrior.png" },
+  { "name": "Noxious Ripptor", "type": "Reptile", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Noxious_Ripptor.png" },
+  { "name": "Sea Serpent", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Sea_Serpent.png" },
+  { "name": "Seacrest Serpent", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Seacrest_Serpent.png" },
+  { "name": "Serpent Spawn", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Serpent_Spawn.png" },
+  { "name": "Snake", "type": "Reptile", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Snake.png" },
+  { "name": "Stampor", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Stampor.png" },
+  { "name": "Stonerefiner", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Stonerefiner.png" },
+  { "name": "Thornback Tortoise", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Thornback_Tortoise.png" },
+  { "name": "Tortoise", "type": "Reptile", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Tortoise.png" },
+  { "name": "Two-Headed Turtle", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Two-Headed_Turtle.png" },
+  { "name": "Wyvern", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Wyvern.png" },
+  { "name": "Young Goanna", "type": "Reptile", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Young_Goanna.png" },
+  { "name": "Young Sea Serpent", "type": "Reptile", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Young_Sea_Serpent.png" },
+  {
+    "name": "Acid Blob",
+    "type": "Slime",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Acid_Blob.png"
+  },
+  {
+    "name": "Chocolate Blob",
+    "type": "Slime",
+    "difficulty_en": "Harmless",
+    "charms": 1,
+    "kill_complete_bestiary": 25,
+    "image": "https://tibiadraptor.com/images/monsters/Chocolate_Blob.png"
+  },
+  {
+    "name": "Darklight Matter",
+    "type": "Slime",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Darklight_Matter.png"
+  },
+  {
+    "name": "Death Blob",
+    "type": "Slime",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Death_Blob.png"
+  },
+  {
+    "name": "Defiler",
+    "type": "Slime",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Defiler.png"
+  },
+  {
+    "name": "Devourer",
+    "type": "Slime",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Devourer.png"
+  },
+  {
+    "name": "Glooth Blob",
+    "type": "Slime",
+    "difficulty_en": "Medium",
+    "charms": 25,
+    "kill_complete_bestiary": 1000,
+    "image": "https://tibiadraptor.com/images/monsters/Glooth_Blob.png"
+  },
+  {
+    "name": "Meandering Mushroom",
+    "type": "Slime",
+    "difficulty_en": "Challenging",
+    "charms": 100,
+    "kill_complete_bestiary": 5000,
+    "image": "https://tibiadraptor.com/images/monsters/Meandering_Mushroom.png"
+  },
+  {
+    "name": "Mercury Blob",
+    "type": "Slime",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Mercury_Blob.png"
+  },
+  {
+    "name": "Midnight Spawn",
+    "type": "Slime",
+    "difficulty_en": "Medium",
+    "charms": 50,
+    "kill_complete_bestiary": 5,
+    "image": "https://tibiadraptor.com/images/monsters/Midnight_Spawn.png"
+  },
+  {
+    "name": "Slime",
+    "type": "Slime",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Slime.png"
+  },
+  {
+    "name": "Son of Verminor",
+    "type": "Slime",
+    "difficulty_en": "Hard",
+    "charms": 50,
+    "kill_complete_bestiary": 2500,
+    "image": "https://tibiadraptor.com/images/monsters/Son_of_Verminor.png"
+  },
+  {
+    "name": "Squidgy Slime",
+    "type": "Slime",
+    "difficulty_en": "Easy",
+    "charms": 15,
+    "kill_complete_bestiary": 500,
+    "image": "https://tibiadraptor.com/images/monsters/Squidgy_Slime.png"
+  },
+  { "name": "Afflicted Strider", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Afflicted_Strider.png" },
+  { "name": "Ancient Scarab", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Ancient_Scarab.png" },
+  { "name": "Berrypest", "type": "Vermin", "difficulty_en": "Harmless", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Berrypest.png" },
+  { "name": "Blemished Spawn", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Blemished_Spawn.png" },
+  { "name": "Bloated Man-Maggot", "type": "Vermin", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Bloated_Man-Maggot.png" },
+  { "name": "Brimstone Bug", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Brimstone_Bug.png" },
+  { "name": "Bug", "type": "Vermin", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Bug.png" },
+  { "name": "Butterfly (Blue)", "type": "Vermin", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Butterfly_(Blue).png" },
+  { "name": "Butterfly (Red)", "type": "Vermin", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Butterfly_(Red).png" },
+  { "name": "Butterfly (Purple)", "type": "Vermin", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Butterfly_(Purple).png" },
+  { "name": "Carrion Worm", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Carrion_Worm.png" },
+  { "name": "Cave Chimera", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Cave_Chimera.png" },
+  { "name": "Cave Devourer", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Cave_Devourer.png" },
+  { "name": "Centipede", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Centipede.png" },
+  { "name": "Chasm Spawn", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Chasm_Spawn.png" },
+  { "name": "Crawler", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Crawler.png" },
+  { "name": "Deepworm", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Deepworm.png" },
+  { "name": "Diremaw", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Diremaw.png" },
+  { "name": "Drillworm", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Drillworm.png" },
+  { "name": "Emerald Damselfly", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Emerald_Damselfly.png" },
+  { "name": "Exotic Cave Spider", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Exotic_Cave_Spider.png" },
+  { "name": "Eyeless Devourer", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Eyeless_Devourer.png" },
+  { "name": "Giant Spider", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Giant_Spider.png" },
+  { "name": "Hibernal Moth", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Hibernal_Moth.png" },
+  { "name": "Hive Overseer", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Hive_Overseer.png" },
+  { "name": "Insect Swarm", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Insect_Swarm.png" },
+  { "name": "Insectoid Scout", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Insectoid_Scout.png" },
+  { "name": "Insectoid Worker", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Insectoid_Worker.png" },
+  { "name": "Kollos", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Kollos.png" },
+  { "name": "Lacewing Moth", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lacewing_Moth.png" },
+  { "name": "Ladybug", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Ladybug.png" },
+  { "name": "Lancer Beetle", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Lancer_Beetle.png" },
+  { "name": "Larva", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Larva.png" },
+  { "name": "Lavaworm", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Lavaworm.png" },
+  { "name": "Mycobiontic Beetle", "type": "Vermin", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Mycobiontic_Beetle.png" },
+  { "name": "Poison Spider", "type": "Vermin", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Poison_Spider.png" },
+  { "name": "Rotten Man-Maggot", "type": "Vermin", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Rotten_Man-Maggot.png" },
+  { "name": "Rotworm", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Rotworm.png" },
+  { "name": "Sacred Spider", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Sacred_Spider.png" },
+  { "name": "Sandcrawler", "type": "Vermin", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Sandcrawler.png" },
+  { "name": "Scarab", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Scarab.png" },
+  { "name": "Scorpion", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Scorpion.png" },
+  { "name": "Slug", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Slug.png" },
+  { "name": "Spider", "type": "Vermin", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Spider.png" },
+  { "name": "Spidris", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Spidris.png" },
+  { "name": "Spidris Elite", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Spidris_Elite.png" },
+  { "name": "Spitter", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Spitter.png" },
+  { "name": "Streaked Devourer", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Streaked_Devourer.png" },
+  { "name": "Sulphider", "type": "Vermin", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Sulphider.png" },
+  { "name": "Swarmer", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Swarmer.png" },
+  { "name": "Tarantula", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Tarantula.png" },
+  { "name": "Terramite", "type": "Vermin", "difficulty_en": "Easy", "charms": 15, "kill_complete_bestiary": 500, "image": "https://tibiadraptor.com/images/monsters/Terramite.png" },
+  { "name": "Tremendous Tyrant", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Tremendous_Tyrant.png" },
+  { "name": "Tunnel Tyrant", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Tunnel_Tyrant.png" },
+  { "name": "Undertaker", "type": "Vermin", "difficulty_en": "Challenging", "charms": 100, "kill_complete_bestiary": 5000, "image": "https://tibiadraptor.com/images/monsters/Undertaker.png" },
+  { "name": "Varnished Diremaw", "type": "Vermin", "difficulty_en": "Hard", "charms": 50, "kill_complete_bestiary": 2500, "image": "https://tibiadraptor.com/images/monsters/Varnished_Diremaw.png" },
+  { "name": "Wafer Paper Butterfly", "type": "Vermin", "difficulty_en": "Harmless", "charms": 1, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Wafer_Paper_Butterfly.png" },
+  { "name": "Wailing Widow", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Wailing_Widow.png" },
+  { "name": "Wasp", "type": "Vermin", "difficulty_en": "Trivial", "charms": 5, "kill_complete_bestiary": 25, "image": "https://tibiadraptor.com/images/monsters/Wasp.png" },
+  { "name": "Waspoid", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Waspoid.png" },
+  { "name": "Wiggler", "type": "Vermin", "difficulty_en": "Medium", "charms": 25, "kill_complete_bestiary": 1000, "image": "https://tibiadraptor.com/images/monsters/Wiggler.png" }
+]

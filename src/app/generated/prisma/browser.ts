@@ -28,6 +28,11 @@ export type User = Prisma.UserModel
  */
 export type Character = Prisma.CharacterModel
 /**
+ * Model CharacterBestiaryOverride
+ * 
+ */
+export type CharacterBestiaryOverride = Prisma.CharacterBestiaryOverrideModel
+/**
  * Model PartySession
  * 
  */
