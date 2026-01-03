@@ -2,17 +2,15 @@ import { prisma } from "@/lib/prisma";
 
 export async function removeBestiaryManualKills(
   characterName: string,
-  monsterName: string,
-  manualKills: number
+  monsterName: string
 ) {
   console.log("[BESTIARY][MANUAL_KILLS][REMOVE]", {
     characterName,
     monsterName,
-    manualKills,
   });
 
-  if (!characterName || !monsterName || manualKills <= 0) {
-    throw new Error("Dados inválidos para remoção");
+  if (!characterName || !monsterName) {
+    throw new Error("Dados obrigatórios ausentes");
   }
 
   const character = await prisma.character.findUnique({
@@ -26,43 +24,12 @@ export async function removeBestiaryManualKills(
 
   const normalizedMonster = monsterName.trim().toLowerCase();
 
-  const current = await prisma.characterBestiaryOverride.findUnique({
+  return prisma.characterBestiaryOverride.delete({
     where: {
       characterId_monsterName: {
         characterId: character.id,
         monsterName: normalizedMonster,
       },
-    },
-  });
-
-  if (!current) {
-    throw new Error("Bestiário manual não encontrado");
-  }
-
-  const remaining = current.manualKills - manualKills;
-
-  // Se zerar ou ficar negativo, apaga
-  if (remaining <= 0) {
-    return prisma.characterBestiaryOverride.delete({
-      where: {
-        characterId_monsterName: {
-          characterId: character.id,
-          monsterName: normalizedMonster,
-        },
-      },
-    });
-  }
-
-  // Caso contrário, atualiza
-  return prisma.characterBestiaryOverride.update({
-    where: {
-      characterId_monsterName: {
-        characterId: character.id,
-        monsterName: normalizedMonster,
-      },
-    },
-    data: {
-      manualKills: remaining,
     },
   });
 }

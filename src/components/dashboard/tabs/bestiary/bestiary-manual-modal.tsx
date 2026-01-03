@@ -36,6 +36,14 @@ export function BestiaryManualModal({
 
   const [loading, setLoading] = useState<boolean>(false);
 
+  /**
+   * Sincroniza o valor SOMENTE quando:
+   * - o modal abre
+   * - ou o valor inicial muda
+   *
+   * Isso evita renderizações em cascata
+   * e satisfaz o ESLint sem desligar regra.
+   */
   useEffect(() => {
     if (!open) return;
 
@@ -52,7 +60,9 @@ export function BestiaryManualModal({
     try {
       await fetch("/api/bestiary/manual", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           characterName,
           monsterName,
@@ -68,20 +78,17 @@ export function BestiaryManualModal({
   }
 
   async function handleRemove(): Promise<void> {
-    const removeAmount = Number(manualKills);
-
-    if (!removeAmount || removeAmount <= 0) return;
-
     setLoading(true);
 
     try {
       await fetch("/api/bestiary/manual", {
         method: "DELETE",
-        headers: { "Content-Type": "application/json" },
+        headers: {
+          "Content-Type": "application/json",
+        },
         body: JSON.stringify({
           characterName,
           monsterName,
-          manualKills: removeAmount,
         }),
       });
 
@@ -104,7 +111,7 @@ export function BestiaryManualModal({
         <Input
           type="number"
           min={0}
-          placeholder="Quantidade"
+          placeholder="Quantidade morta"
           value={manualKills}
           onChange={(e) => setManualKills(e.target.value)}
         />
@@ -116,7 +123,7 @@ export function BestiaryManualModal({
               onClick={handleRemove}
               disabled={loading}
             >
-              Remover quantidade
+              Remover Bestiário
             </Button>
           )}
 
