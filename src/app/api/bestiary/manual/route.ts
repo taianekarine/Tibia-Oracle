@@ -16,6 +16,21 @@ export async function DELETE(req: Request) {
 
   console.log("[API] DELETE /bestiary/manual", body);
 
-  await removeBestiaryManualKills(body.characterName, body.monsterName);
-  return NextResponse.json({ ok: true });
+  const { characterName, monsterName, manualKills } = body;
+
+  if (
+    typeof characterName !== "string" ||
+    typeof monsterName !== "string" ||
+    typeof manualKills !== "number"
+  ) {
+    return new Response("Payload inválido", { status: 400 });
+  }
+
+  await removeBestiaryManualKills(
+    characterName,
+    monsterName,
+    manualKills
+  );
+
+  return new Response(null, { status: 204 });
 }

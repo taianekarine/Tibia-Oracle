@@ -30,21 +30,35 @@ export async function setBestiaryManualKills({
 
   const normalizedMonster = monsterName.trim().toLowerCase();
 
-  return prisma.characterBestiaryOverride.upsert({
+  const current = await prisma.characterBestiaryOverride.findUnique({
     where: {
       characterId_monsterName: {
         characterId: character.id,
         monsterName: normalizedMonster,
       },
     },
-    update: {
-      manualKills,
+  });
+
+  if (!current) {
+    return prisma.characterBestiaryOverride.create({
+      data: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+        manualKills,
+        source: "manual",
+      },
+    });
+  }
+
+  return prisma.characterBestiaryOverride.update({
+    where: {
+      characterId_monsterName: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+      },
     },
-    create: {
-      characterId: character.id,
-      monsterName: normalizedMonster,
-      manualKills,
-      source: "manual",
+    data: {
+      manualKills: current.manualKills + manualKills, // ← ISSO
     },
   });
 }

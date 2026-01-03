@@ -6,7 +6,7 @@ const nextConfig: NextConfig = {
       {
         protocol: "https",
         hostname: "tibiadraptor.com",
-        pathname: "/images/monsters/**",
+        pathname: "/images/**",
       },
     ],
   },

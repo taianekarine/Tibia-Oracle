@@ -55,18 +55,19 @@ export function BestiaryManualModal({
   }, [open, initialManualKills]);
 
   async function handleSave(): Promise<void> {
+    const amount = Number(manualKills);
+    if (!amount || amount <= 0) return;
+
     setLoading(true);
 
     try {
       await fetch("/api/bestiary/manual", {
         method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           characterName,
           monsterName,
-          manualKills: Number(manualKills),
+          manualKills: amount, // ← DELTA
         }),
       });
 
@@ -77,18 +78,21 @@ export function BestiaryManualModal({
     }
   }
 
+
   async function handleRemove(): Promise<void> {
+    const amount = Number(manualKills);
+    if (!amount || amount <= 0) return;
+
     setLoading(true);
 
     try {
       await fetch("/api/bestiary/manual", {
         method: "DELETE",
-        headers: {
-          "Content-Type": "application/json",
-        },
+        headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
           characterName,
           monsterName,
+          manualKills: amount, // ← DELTA
         }),
       });
 
