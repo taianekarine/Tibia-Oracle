@@ -3,7 +3,7 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 
 import { OverviewTab } from "@/components/dashboard/tabs/overview-tab";
-import { BalanceTab } from "@/components/dashboard/tabs/balance-tab";
+import { BalanceTab } from "@/components/dashboard/tabs/balance/balance-tab";
 import { BestiaryTab } from "@/components/dashboard/tabs/bestiary-tab";
 
 interface DashboardTabsProps {
