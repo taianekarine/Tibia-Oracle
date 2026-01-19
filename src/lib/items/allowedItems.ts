@@ -1,0 +1,15 @@
+export const ALLOWED_ITEMS = [
+  "a goanna meat",
+  "a sphinx feather",
+  "a sphinx tiara",
+  "a manticore tail",
+  "a manticore ear",
+  "a goanna claw",
+  "a red goanna scale",
+  "a blue goanna scale",
+  "a skull fetish",
+  "a lizard heart",
+  "a lamassu hoof",
+  "a lamassu horn",
+  "a shamanic talisman",
+];

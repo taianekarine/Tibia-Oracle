@@ -1,0 +1,5098 @@
+./prisma:
+migrations    schema.prisma seed.ts
+
+./prisma/migrations:
+20251224115818_init_tables_dev_one             20260102194436_add_manual_bestiary_kills
+20260102174914_add_character_bestiary_override migration_lock.toml
+
+./prisma/migrations/20251224115818_init_tables_dev_one:
+migration.sql
+
+./prisma/migrations/20260102174914_add_character_bestiary_override:
+migration.sql
+
+./prisma/migrations/20260102194436_add_manual_bestiary_kills:
+migration.sql
+
+./public:
+Hunting_Session_2025-12-05_143442.json globe.svg                              vercel.svg
+file.svg                               next.svg                               window.svg
+
+./src:
+app           components    contexts      data          hooks         lib           mappers       middleware.ts services      types
+
+./src/app:
+api           dashboard     favicon.ico   generated     globals.css   layout.tsx    page.tsx      providers.tsx
+
+./src/app/api:
+auth          balance       bestiary      characters    hunt-sessions items
+
+./src/app/api/auth:
+login    register
+
+./src/app/api/auth/login:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { loginUser } from "@/services/auth.service";
+
+export async function POST(req: Request) {
+  console.log("[API] POST /auth/login");
+  console.log("[AUTH][LOGIN] JWT_SECRET:", process.env.JWT_SECRET);
+
+  try {
+    const body = await req.json();
+    const { username, password } = body;
+
+    if (!username || !password) {
+      return NextResponse.json(
+        { error: "Credenciais inválidas" },
+        { status: 400 }
+      );
+    }
+
+    const result = await loginUser({ username, password });
+
+    return NextResponse.json(result, { status: 200 });
+  } catch (error: any) {
+    console.error("[API][ERROR] /auth/login", error.message);
+
+    return NextResponse.json(
+      { error: "Credenciais inválidas" },
+      { status: 401 }
+    );
+  }
+}
+
+./src/app/api/auth/register:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { createUser } from "@/services/user.service";
+
+export async function POST(req: Request) {
+  console.log("[API] POST /auth/register");
+
+  try {
+    const body = await req.json();
+
+    const { name, username, password } = body;
+
+    if (!name || !username || !password) {
+      return NextResponse.json(
+        { error: "Campos obrigatórios ausentes" },
+        { status: 400 }
+      );
+    }
+
+    const user = await createUser({ name, username, password });
+
+    return NextResponse.json(user, { status: 201 });
+  } catch (error: any) {
+    console.error("[API][ERROR] /auth/register", error.message);
+
+    return NextResponse.json(
+      { error: error.message ?? "Erro ao criar usuário" },
+      { status: 400 }
+    );
+  }
+}
+
+./src/app/api/balance:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+import { subMonths, subDays, startOfDay } from "date-fns";
+
+export async function GET(req: Request) {
+  const userId = req.headers.get("x-user-id");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  const { searchParams } = new URL(req.url);
+  const characterName = searchParams.get("character");
+
+  console.log("[BALANCE][API]", { userId, characterName });
+
+  if (characterName) {
+    return characterBalance(userId, characterName);
+  }
+
+  return globalBalance(userId);
+}
+
+/* ===========================
+   GLOBAL BALANCE
+=========================== */
+async function globalBalance(userId: string) {
+  const now = new Date();
+  const sixMonthsAgo = subMonths(now, 6);
+  const sevenDaysAgo = startOfDay(subDays(now, 6));
+
+  const characters = await prisma.character.findMany({
+    where: { userId },
+  });
+
+  if (!characters.length) {
+    return NextResponse.json({
+      totalProfit: 0,
+      characters: [],
+      lastSixMonths: [],
+      lastSevenDays: [],
+    });
+  }
+
+  const characterIds = characters.map((c) => c.id);
+
+  const sessions = await prisma.huntSession.findMany({
+    where: {
+      characterId: { in: characterIds },
+      sessionDate: { gte: sixMonthsAgo },
+    },
+  });
+
+  const charMap = new Map(
+    characters.map((c) => [c.id, c])
+  );
+
+  let totalProfit = 0;
+
+  const summary = new Map<
+    string,
+    {
+      characterName: string;
+      level: number;
+      vocation: string;
+      totalProfit: number;
+      totalSupplies: number;
+      totalLoot: number;
+    }
+  >();
+
+  for (const s of sessions) {
+    totalProfit += s.balance;
+
+    const char = charMap.get(s.characterId);
+    if (!char) continue;
+
+    if (!summary.has(char.name)) {
+      summary.set(char.name, {
+        characterName: char.name,
+        level: char.level ?? 0,
+        vocation: char.vocation ?? "Unknown",
+        totalProfit: 0,
+        totalSupplies: 0,
+        totalLoot: 0,
+      });
+    }
+
+    const entry = summary.get(char.name)!;
+    entry.totalProfit += s.balance;
+    entry.totalSupplies += s.supplies;
+    entry.totalLoot += s.loot;
+  }
+
+  return NextResponse.json({
+    totalProfit,
+    characters: Array.from(summary.values()),
+    lastSixMonths: aggregateByMonth(sessions),
+    lastSevenDays: aggregateByDay(
+      sessions.filter(
+        (s) => s.sessionDate >= sevenDaysAgo
+      )
+    ),
+  });
+}
+
+/* ===========================
+   CHARACTER BALANCE
+=========================== */
+async function characterBalance(
+  userId: string,
+  characterName: string
+) {
+  const now = new Date();
+  const sixMonthsAgo = subMonths(now, 6);
+  const sevenDaysAgo = startOfDay(subDays(now, 6));
+
+  const character = await prisma.character.findFirst({
+    where: { name: characterName, userId },
+  });
+
+  if (!character) {
+    return NextResponse.json(
+      { error: "Personagem não encontrado" },
+      { status: 404 }
+    );
+  }
+
+  const sessions = await prisma.huntSession.findMany({
+    where: {
+      characterId: character.id,
+      sessionDate: { gte: sixMonthsAgo },
+    },
+  });
+
+  return NextResponse.json({
+    characterName: character.name,
+    level: character.level ?? 0,
+    vocation: character.vocation ?? "Unknown",
+    totalProfit: sum(sessions, "balance"),
+    totalSupplies: sum(sessions, "supplies"),
+    totalLoot: sum(sessions, "loot"),
+    lastSixMonths: aggregateByMonth(sessions),
+    lastSevenDays: aggregateByDay(
+      sessions.filter(
+        (s) => s.sessionDate >= sevenDaysAgo
+      )
+    ),
+  });
+}
+
+/* ===========================
+   HELPERS
+=========================== */
+function sum<T extends Record<string, number>>(
+  items: T[],
+  key: keyof T
+) {
+  return items.reduce((acc, i) => acc + i[key], 0);
+}
+
+function aggregateByMonth(
+  sessions: {
+    sessionDate: Date;
+    balance: number;
+    supplies: number;
+  }[]
+) {
+  const map = new Map<
+    string,
+    { profit: number; supplies: number }
+  >();
+
+  for (const s of sessions) {
+    const key = s.sessionDate.toISOString().slice(0, 7);
+    if (!map.has(key)) {
+      map.set(key, { profit: 0, supplies: 0 });
+    }
+    map.get(key)!.profit += s.balance;
+    map.get(key)!.supplies += s.supplies;
+  }
+
+  return Array.from(map.entries()).map(
+    ([date, v]) => ({ date, ...v })
+  );
+}
+
+function aggregateByDay(
+  sessions: {
+    sessionDate: Date;
+    balance: number;
+    supplies: number;
+  }[]
+) {
+  const map = new Map<
+    string,
+    { profit: number; supplies: number }
+  >();
+
+  for (const s of sessions) {
+    const key = s.sessionDate
+      .toISOString()
+      .slice(0, 10);
+    if (!map.has(key)) {
+      map.set(key, { profit: 0, supplies: 0 });
+    }
+    map.get(key)!.profit += s.balance;
+    map.get(key)!.supplies += s.supplies;
+  }
+
+  return Array.from(map.entries()).map(
+    ([date, v]) => ({ date, ...v })
+  );
+}
+
+./src/app/api/bestiary:
+[characterId] manual        route.ts
+(route.ts vazio)
+
+./src/app/api/bestiary/[characterId]:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { getConsolidatedBestiary } from "@/services/bestiary/getConsolidatedBestiary";
+
+export async function GET(
+  _req: Request,
+  context: { params: Promise<{ characterId: string }> }
+) {
+  const { characterId } = await context.params;
+
+  console.log("[API] GET /bestiary", characterId);
+
+  const data = await getConsolidatedBestiary(characterId);
+
+  return NextResponse.json(data);
+}
+
+
+./src/app/api/bestiary/manual:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { setBestiaryManualKills } from "@/services/bestiary/setBestiaryManualKills";
+import { removeBestiaryManualKills } from "@/services/bestiary/removeBestiaryManualKills";
+
+export async function POST(req: Request) {
+  const body = await req.json();
+
+  console.log("[API] POST /bestiary/manual", body);
+
+  const result = await setBestiaryManualKills(body);
+  return NextResponse.json(result);
+}
+
+export async function DELETE(req: Request) {
+  const body = await req.json();
+
+  console.log("[API] DELETE /bestiary/manual", body);
+
+  const { characterName, monsterName, manualKills } = body;
+
+  if (
+    typeof characterName !== "string" ||
+    typeof monsterName !== "string" ||
+    typeof manualKills !== "number"
+  ) {
+    return new Response("Payload inválido", { status: 400 });
+  }
+
+  await removeBestiaryManualKills(
+    characterName,
+    monsterName,
+    manualKills
+  );
+
+  return new Response(null, { status: 204 });
+}
+
+./src/app/api/characters:
+[name]   route.ts
+[Código route.ts]
+import { NextResponse } from "next/server";
+import { getCharacterByName } from "@/services/character/getCharacterByName";
+import { createCharacter } from "@/services/character/createCharacter";
+import { listCharacters } from "@/services/character/listCharacters";
+
+export async function GET(req: Request) {
+  console.log("[API] GET /characters");
+
+  const userId = req.headers.get("x-user-id");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  const characters = await listCharacters(userId);
+
+  const sanitized = characters.map(({ id: _id, ...rest }) => rest);
+  return NextResponse.json(sanitized);
+}
+
+export async function POST(req: Request) {
+  const userId = req.headers.get("x-user-id");
+  const body = await req.json();
+  const name = body?.name as string | undefined;
+
+  console.log("[API] POST /characters:", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!name) {
+    return NextResponse.json(
+      { message: "Name is required" },
+      { status: 400 }
+    );
+  }
+
+  const existing = await getCharacterByName({ userId, name });
+
+  if (existing) {
+    const { id: _id, ...rest } = existing;
+    return NextResponse.json({
+      message: "Character já cadastrado",
+      character: rest,
+    });
+  }
+
+  try {
+    const character = await createCharacter({ userId, name });
+    const { id: _id, ...rest } = character;
+    return NextResponse.json(rest, { status: 201 });
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "CHARACTER_NOT_FOUND") {
+      return NextResponse.json(
+        { message: "Character não localizado" },
+        { status: 404 }
+      );
+    }
+
+    throw err;
+  }
+}
+
+./src/app/api/characters/[name]:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { getCharacterByName } from "@/services/character/getCharacterByName";
+import { updateCharacter } from "@/services/character/updateCharacter";
+import { deleteCharacter } from "@/services/character/deleteCharacter";
+
+type RouteParams = {
+  params: Promise<{ name: string }>;
+};
+
+export async function GET(
+  req: Request,
+  { params }: RouteParams
+) {
+  const { name } = await params;
+  const userId = req.headers.get("x-user-id");
+
+  console.log("[API] GET /characters/:name", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!name) {
+    return NextResponse.json(
+      { message: "Nome do character não informado" },
+      { status: 400 }
+    );
+  }
+
+  const character = await getCharacterByName({
+    userId,
+    name,
+  });
+
+  if (!character) {
+    return NextResponse.json(
+      { message: "Character não encontrado" },
+      { status: 404 }
+    );
+  }
+
+  const { id: _id, ...rest } = character;
+
+  return NextResponse.json(rest);
+}
+
+export async function PUT(
+  req: Request,
+  { params }: RouteParams
+) {
+  const { name } = await params;
+  const userId = req.headers.get("x-user-id");
+
+  console.log("[API] PUT /characters/:name", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  try {
+    const character = await updateCharacter({
+      userId,
+      name,
+    });
+    const {...rest } = character;
+
+    return NextResponse.json(rest);
+  } catch {
+    return NextResponse.json(
+      { message: "Character não localizado" },
+      { status: 404 }
+    );
+  }
+}
+
+export async function DELETE(
+  req: Request,
+  { params }: RouteParams
+) {
+  const { name } = await params;
+  const userId = req.headers.get("x-user-id");
+
+  console.log("[API] DELETE /characters/:name", name, "user:", userId);
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  await deleteCharacter({
+    userId,
+    name,
+  });
+
+  return NextResponse.json({ message: "Character deletado" });
+}
+
+
+./src/app/api/hunt-sessions:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { createHuntSession } from "@/services/hunt-session/createHuntSession";
+import { listHuntSessions } from "@/services/hunt-session/listHuntSessions";
+
+
+export async function POST(req: Request) {
+  console.log("[API] POST /hunt-sessions");
+
+  const userId = req.headers.get("x-user-id");
+  const characterName = req.headers.get("x-character-name");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!characterName) {
+    return NextResponse.json(
+      { error: "Character não informado" },
+      { status: 400 }
+    );
+  }
+
+  const formData = await req.formData();
+  const file = formData.get("file");
+
+  if (!(file instanceof File)) {
+    return NextResponse.json(
+      { error: "Arquivo de hunt não enviado" },
+      { status: 400 }
+    );
+  }
+
+  const rawText = await file.text();
+
+  try {
+    const huntSession = await createHuntSession({
+      userId,
+      characterName,
+      rawData: rawText,
+    });
+
+    return NextResponse.json(huntSession, { status: 201 });
+  } catch (err: unknown) {
+    if (err instanceof Error) {
+      if (err.message === "CHARACTER_NOT_FOUND") {
+        return NextResponse.json(
+          { error: "Character não pertence ao usuário" },
+          { status: 403 }
+        );
+      }
+
+      if (err.name === "SyntaxError") {
+        return NextResponse.json(
+          { error: "Arquivo de hunt inválido ou corrompido" },
+          { status: 400 }
+        );
+      }
+    }
+
+    throw err;
+  }
+}
+
+export async function GET(req: Request) {
+  console.log("[API] GET /hunt-sessions");
+
+  const userId = req.headers.get("x-user-id");
+  const characterName = req.headers.get("x-character-name");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
+  if (!characterName) {
+    return NextResponse.json(
+      { error: "Character não informado" },
+      { status: 400 }
+    );
+  }
+
+  try {
+    const hunts = await listHuntSessions({
+      userId,
+      characterName,
+    });
+
+    return NextResponse.json(hunts);
+  } catch (err: unknown) {
+    if (err instanceof Error && err.message === "CHARACTER_NOT_FOUND") {
+      return NextResponse.json(
+        { error: "Character não pertence ao usuário" },
+        { status: 403 }
+      );
+    }
+
+    throw err;
+  }
+}
+
+
+./src/app/api/items:
+route.ts
+[Código]
+import { NextResponse } from "next/server";
+import { prisma } from "@/lib/prisma";
+
+export async function GET() {
+  try {
+    console.log("[ITEMS][GET] Buscando itens");
+
+    const characters = await prisma.character.findMany({
+      include: {
+        huntSessions: {
+          include: {
+            lootedItems: true,
+          },
+        },
+      },
+    });
+
+    const itemsByCharacter: Record<string, Record<string, number>> = {};
+    const globalItems: Record<string, number> = {};
+
+    for (const character of characters) {
+      const charItems: Record<string, number> = {};
+
+      for (const session of character.huntSessions) {
+        for (const item of session.lootedItems) {
+          charItems[item.name] =
+            (charItems[item.name] || 0) + item.count;
+
+          globalItems[item.name] =
+            (globalItems[item.name] || 0) + item.count;
+        }
+      }
+
+      itemsByCharacter[character.name] = charItems;
+    }
+
+    console.log("[ITEMS][GET] OK");
+
+    return NextResponse.json({
+      characters: itemsByCharacter,
+      global: globalItems,
+    });
+  } catch (error) {
+    console.error("[ITEMS][GET][ERROR]", error);
+    return NextResponse.json(
+      { error: "Failed to load items" },
+      { status: 500 }
+    );
+  }
+}
+
+./src/app/dashboard:
+[character] layout.tsx  page.tsx
+[Código layout.ts]
+import { DashboardProvider } from "@/contexts/DashboardContext"
+
+export default function DashboardLayout({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  return <DashboardProvider>{children}</DashboardProvider>
+}
+
+[Código page.tsx]
+import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+
+export default function DashboardPage() {
+  return (
+    <DashboardShell
+      mode="global"
+      characterName={undefined}
+    />
+  );
+}
+
+
+./src/app/dashboard/[character]:
+page.tsx
+[Código]
+import { DashboardShell } from "@/components/dashboard/dashboard-shell";
+
+type PageProps = {
+  params: Promise<{
+    character: string;
+  }>;
+};
+
+export default async function DashboardCharacterPage({ params }: PageProps) {
+  const { character } = await params;
+
+  const characterName = decodeURIComponent(character);
+
+  console.log("[DASHBOARD][CHARACTER]", characterName);
+
+  return (
+    <DashboardShell
+      mode="character"
+      characterName={characterName}
+    />
+  );
+}
+
+./src/app/generated:
+prisma
+
+./src/app/generated/prisma:
+browser.ts          client.ts           commonInputTypes.ts enums.ts            internal            models              models.ts
+
+./src/app/generated/prisma/internal:
+class.ts                  prismaNamespace.ts        prismaNamespaceBrowser.ts
+
+./src/app/generated/prisma/models:
+Character.ts                 HuntKilledMonster.ts         HuntSession.ts               User.ts
+CharacterBestiaryOverride.ts HuntLootedItem.ts            PartySession.ts              WeeklyProgress.ts
+
+./src/components:
+auth      character dashboard dialogs   layout    sidebar   theme     ui
+
+./src/components/auth:
+login-form.tsx    logout-button.tsx
+[Código login-form.tsx]
+"use client";
+
+import { useState } from "react";
+import { useRouter } from "next/navigation";
+
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useLogin } from "@/hooks/useLogin";
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Erro inesperado ao realizar login";
+}
+
+export function LoginForm() {
+  const router = useRouter();
+  const { login } = useLogin();
+
+  const [username, setUsername] = useState<string>("");
+  const [password, setPassword] = useState<string>("");
+
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  async function handleLogin(): Promise<void> {
+    const normalizedUsername = username.trim();
+
+    if (!normalizedUsername || !password) {
+      setError("Usuário e senha são obrigatórios");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await login(normalizedUsername, password);
+
+      console.log("[AUTH][LOGIN] Sucesso");
+
+      router.push("/dashboard");
+    } catch (err: unknown) {
+      console.error("[AUTH][LOGIN] Erro", err);
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <div className="space-y-3">
+      <Input
+        placeholder="Usuário"
+        value={username}
+        onChange={(e) => setUsername(e.target.value)}
+        disabled={loading}
+      />
+
+      <Input
+        type="password"
+        placeholder="Senha"
+        value={password}
+        onChange={(e) => setPassword(e.target.value)}
+        disabled={loading}
+      />
+
+      {error && (
+        <p className="text-sm text-red-500">{error}</p>
+      )}
+
+      <Button
+        className="w-full"
+        onClick={handleLogin}
+        disabled={loading}
+      >
+        {loading ? "Entrando..." : "Fazer login"}
+      </Button>
+    </div>
+  );
+}
+[Código logout-button.tsx]
+
+"use client";
+
+import { Button } from "@/components/ui/button";
+import { LogOut } from "lucide-react";
+import { useLogout } from "@/hooks/useLogout";
+
+export function LogoutButton() {
+  const { logout } = useLogout();
+
+  function handleClick() {
+    const ok = confirm("Deseja realmente sair?");
+    if (!ok) return;
+
+    logout();
+  }
+
+  return (
+    <Button
+      size="icon"
+      variant="ghost"
+      onClick={handleClick}
+      aria-label="Logout"
+    >
+      <LogOut className="h-4 w-4" />
+    </Button>
+  );
+}
+
+
+./src/components/character:
+character-card-skeleton.tsx character-card.tsx
+
+[Código character-card-skeleton.tsx] Excluir
+import { Card, CardHeader } from "@/components/ui/card"
+import { Skeleton } from "@/components/ui/skeleton"
+
+export function CharacterCardSkeleton() {
+  return (
+    <Card>
+      <CardHeader>
+        <Skeleton className="h-4 w-24" />
+      </CardHeader>
+    </Card>
+  )
+}
+
+
+[Código character-card.tsx]
+"use client";
+
+import { Card, CardHeader, CardTitle } from "@/components/ui/card";
+import { useDashboard } from "@/contexts/DashboardContext";
+
+type CharacterCardProps = {
+  characterName: string;
+};
+
+export function CharacterCard({
+  characterName,
+}: CharacterCardProps) {
+  const { setActiveCharacter } = useDashboard();
+
+  function handleSelect(): void {
+    console.log("[CHARACTER][SELECT]", characterName);
+    setActiveCharacter(characterName, true);
+  }
+
+  return (
+    <Card
+      role="button"
+      tabIndex={0}
+      onClick={handleSelect}
+      onKeyDown={(e) => {
+        if (e.key === "Enter") {
+          handleSelect();
+        }
+      }}
+      className="cursor-pointer hover:bg-muted focus:outline-none focus:ring-2 focus:ring-ring"
+    >
+      <CardHeader>
+        <CardTitle>{characterName}</CardTitle>
+      </CardHeader>
+    </Card>
+  );
+}
+
+
+./src/components/dashboard:
+dashboard-header.tsx dashboard-shell.tsx  dashboard-tabs.tsx   tabs
+
+[Código dashboard-header.tsx]
+"use client";
+
+import { SidebarTrigger } from "@/components/ui/sidebar";
+import { Separator } from "@/components/ui/separator";
+import { Button } from "@/components/ui/button";
+
+import { CreateCharacterDialog } from "@/components/dialogs/create-character-dialog";
+import { ImportHuntDialog } from "@/components/dialogs/import-hunt-dialog";
+
+import { ModeToggle } from "@/components/theme/mode-toggle";
+import { LogoutButton } from "@/components/auth/logout-button";
+
+export function DashboardHeader() {
+  return (
+    <header className="flex h-14 items-center gap-3 border-b px-4">
+      {/* ESQUERDA */}
+      <div className="flex items-center gap-2">
+        <SidebarTrigger />
+
+        <Separator orientation="vertical" className="h-4 mx-1" />
+
+        <CreateCharacterDialog>
+          <Button size="sm" variant="outline">
+            Criar personagem
+          </Button>
+        </CreateCharacterDialog>
+
+        <ImportHuntDialog>
+          <Button size="sm">
+            Importar hunt
+          </Button>
+        </ImportHuntDialog>
+      </div>
+
+      {/* CENTRO (reservado p/ título, abas, status) */}
+      <div className="flex-1" />
+
+      {/* DIREITA */}
+      <div className="flex items-center gap-2">
+        <ModeToggle />
+        <LogoutButton />
+      </div>
+    </header>
+  );
+}
+
+[Código dashboard-shell.tsx] 
+"use client";
+
+import { AppSidebar } from "@/components/sidebar/app-sidebar";
+import { DashboardHeader } from "@/components/dashboard/dashboard-header";
+import { DashboardTabs } from "@/components/dashboard/dashboard-tabs";
+
+import {
+  SidebarProvider,
+  SidebarInset,
+} from "@/components/ui/sidebar";
+
+import { useCharactersQuery } from "@/hooks/queries/useCharactersQuery";
+import { useDashboard } from "@/contexts/DashboardContext";
+
+interface DashboardShellProps {
+  mode: "global" | "character";
+  characterName?: string;
+}
+
+export function DashboardShell({
+  mode,
+  characterName,
+}: DashboardShellProps) {
+  console.log("[DASHBOARD][SHELL]", { mode, characterName });
+    const { data: characters = [], isLoading } = useCharactersQuery();
+    const { activeCharacter, setActiveCharacter } = useDashboard();
+
+  return (
+    <SidebarProvider>
+      <AppSidebar
+        characters={characters}
+        activeCharacter={activeCharacter}
+        onSelectCharacter={(name) =>
+          setActiveCharacter(name, true)
+        }
+      />
+
+      <SidebarInset>
+        <DashboardHeader />
+
+        <main className="flex-1 p-4">
+          <DashboardTabs
+            mode={mode}
+            characterName={characterName}
+          />
+        </main>
+      </SidebarInset>
+    </SidebarProvider>
+  );
+}
+
+[Código dashboard-tabs.tsx]
+"use client";
+
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+
+import { OverviewTab } from "@/components/dashboard/tabs/overview-tab";
+import { BalanceTab } from "@/components/dashboard/tabs/balance/balance-tab";
+import { BestiaryTab } from "@/components/dashboard/tabs/bestiary-tab";
+
+
+interface DashboardTabsProps {
+  mode: "global" | "character";
+  characterName?: string;
+}
+
+export function DashboardTabs({
+  mode,
+  characterName,
+}: DashboardTabsProps) {
+  console.log("[DASHBOARD][TABS]", { mode, characterName });
+
+  return (
+    <Tabs defaultValue="overview" className="w-full">
+      <TabsList>
+        <TabsTrigger value="overview">Overview</TabsTrigger>
+        <TabsTrigger value="balance">Balance</TabsTrigger>
+        <TabsTrigger value="bestiary">Bestiário</TabsTrigger>
+      </TabsList>
+
+      <TabsContent value="overview">
+        <OverviewTab
+          mode={mode}
+          characterName={characterName}
+        />
+      </TabsContent>
+
+      <TabsContent value="balance">
+        <BalanceTab
+          mode={mode}
+          characterName={characterName}
+        />
+      </TabsContent>
+
+      <TabsContent value="bestiary">
+        <BestiaryTab
+          mode={mode}
+          characterName={characterName}
+        />
+      </TabsContent>
+
+    </Tabs>
+  );
+}
+
+./src/components/dashboard/tabs:
+balance          bestiary         bestiary-tab.tsx items            overview-tab.tsx
+[Código bestiary-tab.tsx]
+"use client";
+
+import { useCallback, useEffect, useMemo, useState } from "react";
+import {
+  BestiaryByType,
+  BestiaryFilters,
+  BestiaryMonster,
+} from "@/types/bestiary";
+import { BestiaryFiltersComponent } from "./bestiary/bestiary-filters";
+import { BestiaryGroup } from "./bestiary/bestiary-group";
+import { BestiaryManualModal } from "@/components/dashboard/tabs/bestiary/bestiary-manual-modal";
+
+type BestiaryTabProps = {
+  mode: "global" | "character";
+  characterName?: string;
+};
+
+export function BestiaryTab({
+  mode,
+  characterName,
+}: BestiaryTabProps) {
+  const [data, setData] = useState<BestiaryByType | null>(null);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [open, setOpen] = useState(false);
+  const [selectedMonster, setSelectedMonster] =
+    useState<BestiaryMonster | null>(null);
+
+  const [filters, setFilters] = useState<BestiaryFilters>({
+    search: "",
+    type: null,
+    charms: null,
+    completed: null,
+  });
+
+  const load = useCallback(async () => {
+    if (mode !== "character" || !characterName) {
+      setData({});
+      return;
+    }
+
+    try {
+      setLoading(true);
+      setError(null);
+
+      console.log("[BESTIARY][UI] Buscando bestiário", {
+        characterName,
+      });
+
+      const res = await fetch(
+        `/api/bestiary/${encodeURIComponent(characterName)}`,
+        { cache: "no-store" }
+      );
+
+      if (!res.ok) {
+        throw new Error("Erro ao carregar bestiário");
+      }
+
+      const json: BestiaryByType = await res.json();
+      setData(json);
+    } catch (err) {
+      console.error("[BESTIARY][UI][ERROR]", err);
+      setError("Falha ao carregar o bestiário");
+    } finally {
+      setLoading(false);
+    }
+  }, [mode, characterName]);
+
+  useEffect(() => {
+    load();
+  }, [load]);
+
+  const filteredData = useMemo<BestiaryByType>(() => {
+    if (!data) return {};
+
+    const result: BestiaryByType = {};
+
+    for (const [type, monsters] of Object.entries(data)) {
+      const filtered = monsters.filter((monster) => {
+        if (filters.search) {
+          const raw = filters.search.trim().toLowerCase();
+          const isNumeric = /^\d+$/.test(raw);
+
+          if (isNumeric) {
+            if (monster.charms !== Number(raw)) return false;
+          } else {
+            if (
+              !monster.name.toLowerCase().includes(raw) &&
+              !monster.type.toLowerCase().includes(raw)
+            ) {
+              return false;
+            }
+          }
+        }
+
+        if (filters.type && monster.type !== filters.type)
+          return false;
+        if (
+          filters.charms !== null &&
+          monster.charms !== filters.charms
+        )
+          return false;
+        if (
+          filters.completed !== null &&
+          monster.completed !== filters.completed
+        )
+          return false;
+
+        return true;
+      });
+
+      if (filtered.length > 0) {
+        result[type] = filtered;
+      }
+    }
+
+    return result;
+  }, [data, filters]);
+
+  if (mode !== "character") {
+    return (
+      <div className="text-sm text-muted-foreground">
+        Bestiário global será implementado depois.
+      </div>
+    );
+  }
+
+  if (loading) {
+    return (
+      <div className="text-sm text-muted-foreground">
+        Carregando bestiário…
+      </div>
+    );
+  }
+
+  if (error) {
+    return (
+      <div className="text-sm text-destructive">
+        {error}
+      </div>
+    );
+  }
+
+  if (!data || Object.keys(data).length === 0) {
+    return (
+      <div className="text-sm text-muted-foreground">
+        Nenhuma criatura encontrada.
+      </div>
+    );
+  }
+
+  return (
+    <div className="space-y-6">
+      <div className="flex items-center justify-between">
+        <BestiaryFiltersComponent
+          filters={filters}
+          onChange={setFilters}
+        />
+      </div>
+
+      {Object.entries(filteredData).map(
+        ([type, monsters]) => (
+          <BestiaryGroup
+            key={type}
+            type={type}
+            monsters={monsters}
+            onManualKill={(monster) => {
+              setSelectedMonster(monster);
+              setOpen(true);
+            }}
+          />
+        )
+      )}
+
+      {selectedMonster && (
+        <BestiaryManualModal
+          open={open}
+          onOpenChange={setOpen}
+          characterName={characterName!}
+          monsterName={selectedMonster.name}
+          initialManualKills={
+            "manualKilled" in selectedMonster
+              ? (selectedMonster as any).manualKilled
+              : undefined
+          }
+          onSuccess={load}
+        />
+      )}
+    </div>
+  );
+}
+
+[Código overview-tab.tsx]
+"use client";
+
+import { ItemsTab } from "./items/items-tab";
+
+interface OverviewTabProps {
+  mode: "global" | "character";
+  characterName?: string;
+}
+
+export function OverviewTab({
+  mode,
+  characterName,
+}: OverviewTabProps) {
+  console.log("[TAB][OVERVIEW]", { mode, characterName });
+
+  return (
+    <section className="grid grid-cols-1 gap-4 md:grid-cols-3">
+      <div className="rounded-lg border p-4">
+        <h3 className="text-sm font-medium">Resumo</h3>
+        <div className="mt-2 text-muted-foreground text-sm">
+          Conteúdo fixo (dados virão depois)
+        </div>
+      </div>
+
+      <div className="rounded-lg border p-4">
+        <h3 className="text-sm font-medium">Atividade</h3>
+        <div className="mt-2 text-muted-foreground text-sm">
+          Mesmo layout sempre
+        </div>
+      </div>
+
+      <div className="rounded-lg border p-4">
+        <h3 className="text-sm font-medium">Progresso</h3>
+        <div className="mt-2 text-muted-foreground text-sm">
+          Global ou personagem, tanto faz
+        </div>
+      </div>
+    </section>
+  );
+}
+
+./src/components/dashboard/tabs/balance:
+balance-character-card.tsx balance-charts.tsx         balance-header.tsx         balance-tab.tsx
+
+[Código balance-character-card.tsx]
+type BalanceCharacterCardProps = {
+  name: string;
+  level: number;
+  vocation: string;
+  supplies: number;
+  loot: number;
+  balance: number;
+};
+
+export function BalanceCharacterCard({
+  name,
+  level,
+  vocation,
+  supplies,
+  loot,
+  balance,
+}: BalanceCharacterCardProps) {
+  return (
+    <div className="border rounded-lg p-4 space-y-2">
+      <div className="font-semibold">{name}</div>
+
+      <div className="text-sm text-muted-foreground">
+        Lv {level} • {vocation}
+      </div>
+
+      <div className="text-sm">
+        Supplies:{" "}
+        <span className="font-medium">
+          {supplies.toLocaleString()}
+        </span>
+      </div>
+
+      <div className="text-sm">
+        Loot:{" "}
+        <span className="font-medium">
+          {loot.toLocaleString()}
+        </span>
+      </div>
+
+      <div className="text-sm">
+        Balance:{" "}
+        <span className="font-medium">
+          {balance.toLocaleString()}
+        </span>
+      </div>
+    </div>
+  );
+}
+
+[Código balance-charts.tsx]
+"use client";
+
+import {
+  ChartContainer,
+  ChartTooltip,
+  ChartTooltipContent,
+} from "@/components/ui/chart";
+import {
+  RadarChart,
+  Radar,
+  PolarGrid,
+  PolarAngleAxis,
+  PolarRadiusAxis,
+  BarChart,
+  Bar,
+  XAxis,
+  YAxis,
+} from "recharts";
+
+/* ===========================
+   HELPERS – FORMATTERS
+=========================== */
+function formatCompact(value: number): string {
+  if (value >= 1_000_000) return `${Math.round(value / 1_000_000)}M`;
+  if (value >= 1_000) return `${Math.round(value / 1_000)}k`;
+  return value.toString();
+}
+
+function formatDateLabel(date: string): string {
+  const d = new Date(date);
+  return d.toLocaleDateString("pt-BR", {
+    day: "2-digit",
+    month: "short",
+  });
+}
+
+/* ===========================
+   HELPERS – RADAR NORMALIZER
+=========================== */
+function getLastSixMonths() {
+  const now = new Date();
+  const months: Array<{
+    key: string;
+    label: string;
+  }> = [];
+
+  for (let i = 5; i >= 0; i--) {
+    const d = new Date(
+      now.getFullYear(),
+      now.getMonth() - i,
+      1
+    );
+
+    const key = `${d.getFullYear()}-${String(
+      d.getMonth() + 1
+    ).padStart(2, "0")}`;
+
+    const label = d.toLocaleDateString("pt-BR", {
+      month: "short",
+    });
+
+    months.push({ key, label });
+  }
+
+  return months;
+}
+
+function normalizeLastSixMonths(
+  data: Array<{
+    date: string;
+    profit: number;
+    supplies?: number;
+  }>
+) {
+  const months = getLastSixMonths();
+
+  const map = new Map<
+    string,
+    { profit: number; supplies?: number }
+  >();
+
+  for (const item of data) {
+    map.set(item.date, {
+      profit: item.profit,
+      supplies: item.supplies,
+    });
+  }
+
+  return months.map((m) => ({
+    month: m.label,
+    profit: map.get(m.key)?.profit ?? 0,
+    supplies: map.get(m.key)?.supplies ?? 0,
+  }));
+}
+
+/* ===========================
+   COMPONENT
+=========================== */
+type BalanceChartsProps = {
+  sixMonths: Array<{
+    date: string;
+    profit: number;
+    supplies?: number;
+  }>;
+  sevenDays: Array<{
+    date: string;
+    profit: number;
+    supplies?: number;
+  }>;
+  showSupplies: boolean;
+};
+
+export function BalanceCharts({
+  sixMonths,
+  sevenDays,
+  showSupplies,
+}: BalanceChartsProps) {
+  const radarData = normalizeLastSixMonths(sixMonths);
+
+  return (
+    <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      {/* =======================
+          RADAR CHART
+      ======================= */}
+      <div>
+        <div className="font-medium mb-1">
+          Radar Chart
+        </div>
+        <div className="text-sm text-muted-foreground mb-4">
+          Últimos 6 meses
+        </div>
+
+        <ChartContainer
+          className="h-[300px]"
+          config={{
+            profit: {
+              label: "Profit",
+              color: "hsl(var(--foreground))",
+            },
+            supplies: {
+              label: "Supplies",
+              color: "hsl(var(--muted-foreground))",
+            },
+          }}
+        >
+        <RadarChart data={radarData} outerRadius="75%">
+          <PolarGrid
+            stroke="hsl(var(--border))"
+            strokeOpacity={0.4}
+          />
+
+          <PolarAngleAxis
+            dataKey="month"
+            tick={{ fill: "hsl(var(--muted-foreground))" }}
+          />
+
+          <PolarRadiusAxis tick={false} axisLine={false} />
+
+          <Radar
+            dataKey="profit"
+            stroke="hsl(var(--foreground))"
+            strokeWidth={2.5}
+            fill="hsl(var(--foreground))"
+            fillOpacity={0.3}
+            dot
+          />
+
+          {showSupplies && (
+            <Radar
+              dataKey="supplies"
+              stroke="hsl(var(--muted-foreground))"
+              strokeWidth={2}
+              fill="hsl(var(--muted-foreground))"
+              fillOpacity={0.22}
+              dot
+            />
+          )}
+
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent />}
+          />
+        </RadarChart>
+        </ChartContainer>
+      </div>
+
+      {/* =======================
+          BAR CHART
+      ======================= */}
+      <div>
+        <div className="font-medium mb-1">
+          Tooltip - Line Indicator
+        </div>
+        <div className="text-sm text-muted-foreground mb-4">
+          Últimos 7 dias
+        </div>
+
+      <ChartContainer
+        className="h-[300px]"
+        config={{
+          profit: {
+            label: "Profit",
+            color: "hsl(var(--foreground))",
+          },
+          supplies: {
+            label: "Supplies",
+            color: "hsl(var(--muted-foreground))",
+          },
+        }}
+      >
+        <BarChart data={sevenDays}>
+          <XAxis
+            dataKey="date"
+            tickFormatter={formatDateLabel}
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "hsl(var(--muted-foreground))" }}
+          />
+
+          <YAxis
+            tickFormatter={formatCompact}
+            axisLine={false}
+            tickLine={false}
+            tick={{ fill: "hsl(var(--muted-foreground))" }}
+          />
+
+          <Bar
+            dataKey="profit"
+            fill="var(--color-profit)"
+            radius={6}
+            activeBar={false}
+          />
+
+          {showSupplies && (
+            <Bar
+              dataKey="supplies"
+              fill="var(--color-supplies)"
+              radius={6}
+              activeBar={false}
+            />
+          )}
+
+          <ChartTooltip
+            cursor={false}
+            content={<ChartTooltipContent />}
+          />
+        </BarChart>
+      </ChartContainer>
+
+      </div>
+    </div>
+  );
+}
+
+[Código balance-header.tsx]
+type BalanceHeaderProps = {
+  total: number;
+};
+
+export function BalanceHeader({ total }: BalanceHeaderProps) {
+  return (
+    <div className="text-center space-y-1">
+      <div className="text-2xl font-semibold">
+        Total Farmado
+      </div>
+      <div className="text-4xl font-bold text-primary">
+        {total.toLocaleString()}
+      </div>
+    </div>
+  );
+}
+
+
+[Código balance-tab.tsx]
+"use client";
+
+import { useEffect, useState } from "react";
+import { getAuthToken } from "@/lib/auth-token";
+import { BalanceHeader } from "./balance-header";
+import { BalanceCharacterCard } from "./balance-character-card";
+import { BalanceCharts } from "./balance-charts";
+
+type Props = {
+  mode: "global" | "character";
+  characterName?: string;
+};
+
+export function BalanceTab({
+  mode,
+  characterName,
+}: Props) {
+  const [data, setData] = useState<any>(null);
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState<string | null>(
+    null
+  );
+
+  useEffect(() => {
+    const token = getAuthToken();
+
+    if (!token) {
+      setError("Usuário não autenticado");
+      setLoading(false);
+      return;
+    }
+
+    const url =
+      mode === "character" && characterName
+        ? `/api/balance?character=${encodeURIComponent(
+            characterName
+          )}`
+        : "/api/balance";
+
+    fetch(url, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+      cache: "no-store",
+    })
+      .then((res) => {
+        if (!res.ok) {
+          throw new Error(
+            `Erro ao carregar balance (${res.status})`
+          );
+        }
+        return res.json();
+      })
+      .then((json) => {
+        setData(json);
+        setError(null);
+      })
+      .catch((err) => {
+        console.error("[BALANCE][UI]", err);
+        setError("Falha ao carregar balance");
+      })
+      .finally(() => setLoading(false));
+  }, [mode, characterName]);
+
+  if (loading)
+    return (
+      <div className="text-sm text-muted-foreground">
+        Carregando balance…
+      </div>
+    );
+
+  if (error)
+    return (
+      <div className="text-sm text-destructive">
+        {error}
+      </div>
+    );
+
+  if (!data) return null;
+
+  return (
+    <div className="space-y-10">
+      <BalanceHeader total={data.totalProfit} />
+
+      <div className="grid grid-cols-1 lg:grid-cols-[320px_1fr] gap-10">
+        <div className="space-y-4">
+          {mode === "global" &&
+            data.characters?.map((c: any) => (
+              <BalanceCharacterCard
+                key={c.characterName}
+                name={c.characterName}
+                level={c.level}
+                vocation={c.vocation}
+                loot={c.totalLoot}
+                supplies={c.totalSupplies}
+                balance={c.totalProfit}
+              />
+            ))}
+
+          {mode === "character" && (
+            <BalanceCharacterCard
+              name={data.characterName}
+              level={data.level}
+              vocation={data.vocation}
+              loot={data.totalLoot}
+              supplies={data.totalSupplies}
+              balance={data.totalProfit}
+            />
+          )}
+        </div>
+
+        <BalanceCharts
+          sixMonths={data.lastSixMonths}
+          sevenDays={data.lastSevenDays}
+          showSupplies={mode === "character"}
+        />
+      </div>
+    </div>
+  );
+}
+
+
+./src/components/dashboard/tabs/bestiary:
+bestiary-card.tsx         bestiary-filters.tsx      bestiary-group.tsx        bestiary-manual-modal.tsx
+[Código bestiary-card.tsx ]
+"use client";
+
+import Image from "next/image";
+import { Button } from "@/components/ui/button";
+import { Progress } from "@/components/ui/progress";
+import { BestiaryMonster } from "@/types/bestiary";
+
+type Props = {
+  monster: BestiaryMonster;
+  onManualKill: () => void;
+};
+
+const CHARM_ICON =
+  "https://tibiadraptor.com/images/icons/Major_Charm_Points_Icon.png";
+
+function calculateProgress(monster: BestiaryMonster) {
+  const totalKills = monster.totalKilled + monster.manualKilled;
+  const required = monster.killComplete;
+
+  if (!required || required <= 0) return 0;
+
+  const percent = (totalKills / required) * 100;
+  return Math.min(Math.round(percent), 100);
+}
+
+export function BestiaryCard({ monster, onManualKill }: Props) {
+  const progress = calculateProgress(monster);
+
+  return (
+    <div className="border rounded-lg p-4 space-y-3 flex">
+      <Image
+        src={monster.image}
+        alt={monster.name}
+        width={60}
+        height={50}
+        className="object-contain"
+      />
+
+      <div className="flex flex-col gap-3 w-full p-1">
+        <div className="flex items-center gap-3">
+          <div className="flex-1 font-medium">
+            {monster.name}
+          </div>
+
+          <Button size="sm" variant="outline" onClick={onManualKill}>
+            Kill Manual
+          </Button>
+        </div>
+
+        <div className="text-sm flex justify-between p-0.5 mt-2.5">
+          <div className="flex items-center gap-1">
+            <Image
+              src={CHARM_ICON}
+              alt="Charm points"
+              width={10}
+              height={10}
+              className="object-contain"
+            />
+            {monster.charms}
+          </div>
+
+          {monster.totalKilled} / {monster.killComplete}
+        </div>
+
+        <div className="space-y-1">
+          <Progress value={progress} />
+          <div className="text-xs text-muted-foreground">
+            {progress}%
+          </div>
+        </div>
+
+        <div className="text-sm font-medium p-0.5">
+          {monster.completed ? (
+            <span className="text-green-600">Completo</span>
+          ) : (
+            <span className="text-red-600">Incompleto</span>
+          )}
+        </div>
+      </div>
+    </div>
+  );
+}
+
+[Código bestiary-filters.tsx ]
+import { BestiaryFilters } from "@/types/bestiary";
+import { Input } from "@/components/ui/input";
+import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
+
+type Props = {
+  filters: BestiaryFilters;
+  onChange: (filters: BestiaryFilters) => void;
+};
+
+export function BestiaryFiltersComponent({ filters, onChange }: Props) {
+  return (
+    <div className="flex gap-4">
+      <Input
+        placeholder="Buscar por nome, tipo ou charms"
+        value={filters.search}
+        onChange={(e) =>
+          onChange({ ...filters, search: e.target.value })
+        }
+      />
+
+      <Select
+        value={filters.completed === null ? "all" : filters.completed ? "complete" : "incomplete"}
+        onValueChange={(value) =>
+          onChange({
+            ...filters,
+            completed:
+              value === "all" ? null : value === "complete",
+          })
+        }
+      >
+        <SelectTrigger className="w-40">
+          <SelectValue placeholder="Status" />
+        </SelectTrigger>
+        <SelectContent>
+          <SelectItem value="all">Todos</SelectItem>
+          <SelectItem value="complete">Completos</SelectItem>
+          <SelectItem value="incomplete">Incompletos</SelectItem>
+        </SelectContent>
+      </Select>
+    </div>
+  );
+}
+
+[Código bestiary-group.tsx]
+import { BestiaryMonster } from "@/types/bestiary";
+import { BestiaryCard } from "./bestiary-card";
+
+type Props = {
+  type: string;
+  monsters: BestiaryMonster[];
+  onManualKill: (monster: BestiaryMonster) => void;
+};
+
+export function BestiaryGroup({ type, monsters, onManualKill }: Props) {
+  return (
+    <section className="space-y-2">
+      <h2 className="text-lg font-semibold">{type}</h2>
+
+      <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-4">
+        {monsters.map((monster) => (
+          <BestiaryCard
+            key={monster.name}
+            monster={monster}
+            onManualKill={() => onManualKill(monster)}
+          />
+        ))}
+      </div>
+    </section>
+  );
+}
+
+[Código bestiary-manual-modal.tsx]
+"use client";
+
+import { useEffect, useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+type BestiaryManualModalProps = {
+  open: boolean;
+  onOpenChange: (open: boolean) => void;
+  characterName: string;
+  monsterName: string;
+  initialManualKills?: number;
+  onSuccess: () => void;
+};
+
+export function BestiaryManualModal({
+  open,
+  onOpenChange,
+  characterName,
+  monsterName,
+  initialManualKills,
+  onSuccess,
+}: BestiaryManualModalProps) {
+  const [manualKills, setManualKills] = useState<string>(() => {
+    return initialManualKills !== undefined
+      ? String(initialManualKills)
+      : "";
+  });
+
+  const [loading, setLoading] = useState<boolean>(false);
+
+  /**
+   * Sincroniza o valor SOMENTE quando:
+   * - o modal abre
+   * - ou o valor inicial muda
+   *
+   * Isso evita renderizações em cascata
+   * e satisfaz o ESLint sem desligar regra.
+   */
+  useEffect(() => {
+    if (!open) return;
+
+    setManualKills(
+      initialManualKills !== undefined
+        ? String(initialManualKills)
+        : ""
+    );
+  }, [open, initialManualKills]);
+
+  async function handleSave(): Promise<void> {
+    const amount = Number(manualKills);
+    if (!amount || amount <= 0) return;
+
+    setLoading(true);
+
+    try {
+      await fetch("/api/bestiary/manual", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          characterName,
+          monsterName,
+          manualKills: amount, // ← DELTA
+        }),
+      });
+
+      onSuccess();
+      onOpenChange(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+
+  async function handleRemove(): Promise<void> {
+    const amount = Number(manualKills);
+    if (!amount || amount <= 0) return;
+
+    setLoading(true);
+
+    try {
+      await fetch("/api/bestiary/manual", {
+        method: "DELETE",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          characterName,
+          monsterName,
+          manualKills: amount, // ← DELTA
+        }),
+      });
+
+      onSuccess();
+      onOpenChange(false);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={onOpenChange}>
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>
+            Bestiário Manual – {monsterName}
+          </DialogTitle>
+        </DialogHeader>
+
+        <Input
+          type="number"
+          min={0}
+          placeholder="Quantidade morta"
+          value={manualKills}
+          onChange={(e) => setManualKills(e.target.value)}
+        />
+
+        <DialogFooter className="flex justify-between">
+          {initialManualKills !== undefined && (
+            <Button
+              variant="destructive"
+              onClick={handleRemove}
+              disabled={loading}
+            >
+              Remover Bestiário
+            </Button>
+          )}
+
+          <Button
+            onClick={handleSave}
+            disabled={loading}
+          >
+            {initialManualKills !== undefined
+              ? "Atualizar Bestiário"
+              : "Adicionar Bestiário"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
+./src/components/dashboard/tabs/items:
+character-items-card.tsx     global-items-table.tsx       items-grid.tsx
+divided-items-view.tsx       item-transfers-container.tsx items-tab.tsx
+[Código character-items-card.tsx]
+"use client";
+
+import { filterAllowedItems } from "@/lib/items/filterAllowedItems";
+
+import { formatItemName } from "@/lib/items/formatItemName";
+
+type Props = {
+  characterName: string;
+  items: Record<string, number>;
+};
+
+export function CharacterItemsCard({ characterName, items }: Props) {
+  const filteredItems = filterAllowedItems(items);
+
+  if (Object.keys(filteredItems).length === 0) {
+    return null;
+  }
+
+  return (
+    <div
+      style={{
+        border: "1px solid #333",
+        borderRadius: 8,
+        padding: 12,
+      }}
+    >
+      <strong>{characterName}</strong>
+
+      <table width="100%" style={{ marginTop: 8 }}>
+        <thead>
+          <tr>
+            <th align="left">Item</th>
+            <th align="right">Quantidade</th>
+          </tr>
+        </thead>
+        <tbody>
+          {Object.entries(filteredItems).map(([item, count]) => (
+            <tr key={item}>
+              <td>{formatItemName(item)}</td>
+              <td align="right">{count}</td>
+            </tr>
+          ))}
+        </tbody>
+      </table>
+    </div>
+  );
+}
+
+[Código global-items-table.tsx]
+"use client";
+
+import { filterAllowedItems } from "@/lib/items/filterAllowedItems";
+import { formatItemName } from "@/lib/items/formatItemName";
+
+type Props = {
+  items: Record<string, number>;
+};
+
+export function GlobalItemsTable({ items }: Props) {
+  const filteredItems = filterAllowedItems(items);
+
+  if (Object.keys(filteredItems).length === 0) {
+    return <div>Nenhum item relevante encontrado.</div>;
+  }
+
+  return (
+    <table width="100%">
+      <thead>
+        <tr>
+          <th align="left">Item</th>
+          <th align="right">Quantidade total</th>
+        </tr>
+      </thead>
+      <tbody>
+        {Object.entries(filteredItems).map(([item, count]) => (
+          <tr key={item}>
+            <td>
+
+                {formatItemName(item)}
+            </td>
+            <td align="right">{count}</td>
+          </tr>
+        ))}
+      </tbody>
+    </table>
+  );
+}
+
+[Código items-grid.tsx]
+"use client";
+
+import { ReactNode } from "react";
+
+type Props = {
+  children: ReactNode;
+};
+
+export function ItemsGrid({ children }: Props) {
+  return (
+    <div
+      style={{
+        display: "grid",
+        gridTemplateColumns: "repeat(5, minmax(0, 1fr))",
+        gap: 16,
+      }}
+    >
+      {children}
+    </div>
+  );
+}
+
+[Código divided-items-view.tsx]
+"use client";
+
+import { filterAllowedItems } from "@/lib/items/filterAllowedItems";
+import { formatItemName } from "@/lib/items/formatItemName";
+
+type Props = {
+  dividedItems: Record<string, Record<string, number>>;
+};
+
+export function DividedItemsView({ dividedItems }: Props) {
+  return (
+    <div style={{ display: "grid", gap: 16 }}>
+      {Object.entries(dividedItems).map(([character, items]) => {
+        const filteredItems = filterAllowedItems(items);
+
+        if (Object.keys(filteredItems).length === 0) {
+          return null;
+        }
+
+        return (
+          <div key={character}>
+            <strong>{character}</strong>
+
+            <table width="100%" style={{ marginTop: 8 }}>
+              <thead>
+                <tr>
+                  <th align="left">Item</th>
+                  <th align="right">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(filteredItems).map(
+                  ([item, count]) => (
+                    <tr key={item}>
+                      <td>{formatItemName(item)}</td>
+                      <td align="right">{count}</td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+        );
+      })}
+    </div>
+  );
+}
+
+[Código item-transfers-container.tsx]
+"use client";
+
+import { filterAllowedItems } from "@/lib/items/filterAllowedItems";
+import { ItemsGrid } from "./items-grid";
+import { formatItemName } from "@/lib/items/formatItemName";    
+
+type Transfer = {
+  from: string;
+  to: string;
+  items: Record<string, number>;
+};
+
+type Props = {
+  transfers: Transfer[];
+};
+
+export function ItemTransfersContainer({ transfers }: Props) {
+  if (transfers.length === 0) {
+    return (
+      <div
+        style={{
+          border: "1px dashed #333",
+          borderRadius: 8,
+          padding: 12,
+        }}
+      >
+        Nenhuma transferência necessária. Todos os personagens estão balanceados.
+      </div>
+    );
+  }
+
+  // 🔹 Agrupa por "from -> to" e aplica filtro
+  const grouped: Record<string, Transfer> = {};
+
+  transfers.forEach(({ from, to, items }) => {
+    const filteredItems = filterAllowedItems(items);
+
+    // Se depois do filtro não sobrar nada, ignora
+    if (Object.keys(filteredItems).length === 0) {
+      return;
+    }
+
+    const key = `${from}__${to}`;
+
+    if (!grouped[key]) {
+      grouped[key] = {
+        from,
+        to,
+        items: {},
+      };
+    }
+
+    Object.entries(filteredItems).forEach(([item, qty]) => {
+      grouped[key].items[item] =
+        (grouped[key].items[item] ?? 0) + qty;
+    });
+  });
+
+  const cards = Object.values(grouped);
+
+  if (cards.length === 0) {
+    return (
+      <div
+        style={{
+          border: "1px dashed #333",
+          borderRadius: 8,
+          padding: 12,
+        }}
+      >
+        Nenhuma transferência necessária para os itens filtrados.
+      </div>
+    );
+  }
+
+  return (
+    <section>
+      <h2>Transferências necessárias</h2>
+
+      <ItemsGrid >
+        {cards.map((transfer, index) => (
+          <div
+            key={index}
+            style={{
+              border: "1px solid #333",
+              borderRadius: 8,
+              padding: 12,
+            }}
+          >
+            <strong>
+              {transfer.from} envia para {transfer.to}
+            </strong>
+
+            <table width="100%" style={{ marginTop: 8 }}>
+              <thead>
+                <tr>
+                  <th align="left">Item</th>
+                  <th align="right">Quantidade</th>
+                </tr>
+              </thead>
+              <tbody>
+                {Object.entries(transfer.items).map(
+                  ([item, qty]) => (
+                    <tr key={item}>
+                      <td>{formatItemName(item)}</td>
+                      <td align="right">{qty}</td>
+                    </tr>
+                  )
+                )}
+              </tbody>
+            </table>
+          </div>
+        ))}
+      </ItemsGrid>
+    </section>
+  );
+}
+
+[Código items-tab.tsx]
+"use client";
+
+import { useState } from "react";
+import { useItemsQuery } from "@/hooks/queries/useItemsQuery";
+import { divideItemsFairly } from "@/lib/items/divideItems";
+
+import { CharacterItemsCard } from "./character-items-card";
+import { GlobalItemsTable } from "./global-items-table";
+import { DividedItemsView } from "./divided-items-view";
+
+import { calculateItemTransfers } from "@/lib/items/calculateTransfers";
+import { ItemTransfersContainer } from "./item-transfers-container";
+
+import { ItemsGrid } from "./items-grid";
+
+
+
+export function ItemsTab() {
+  const { data, isLoading, isError, error } = useItemsQuery();
+  const [splitCount, setSplitCount] = useState(1);
+
+  console.log("[TAB][ITEMS] render");
+
+  if (isLoading) return <div>Carregando itens...</div>;
+  if (isError)
+    return (
+      <div>
+        Erro ao carregar itens
+        <pre>{JSON.stringify(error, null, 2)}</pre>
+      </div>
+    );
+  if (!data) return <div>Nenhum item encontrado</div>;
+
+  const characterNames = Object.keys(data.characters);
+ 
+      
+  const dividedItems =
+    splitCount > 1
+      ? divideItemsFairly(
+          data.global,
+          characterNames.slice(0, splitCount)
+        )
+      : null;
+
+
+  const transfers = dividedItems
+      ? calculateItemTransfers(
+          data.characters,
+          dividedItems
+        )
+      : [];
+      
+  return (
+    <div style={{ display: "grid", gap: 32 }}>
+      {/* CONTAINER 1 */}
+      <section>
+        <h2>Itens por personagem</h2>
+
+        <ItemsGrid>
+          {Object.entries(data.characters).map(
+            ([character, items]) => (
+              <CharacterItemsCard
+                key={character}
+                characterName={character}
+                items={items}
+              />
+            )
+          )}
+        </ItemsGrid>
+      </section>
+
+            {/* CONTAINER 4 */}
+      <section>
+        <ItemTransfersContainer transfers={transfers} />
+      </section>
+
+
+      {/* CONTAINER 2 */}
+      <section>
+        <h2>Total de itens</h2>
+        <GlobalItemsTable items={data.global} />
+      </section>
+
+      {/* CONTAINER 3 */}
+      <section>
+        <h2>Divisão justa</h2>
+
+        <label>
+          Quantidade de personagens:&nbsp;
+          <select
+            value={splitCount}
+            onChange={(e) =>
+              setSplitCount(Number(e.target.value))
+            }
+          >
+            <ItemsGrid>
+              {Array.from({ length: 10 }).map((_, i) => (
+                <option key={i + 1} value={i + 1}>
+                  {i + 1}
+                </option>
+              ))}
+            </ItemsGrid>
+
+          </select>
+        </label>
+
+        {dividedItems && (
+          <div style={{ marginTop: 16 }}>
+            <DividedItemsView dividedItems={dividedItems} />
+          </div>
+        )}
+      </section>
+
+
+    </div>
+  );
+}
+
+
+./src/components/dialogs:
+create-character-dialog.tsx import-hunt-dialog.tsx      register-dialog.tsx
+[Código create-character-dialog.tsx]
+"use client";
+
+import { useState } from "react";
+import {
+  Dialog,
+  DialogTrigger,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { useApi } from "@/hooks/useApi";
+import { useQueryClient } from "@tanstack/react-query";
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export function CreateCharacterDialog({ children }: Props) {
+  const api = useApi();
+  const queryClient = useQueryClient();
+
+  const [open, setOpen] = useState(false);
+  const [name, setName] = useState("");
+  const [loading, setLoading] = useState(false);
+
+  async function handleCreate() {
+    if (!name.trim()) return;
+
+    setLoading(true);
+
+    try {
+      await api.post("/api/characters", {
+        body: { name: name.trim() },
+      });
+
+      console.log("[CHARACTER][CREATE]", name);
+
+      queryClient.invalidateQueries({ queryKey: ["characters"] });
+
+      setOpen(false);
+      setName("");
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Criar personagem</DialogTitle>
+        </DialogHeader>
+
+        <Input
+          placeholder="Nome do personagem"
+          value={name}
+          onChange={(e) => setName(e.target.value)}
+        />
+
+        <DialogFooter>
+          <Button
+            disabled={!name.trim() || loading}
+            onClick={handleCreate}
+          >
+            {loading ? "Criando..." : "Criar"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+[Código import-hunt-dialog.tsx]
+"use client";
+
+import { useState } from "react";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+  DialogFooter,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import {
+  Select,
+  SelectTrigger,
+  SelectValue,
+  SelectContent,
+  SelectItem,
+} from "@/components/ui/select";
+
+import { useCharactersQuery } from "@/hooks/queries/useCharactersQuery";
+import { useApi } from "@/hooks/useApi";
+
+type Props = {
+  children: React.ReactNode;
+};
+
+export function ImportHuntDialog({ children }: Props) {
+  const api = useApi();
+  const { data: characters = [] } = useCharactersQuery();
+
+  const [open, setOpen] = useState(false);
+  const [characterName, setCharacterName] = useState<string>("");
+  const [file, setFile] = useState<File | null>(null);
+  const [loading, setLoading] = useState(false);
+
+  async function handleImport() {
+    if (!characterName || !file) return;
+
+    const formData = new FormData();
+    formData.append("file", file);
+
+    setLoading(true);
+
+    try {
+      await api.post("/api/hunt-sessions", {
+        body: formData,
+        characterName,
+      });
+
+      console.log("[HUNT][IMPORT] OK", characterName);
+
+      setOpen(false);
+      setCharacterName("");
+      setFile(null);
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>{children}</DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Importar Hunt</DialogTitle>
+        </DialogHeader>
+
+        <div className="space-y-3">
+          <Select
+            value={characterName}
+            onValueChange={setCharacterName}
+          >
+            <SelectTrigger>
+              <SelectValue placeholder="Selecione o personagem" />
+            </SelectTrigger>
+
+            <SelectContent>
+              {characters.map((char) => (
+                <SelectItem key={char.id} value={char.name}>
+                  {char.name}
+                </SelectItem>
+              ))}
+            </SelectContent>
+          </Select>
+
+          <Input
+            type="file"
+            accept=".json"
+            onChange={(e) =>
+              setFile(e.target.files?.[0] ?? null)
+            }
+          />
+        </div>
+
+        <DialogFooter>
+          <Button
+            disabled={!characterName || !file || loading}
+            onClick={handleImport}
+          >
+            {loading ? "Importando..." : "Importar"}
+          </Button>
+        </DialogFooter>
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+[Código register-dialog.tsx]
+"use client";
+
+import { useState } from "react";
+
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from "@/components/ui/dialog";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+
+import { apiRequest } from "@/services/api/apiClient";
+
+type RegisterFormState = {
+  name: string;
+  username: string;
+  password: string;
+  confirmPassword: string;
+};
+
+function getErrorMessage(error: unknown): string {
+  if (error instanceof Error) {
+    return error.message;
+  }
+
+  return "Erro inesperado ao criar conta";
+}
+
+export function RegisterDialog() {
+  const [open, setOpen] = useState<boolean>(false);
+  const [created, setCreated] = useState<boolean>(false);
+  const [loading, setLoading] = useState<boolean>(false);
+  const [error, setError] = useState<string | null>(null);
+
+  const [form, setForm] = useState<RegisterFormState>({
+    name: "",
+    username: "",
+    password: "",
+    confirmPassword: "",
+  });
+
+  function updateField<K extends keyof RegisterFormState>(
+    field: K,
+    value: string
+  ): void {
+    setForm((prev) => ({ ...prev, [field]: value }));
+  }
+
+  async function handleRegister(): Promise<void> {
+    const name = form.name.trim();
+    const username = form.username.trim();
+
+    if (!name || !username || !form.password) {
+      setError("Todos os campos são obrigatórios");
+      return;
+    }
+
+    if (form.password !== form.confirmPassword) {
+      setError("As senhas não conferem");
+      return;
+    }
+
+    setLoading(true);
+    setError(null);
+
+    try {
+      await apiRequest<void, {
+        name: string;
+        username: string;
+        password: string;
+      }>("POST", "/api/auth/register", {
+        body: {
+          name,
+          username,
+          password: form.password,
+        },
+      });
+
+      console.log("[AUTH][REGISTER] Cadastro realizado");
+
+      setCreated(true);
+    } catch (err: unknown) {
+      console.error("[AUTH][REGISTER] Erro", err);
+      setError(getErrorMessage(err));
+    } finally {
+      setLoading(false);
+    }
+  }
+
+  function goToLogin(): void {
+    setOpen(false);
+    setCreated(false);
+    setError(null);
+
+    setForm({
+      name: "",
+      username: "",
+      password: "",
+      confirmPassword: "",
+    });
+  }
+
+  return (
+    <Dialog open={open} onOpenChange={setOpen}>
+      <DialogTrigger asChild>
+        <Button variant="outline" className="w-full">
+          Criar conta
+        </Button>
+      </DialogTrigger>
+
+      <DialogContent>
+        <DialogHeader>
+          <DialogTitle>Criar conta</DialogTitle>
+        </DialogHeader>
+
+        {!created ? (
+          <div className="space-y-3">
+            <Input
+              placeholder="Nome"
+              value={form.name}
+              onChange={(e) =>
+                updateField("name", e.target.value)
+              }
+              disabled={loading}
+            />
+
+            <Input
+              placeholder="Usuário"
+              value={form.username}
+              onChange={(e) =>
+                updateField("username", e.target.value)
+              }
+              disabled={loading}
+            />
+
+            <Input
+              type="password"
+              placeholder="Senha"
+              value={form.password}
+              onChange={(e) =>
+                updateField("password", e.target.value)
+              }
+              disabled={loading}
+            />
+
+            <Input
+              type="password"
+              placeholder="Confirmar senha"
+              value={form.confirmPassword}
+              onChange={(e) =>
+                updateField("confirmPassword", e.target.value)
+              }
+              disabled={loading}
+            />
+
+            {error && (
+              <p className="text-sm text-red-500">{error}</p>
+            )}
+
+            <Button
+              className="w-full"
+              onClick={handleRegister}
+              disabled={loading}
+            >
+              {loading ? "Criando..." : "Cadastrar"}
+            </Button>
+          </div>
+        ) : (
+          <Button className="w-full" onClick={goToLogin}>
+            Seguir para login
+          </Button>
+        )}
+      </DialogContent>
+    </Dialog>
+  );
+}
+
+
+./src/components/layout:
+client-only.tsx               dashboard-header-skeleton.tsx
+[Código client-only.tsx]
+// src/components/layout/client-only.tsx
+"use client";
+
+import { useEffect, useState } from "react";
+
+export function ClientOnly({
+  children,
+}: {
+  children: React.ReactNode;
+}) {
+  const [mounted, setMounted] = useState(false);
+
+  useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  if (!mounted) return null;
+
+  return <>{children}</>;
+}
+
+[Código dashboard-header-skeleton.tsx]
+Vazio
+
+./src/components/sidebar:
+app-sidebar.tsx
+[Código app-sidebar.tsx]
+"use client";
+
+import {
+  Sidebar,
+  SidebarContent,
+  SidebarFooter,
+  SidebarHeader,
+} from "@/components/ui/sidebar";
+import { ScrollArea } from "@/components/ui/scroll-area";
+
+type SidebarCharacter = {
+  id: string;
+  name: string;
+};
+
+type AppSidebarProps = {
+  characters: SidebarCharacter[];
+  activeCharacter: string | null;
+  onSelectCharacter: (name: string) => void;
+};
+
+export function AppSidebar({
+  characters,
+  activeCharacter,
+  onSelectCharacter,
+}: AppSidebarProps) {
+  return (
+    <Sidebar>
+      <SidebarHeader className="p-4">
+        <h2 className="text-lg font-semibold">Personagens</h2>
+      </SidebarHeader>
+
+      <SidebarContent>
+        <ScrollArea className="px-2">
+          {characters.map((char) => {
+            const isActive = char.name === activeCharacter;
+
+            return (
+              <button
+                key={char.name}
+                onClick={() => onSelectCharacter(char.name)}
+                className={[
+                  "w-full rounded-md px-2 py-1 text-left text-sm",
+                  "hover:bg-muted",
+                  isActive ? "bg-muted font-medium" : "",
+                ].join(" ")}
+              >
+                {char.name}
+              </button>
+            );
+          })}
+        </ScrollArea>
+      </SidebarContent>
+
+      <SidebarFooter className="p-4 text-xs text-muted-foreground">
+        Navegação
+      </SidebarFooter>
+    </Sidebar>
+  );
+}
+
+
+./src/components/theme:
+mode-toggle.tsx          theme-color-dropdown.tsx theme-provider.tsx
+[Código mode-toggle.tsx]
+"use client"
+
+import { useEffect, useState } from "react"
+import { Moon, Sun } from "lucide-react"
+import { useTheme } from "next-themes"
+
+import { Button } from "@/components/ui/button"
+import ThemeColorDropdown from "@/components/theme/theme-color-dropdown"
+
+export function ModeToggle() {
+  const { resolvedTheme, setTheme } = useTheme()
+  const [mounted, setMounted] = useState(false)
+
+  useEffect(() => setMounted(true), [])
+
+  const isDark = resolvedTheme === "dark"
+  const handleClick = () => setTheme(isDark ? "light" : "dark")
+
+  if (!mounted) {
+    return (
+      <Button variant="ghost" size="sm" aria-label="Alternar tema" disabled>
+        <Sun className="h-3 w-3" />
+        <span className="sr-only">Alternar tema</span>
+      </Button>
+    )
+  }
+
+  return (
+    <div className="flex items-center gap-1">
+      <ThemeColorDropdown />
+
+      <Button
+        variant="ghost"
+        size="icon"
+        onClick={handleClick}
+        aria-label={isDark ? "Usar tema claro" : "Usar tema escuro"}
+      >
+        {isDark ? <Moon className="h-5 w-5" /> : <Sun className="h-5 w-5" />}
+      </Button>
+    </div>
+  )
+}
+
+[Erro]
+[{
+	"resource": "/Users/taianekarine/Documents/[DEV] Fullstack/Tibia-Oracle/src/components/theme/mode-toggle.tsx",
+	"owner": "eslint2",
+	"code": "react-hooks/set-state-in-effect",
+	"severity": 8,
+	"message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/Users/taianekarine/Documents/[DEV] Fullstack/Tibia-Oracle/src/components/theme/mode-toggle.tsx:14:19\n  12 |   const [mounted, setMounted] = useState(false)\n  13 |\n> 14 |   useEffect(() => setMounted(true), [])\n     |                   ^^^^^^^^^^ Avoid calling setState() directly within an effect\n  15 |\n  16 |   const isDark = resolvedTheme === \"dark\"\n  17 |   const handleClick = () => setTheme(isDark ? \"light\" : \"dark\")",
+	"source": "eslint",
+	"startLineNumber": 14,
+	"startColumn": 19,
+	"endLineNumber": 14,
+	"endColumn": 29,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+}]
+
+[Código theme-color-dropdown.tsx]
+"use client"
+
+import { useEffect, useState } from "react"
+import { Button } from "@/components/ui/button"
+import {
+  DropdownMenu,
+  DropdownMenuTrigger,
+  DropdownMenuContent,
+  DropdownMenuLabel,
+  DropdownMenuSeparator,
+  DropdownMenuRadioGroup,
+  DropdownMenuRadioItem,
+} from "@/components/ui/dropdown-menu"
+
+const ACCENTS = [
+  "default",
+  "red",
+  "rose",
+  "orange",
+  "green",
+  "blue",
+  "yellow",
+  "violet",
+] as const
+
+type Accent = (typeof ACCENTS)[number]
+
+// Swatches só para pré-visualização do item no menu
+const SWATCH: Record<Accent, string> = {
+  default: "bg-zinc-900 dark:bg-zinc-100",
+  red: "bg-red-500",
+  rose: "bg-rose-500",
+  orange: "bg-orange-500",
+  green: "bg-green-500",
+  blue: "bg-blue-500",
+  yellow: "bg-yellow-400",
+  violet: "bg-violet-500",
+}
+
+export default function ThemeColorDropdown() {
+  const [accent, setAccent] = useState<Accent>("default")
+
+  useEffect(() => {
+    const saved = (typeof window !== "undefined"
+      ? (localStorage.getItem("accent") as Accent | null)
+      : null) ?? "default"
+    if (ACCENTS.includes(saved)) {
+      setAccent(saved)
+      document.documentElement.setAttribute("data-accent", saved)
+    } else {
+      document.documentElement.setAttribute("data-accent", "default")
+    }
+  }, [])
+
+  const onChange = (value: string) => {
+    const next = value as Accent
+    setAccent(next)
+    document.documentElement.setAttribute("data-accent", next)
+    localStorage.setItem("accent", next)
+  }
+
+  return (
+    <DropdownMenu>
+      <DropdownMenuTrigger asChild>
+        <Button variant="ghost" size="sm" className="gap-2" aria-label="Cor do tema">
+          <span className="h-3 w-3 rounded-full" style={{ background: "var(--primary)" }}/>
+          <span className="hidden sm:inline">Tema</span>
+          {/* <Paintbrush className="h-4 w-4" /> */}
+        </Button>
+      </DropdownMenuTrigger>
+
+      <DropdownMenuContent align="end" className="w-44">
+        <DropdownMenuLabel>Cor do tema</DropdownMenuLabel>
+        <DropdownMenuSeparator />
+        <DropdownMenuRadioGroup value={accent} onValueChange={onChange}>
+          {ACCENTS.map((opt) => (
+            <DropdownMenuRadioItem key={opt} value={opt} className="capitalize">
+              <span className={`mr-2 inline-block h-3 w-3 rounded-full align-middle ${SWATCH[opt]}`} />
+              {opt}
+            </DropdownMenuRadioItem>
+          ))}
+        </DropdownMenuRadioGroup>
+      </DropdownMenuContent>
+    </DropdownMenu>
+  )
+}
+
+[Código theme-provider.tsx]
+"use client"
+
+import * as React from "react"
+import { ThemeProvider as NextThemesProvider } from "next-themes"
+
+export function ThemeProvider({
+  children,
+  ...props
+}: React.ComponentProps<typeof NextThemesProvider>) {
+  return <NextThemesProvider {...props}>{children}</NextThemesProvider>
+}
+
+
+./src/components/ui:
+alert.tsx         button.tsx        checkbox.tsx      dropdown-menu.tsx scroll-area.tsx   sidebar.tsx       table.tsx         toggle.tsx
+avatar.tsx        calendar.tsx      collapsible.tsx   input.tsx         select.tsx        skeleton.tsx      tabs.tsx          tooltip.tsx
+badge.tsx         card.tsx          dialog.tsx        label.tsx         separator.tsx     sonner.tsx        textarea.tsx
+breadcrumb.tsx    chart.tsx         drawer.tsx        progress.tsx      sheet.tsx         switch.tsx        toggle-group.tsx
+
+./src/contexts:
+DashboardContext.tsx
+[Código DashboardContext.tsx]
+"use client"
+
+import React, {
+  createContext,
+  useContext,
+  useEffect,
+  useState,
+} from "react"
+import { usePathname, useRouter } from "next/navigation"
+
+type DashboardContextType = {
+  activeCharacter: string | null
+  setActiveCharacter: (name: string, syncUrl?: boolean) => void
+  resetCharacter: () => void
+  isReady: boolean
+}
+
+const DashboardContext =
+  createContext<DashboardContextType | null>(null)
+
+export function DashboardProvider({
+  children,
+}: {
+  children: React.ReactNode
+}) {
+  const router = useRouter()
+  const pathname = usePathname()
+
+  const [activeCharacter, setActiveCharacterState] =
+    useState<string | null>(null)
+
+  // 🔁 Sincronização inicial pela URL (apenas uma vez)
+  useEffect(() => {
+    if (!pathname || activeCharacter) return
+
+    const parts = pathname.split("/")
+    const possibleName = parts.at(-1)
+
+    if (possibleName && possibleName !== "dashboard") {
+      console.log(
+        "[DASHBOARD][URL] Inicializando personagem:",
+        possibleName
+      )
+      setActiveCharacterState(possibleName)
+    }
+  }, [pathname, activeCharacter])
+
+  function setActiveCharacter(
+    name: string,
+    syncUrl = false
+  ) {
+    const normalized = name.trim()
+
+    if (!normalized) {
+      console.error("[DASHBOARD] Nome inválido:", name)
+      return
+    }
+
+    console.log("[DASHBOARD] Personagem ativo:", normalized)
+    setActiveCharacterState(normalized)
+
+    if (syncUrl) {
+      router.push(
+        `/dashboard/${encodeURIComponent(normalized)}`
+      )
+    }
+  }
+
+  function resetCharacter() {
+    console.log("[DASHBOARD] Reset personagem ativo")
+    setActiveCharacterState(null)
+  }
+
+  const isReady =
+    typeof activeCharacter === "string" &&
+    activeCharacter.length > 0
+
+  return (
+    <DashboardContext.Provider
+      value={{
+        activeCharacter,
+        setActiveCharacter,
+        resetCharacter,
+        isReady,
+      }}
+    >
+      {children}
+    </DashboardContext.Provider>
+  )
+}
+
+export function useDashboard() {
+  const ctx = useContext(DashboardContext)
+
+  if (!ctx) {
+    throw new Error(
+      "useDashboard deve ser usado dentro de DashboardProvider"
+    )
+  }
+
+  return ctx
+}
+[Erro]
+[{
+	"resource": "/Users/taianekarine/Documents/[DEV] Fullstack/Tibia-Oracle/src/contexts/DashboardContext.tsx",
+	"owner": "eslint2",
+	"code": "react-hooks/set-state-in-effect",
+	"severity": 8,
+	"message": "Error: Calling setState synchronously within an effect can trigger cascading renders\n\nEffects are intended to synchronize state between React and external systems such as manually updating the DOM, state management libraries, or other platform APIs. In general, the body of an effect should do one or both of the following:\n* Update external systems with the latest state from React.\n* Subscribe for updates from some external system, calling setState in a callback function when external state changes.\n\nCalling setState synchronously within an effect body causes cascading renders that can hurt performance, and is not recommended. (https://react.dev/learn/you-might-not-need-an-effect).\n\n/Users/taianekarine/Documents/[DEV] Fullstack/Tibia-Oracle/src/contexts/DashboardContext.tsx:44:7\n  42 |         possibleName\n  43 |       )\n> 44 |       setActiveCharacterState(possibleName)\n     |       ^^^^^^^^^^^^^^^^^^^^^^^ Avoid calling setState() directly within an effect\n  45 |     }\n  46 |   }, [pathname, activeCharacter])\n  47 |",
+	"source": "eslint",
+	"startLineNumber": 44,
+	"startColumn": 7,
+	"endLineNumber": 44,
+	"endColumn": 30,
+	"modelVersionId": 1,
+	"origin": "extHost1"
+}]
+
+./src/data:
+monsters_data.json
+
+./src/hooks:
+actions        queries        useApi.ts      useBestiary.ts useLogin.ts    useLogout.ts   useMobile.ts
+[Código useApi.ts]
+import { getAuthToken } from "@/lib/auth-token";
+
+type ApiOptions = {
+  body?: any;
+  characterName?: string;
+};
+
+export function useApi() {
+  function getHeaders(characterName?: string) {
+    const token = getAuthToken();
+
+    const headers: Record<string, string> = {};
+
+    if (token) {
+      headers.Authorization = `Bearer ${token}`;
+    }
+
+    if (characterName) {
+      headers["x-character-name"] = characterName;
+    }
+
+    return headers;
+  }
+
+  async function request(
+    method: "GET" | "POST" | "DELETE" | "PUT",
+    url: string,
+    options?: ApiOptions
+  ) {
+    const isFormData = options?.body instanceof FormData;
+    const headers = getHeaders(options?.characterName);
+
+    if (!isFormData) {
+      headers["Content-Type"] = "application/json";
+    }
+
+    const response = await fetch(url, {
+      method,
+      headers,
+      body: options?.body
+        ? isFormData
+          ? options.body
+          : JSON.stringify(options.body)
+        : undefined,
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("[API][ERROR]", error);
+      throw new Error(error);
+    }
+
+    if (response.status === 204) return null;
+
+    return response.json();
+  }
+
+  return {
+    get: (url: string) => request("GET", url),
+    post: (url: string, options?: ApiOptions) =>
+      request("POST", url, options),
+    delete: (url: string, options?: ApiOptions) =>
+      request("DELETE", url, options),
+    put: (url: string, options?: ApiOptions) =>
+      request("PUT", url, options),
+  };
+}
+
+[Código useBestiary.ts]
+import { useQuery } from "@tanstack/react-query";
+import { BestiaryByType } from "@/types/bestiary";
+
+export function useBestiary(characterId: string | null) {
+  return useQuery<BestiaryByType>({
+    queryKey: ["bestiary", characterId],
+    enabled: !!characterId,
+    queryFn: async () => {
+      const res = await fetch(`/api/bestiary/${characterId}`, {
+        cache: "no-store",
+      });
+
+      if (!res.ok) {
+        throw new Error("Erro ao carregar bestiário");
+      }
+
+      return res.json();
+    },
+  });
+}
+
+[Código useLogin.ts]
+import { setAuthToken } from "@/lib/auth-token";
+
+export function useLogin() {
+  async function login(username: string, password: string) {
+    const response = await fetch("/api/auth/login", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        username,
+        password,
+      }),
+    });
+
+    if (!response.ok) {
+      const error = await response.text();
+      console.error("[AUTH][LOGIN_ERROR]", error);
+      throw new Error("Usuário ou senha inválidos");
+    }
+
+    const data = await response.json();
+
+    console.log("[AUTH] Token recebido");
+
+    setAuthToken(data.token);
+  }
+
+  return { login };
+}
+
+[Código useLogout.ts]
+"use client";
+
+import { useRouter } from "next/navigation";
+import { useQueryClient } from "@tanstack/react-query";
+import { clearAuthToken } from "@/lib/auth-token";
+
+export function useLogout() {
+  const router = useRouter();
+  const queryClient = useQueryClient();
+
+  function logout() {
+    console.log("[AUTH][LOGOUT] Logout iniciado");
+
+    // 1. Remove token
+    clearAuthToken();
+
+    // 2. Limpa cache de dados sensíveis
+    queryClient.clear();
+
+    // 3. Redireciona para login
+    router.replace("/");
+  }
+
+  return { logout };
+}
+
+[Código useMobile.ts]
+import * as React from "react"
+
+const MOBILE_BREAKPOINT = 768
+
+export function useIsMobile() {
+  const [isMobile, setIsMobile] = React.useState<boolean | undefined>(undefined)
+
+  React.useEffect(() => {
+    const mql = window.matchMedia(`(max-width: ${MOBILE_BREAKPOINT - 1}px)`)
+    const onChange = () => {
+      setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    }
+    mql.addEventListener("change", onChange)
+    setIsMobile(window.innerWidth < MOBILE_BREAKPOINT)
+    return () => mql.removeEventListener("change", onChange)
+  }, [])
+
+  return !!isMobile
+}
+
+
+
+./src/hooks/actions:
+useCreateCharacterAction.ts useDeleteCharacterAction.ts useImportHuntAction.ts
+[Código useCreateCharacterAction.ts]
+import { useState } from "react"
+import { useQueryClient } from "@tanstack/react-query"
+import { createCharacter } from "@/services/api/character.service"
+
+export function useCreateCharacterAction() {
+  const queryClient = useQueryClient()
+  const [loading, setLoading] = useState(false)
+
+  async function execute(name: string) {
+    if (!name.trim()) {
+      throw new Error("Nome do personagem é obrigatório")
+    }
+
+    setLoading(true)
+
+    try {
+      await createCharacter(name.trim())
+      queryClient.invalidateQueries({ queryKey: ["characters"] })
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { execute, loading }
+}
+
+[Código useDeleteCharacterAction.ts]
+import { useQueryClient } from "@tanstack/react-query"
+import { deleteCharacter } from "@/services/api/character.service"
+
+export function useDeleteCharacterAction() {
+  const queryClient = useQueryClient()
+
+  async function execute(name: string) {
+    if (!name) return
+    await deleteCharacter(name)
+    queryClient.invalidateQueries({ queryKey: ["characters"] })
+  }
+
+  return { execute }
+}
+
+[Código useImportHuntAction.ts]
+import { useState } from "react"
+import { importHunt } from "@/services/api/hunt.service"
+
+export function useImportHuntAction() {
+  const [loading, setLoading] = useState(false)
+
+  async function execute(characterName: string, file: File) {
+    if (!characterName || !file) {
+      throw new Error("Character e arquivo são obrigatórios")
+    }
+
+    setLoading(true)
+
+    try {
+      await importHunt(characterName, file)
+    } finally {
+      setLoading(false)
+    }
+  }
+
+  return { execute, loading }
+}
+
+
+
+./src/hooks/queries:
+useCharacterDetailsQuery.ts useCharactersQuery.ts       useItemsQuery.ts
+[Código useCharacterDetailsQuery.ts]
+import { useQuery } from "@tanstack/react-query";
+
+/*
+  Tipo completo do personagem.
+  Usado em cards e telas de detalhe.
+*/
+export type CharacterDetails = {
+  id: string;
+  name: string;
+  vocation?: string;
+  level?: number;
+};
+
+/*
+  Função responsável por buscar UM personagem pelo nome.
+*/
+async function fetchCharacterDetails(
+  name: string
+): Promise<CharacterDetails> {
+  console.log("[QUERY] Buscando detalhes do personagem:", name);
+
+  const res = await fetch(
+    `/api/characters/${encodeURIComponent(name)}`,
+    {
+      headers: {
+        "x-character-name": name,
+      },
+    }
+  );
+
+  if (!res.ok) {
+    throw new Error("Erro ao buscar detalhes do personagem");
+  }
+
+  return res.json();
+}
+
+/*
+  Hook para DETALHES de um personagem específico.
+  Usado em:
+  - CharacterCard
+  - Páginas de detalhe
+*/
+export function useCharacterDetails(name: string) {
+  return useQuery({
+    queryKey: ["character", name], // cache do PERSONAGEM
+    queryFn: () => fetchCharacterDetails(name),
+    enabled: Boolean(name?.trim()), // só executa se o nome for válido
+  });
+}
+
+[Código useCharactersQuery.ts]
+import { useQuery } from "@tanstack/react-query";
+import { useApi } from "@/hooks/useApi";
+import { getAuthToken } from "@/lib/auth-token";
+
+type Character = {
+  id: string;
+  name: string;
+};
+
+export function useCharactersQuery() {
+  const api = useApi();
+  const token = getAuthToken();
+
+  return useQuery<Character[]>({
+    queryKey: ["characters"],
+    enabled: !!token, // 🔑 ISSO RESOLVE TUDO
+    queryFn: async () => {
+      console.log("[API] GET /characters");
+      return api.get("/api/characters");
+    },
+  });
+}
+
+[Código useItemsQuery.ts]
+import { useQuery } from "@tanstack/react-query";
+import { useApi } from "@/hooks/useApi";
+
+export type ItemsResponse = {
+  characters: Record<string, Record<string, number>>;
+  global: Record<string, number>;
+};
+
+export function useItemsQuery() {
+  const api = useApi();
+
+  return useQuery<ItemsResponse>({
+    queryKey: ["items"],
+    queryFn: async () => {
+      console.log("[API] GET /api/items");
+
+      // ⬇️ useApi já retorna o JSON
+      const data = await api.get("/api/items");
+
+      // Segurança extra pra debug
+      if (!data) {
+        throw new Error("Items API retornou vazio");
+      }
+
+      return data as ItemsResponse;
+    },
+  });
+}
+
+
+./src/lib:
+auth-token.ts formatters.ts hunt          items         prisma.ts     queryKeys.ts  serialize.ts  utils.ts
+[Código auth-token.ts]
+const TOKEN_KEY = "tibia-oracle-token";
+
+export function getAuthToken(): string | null {
+  if (typeof window === "undefined") return null;
+  return localStorage.getItem(TOKEN_KEY);
+}
+
+export function setAuthToken(token: string) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem(TOKEN_KEY, token);
+}
+
+export function clearAuthToken() {
+  if (typeof window === "undefined") return;
+  localStorage.removeItem(TOKEN_KEY);
+}
+
+[Código formatters.ts]
+export function formatProfit(value: number): string {
+  const abs = Math.abs(value)
+
+  if (abs >= 1_000_000) {
+    return `${Math.round(value / 1_000_000)}kk`
+  }
+
+  if (abs >= 1_000) {
+    return `${Math.round(value / 1_000)}k`
+  }
+
+  return `${value}`
+}
+
+export function formatTibiaValue(value: number): string {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}kk`
+  if (value >= 1_000) return `${Math.floor(value / 1_000)}k`
+  return value.toString()
+}
+
+export function formatProfit(value: number): string {
+  const abs = Math.abs(value)
+
+  if (abs >= 1_000_000) {
+    return `${Math.round(value / 1_000_000)}kk`
+  }
+
+  if (abs >= 1_000) {
+    return `${Math.round(value / 1_000)}k`
+  }
+
+  return `${value}`
+}
+
+export function formatTibiaValue(value: number): string {
+  if (value >= 1_000_000) return `${(value / 1_000_000).toFixed(1)}kk`
+  if (value >= 1_000) return `${Math.floor(value / 1_000)}k`
+  return value.toString()
+}
+
+
+[Código prisma.ts]
+import { PrismaClient } from '@/app/generated/prisma/client'
+import { PrismaPg } from '@prisma/adapter-pg'
+
+const globalForPrisma = global as unknown as {
+    prisma: PrismaClient
+}
+
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+})
+
+export const prisma = globalForPrisma.prisma || new PrismaClient({
+  adapter,
+})
+
+if (process.env.NODE_ENV !== 'production') globalForPrisma.prisma = prisma
+
+
+[Código queryKeys.ts]
+export const queryKeys = {
+  characters: ["characters"] as const,
+  character: (name: string) => ["character", name] as const,
+  huntSessions: (name: string) => ["hunt-sessions", name] as const,
+  dashboard: ["dashboard"] as const,
+};
+
+[Código serialize.ts]
+export function serializeBigInt<T>(data: T): T {
+  return JSON.parse(
+    JSON.stringify(data, (_, value) =>
+      typeof value === "bigint" ? value.toString() : value
+    )
+  )
+}
+
+
+[Código utils.ts]
+import { clsx, type ClassValue } from "clsx"
+import { twMerge } from "tailwind-merge"
+
+export function cn(...inputs: ClassValue[]) {
+  return twMerge(clsx(inputs))
+}
+
+./src/lib/hunt:
+normalize.ts   persistHunt.ts validate.ts
+[Código normalize.ts]
+import {
+  NormalizedHunt,
+  HuntMonster,
+  HuntLootItem,
+} from "@/types/hunt";
+
+/**
+ * Estrutura mínima esperada do analyser.
+ * Tudo é string ou número porque é isso que o Tibia gera.
+ */
+type RawHuntData = {
+  ["Session start"]: string;
+  ["Session end"]: string;
+  ["Session length"]: string;
+
+  ["Balance"]: string | number;
+  ["Loot"]: string | number;
+  ["Supplies"]: string | number;
+
+  ["Damage"]: string | number;
+  ["Damage/h"]: string | number;
+  ["Healing"]: string | number;
+  ["Healing/h"]: string | number;
+
+  ["Raw XP Gain"]: string | number;
+  ["Raw XP/h"]: string | number;
+  ["XP Gain"]: string | number;
+  ["XP/h"]: string | number;
+
+  ["Killed Monsters"]: {
+    Name: string;
+    Count: number;
+  }[];
+
+  ["Looted Items"]: {
+    Name: string;
+    Count: number;
+  }[];
+};
+
+/* -------------------------------------------------- */
+/* Parse externo (único lugar flexível)               */
+/* -------------------------------------------------- */
+
+function parseRawInput(raw: string | object): RawHuntData {
+  const parsed =
+    typeof raw === "string" ? JSON.parse(raw) : raw;
+
+  if (typeof parsed !== "object" || parsed === null) {
+    throw new Error("Hunt analyser inválido");
+  }
+
+  return parsed as RawHuntData;
+}
+
+/* -------------------------------------------------- */
+/* Utils determinísticos                              */
+/* -------------------------------------------------- */
+
+function parseDate(value: string): Date {
+  const isoLike = value.replace(", ", "T");
+  const date = new Date(isoLike);
+
+  if (Number.isNaN(date.getTime())) {
+    throw new Error(`Data inválida: ${value}`);
+  }
+
+  return date;
+}
+
+function toInt(value: string | number): number {
+  if (typeof value === "number") return value;
+  return Number(value.replace(/,/g, ""));
+}
+
+/* -------------------------------------------------- */
+/* Normalização principal                             */
+/* -------------------------------------------------- */
+
+export function normalizeHunt(
+  raw: string | object
+): NormalizedHunt {
+  console.log("[HUNT][NORMALIZE] Normalizando dados");
+
+  const data = parseRawInput(raw);
+
+  return {
+    sessionStart: parseDate(data["Session start"]),
+    sessionEnd: parseDate(data["Session end"]),
+    sessionLength: data["Session length"],
+
+    balance: toInt(data["Balance"]),
+    loot: toInt(data["Loot"]),
+    supplies: toInt(data["Supplies"]),
+
+    damage: toInt(data["Damage"]),
+    damagePerHour: toInt(data["Damage/h"]),
+    healing: toInt(data["Healing"]),
+    healingPerHour: toInt(data["Healing/h"]),
+
+    rawXpGain: toInt(data["Raw XP Gain"]),
+    rawXpPerHour: toInt(data["Raw XP/h"]),
+    xpGain: toInt(data["XP Gain"]),
+    xpPerHour: toInt(data["XP/h"]),
+
+    killedMonsters: data["Killed Monsters"].map(
+      (m): HuntMonster => ({
+        name: m.Name,
+        count: m.Count,
+      })
+    ),
+
+    lootedItems: data["Looted Items"].map(
+      (i): HuntLootItem => ({
+        name: i.Name,
+        count: i.Count,
+      })
+    ),
+  };
+}
+
+/* -------------------------------------------------- */
+/* Normalização de nome                               */
+/* -------------------------------------------------- */
+
+export function normalizeCharacterName(
+  name: string
+): string {
+  return name.trim();
+}
+
+[Código persistHunt.ts]
+import { prisma } from "@/lib/prisma";
+import { NormalizedHunt } from "@/types/hunt";
+
+type CountableItem = {
+  name: string;
+  count: number;
+};
+
+export async function persistHunt(
+  characterId: string,
+  data: NormalizedHunt
+) {
+  console.log("[HUNT][PERSIST] Salvando hunt session");
+
+  return prisma.$transaction(async (tx) => {
+    const hunt = await tx.huntSession.create({
+      data: {
+        characterId,
+        sessionDate: data.sessionStart,
+
+        sessionStart: data.sessionStart,
+        sessionEnd: data.sessionEnd,
+        sessionLength: data.sessionLength,
+
+        balance: data.balance,
+        loot: data.loot,
+        supplies: data.supplies,
+
+        damage: data.damage,
+        damagePerHour: data.damagePerHour,
+        healing: data.healing,
+        healingPerHour: data.healingPerHour,
+
+        rawXpGain: data.rawXpGain,
+        rawXpPerHour: data.rawXpPerHour,
+        xpGain: data.xpGain,
+        xpPerHour: data.xpPerHour,
+      },
+    });
+
+    function aggregate(items: CountableItem[]): CountableItem[] {
+      const map = new Map<string, number>();
+
+      for (const item of items) {
+        if (!item.name || item.count <= 0) continue;
+
+        map.set(
+          item.name,
+          (map.get(item.name) ?? 0) + item.count
+        );
+      }
+
+      return Array.from(map.entries()).map(
+        ([name, count]) => ({ name, count })
+      );
+    }
+
+    const monsters = aggregate(data.killedMonsters);
+    for (const monster of monsters) {
+      await tx.huntKilledMonster.create({
+        data: {
+          huntSessionId: hunt.id,
+          name: monster.name,
+          count: monster.count,
+        },
+      });
+    }
+
+    const items = aggregate(data.lootedItems);
+    for (const item of items) {
+      await tx.huntLootedItem.create({
+        data: {
+          huntSessionId: hunt.id,
+          name: item.name,
+          count: item.count,
+        },
+      });
+    }
+
+    return hunt;
+  });
+}
+
+[Código validate.ts]
+import { prisma } from "@/lib/prisma";
+import { normalizeCharacterName } from "./normalize";
+
+interface ValidateHuntParams {
+  characterName: string;
+  data: {
+    sessionStart: Date;
+    sessionEnd: Date;
+    sessionLength: string;
+    xpGain: number;
+    rawXpGain: number;
+    loot: number;
+    supplies: number;
+    balance: number;
+  };
+}
+
+export async function validateHunt({
+  characterName,
+  data,
+}: ValidateHuntParams) {
+  console.log("[HUNT][VALIDATE] Validando duplicidade global");
+
+  const normalizedName = normalizeCharacterName(characterName)
+
+  const duplicate = await prisma.huntSession.findFirst({
+    where: {
+      sessionStart: data.sessionStart,
+      sessionEnd: data.sessionEnd,
+      xpGain: data.xpGain,
+      rawXpGain: data.rawXpGain,
+      loot: data.loot,
+      supplies: data.supplies,
+      balance: data.balance,
+    },
+    include: {
+      character: true,
+    },
+  });
+
+  if (duplicate) {
+    throw new Error(
+      `Este Hunt Analyser já está vinculado ao personagem ${duplicate.character.name}`
+    );
+  }
+
+  console.log("[HUNT][VALIDATE] Nenhuma duplicidade global encontrada");
+
+  // ⚠️ VALIDAÇÃO DO HEADER (BUG 2)
+  if (!characterName) {
+    throw new Error("Header x-character-name não informado");
+  }
+
+  const character = await prisma.character.findFirst({
+    where: {
+      name: {
+        equals: normalizedName,
+        mode: "insensitive",
+      },
+    },
+  });
+
+  if (!character) {
+    throw new Error("Personagem não encontrado");
+  }
+
+  
+  return character;
+}
+
+
+./src/lib/items:
+allowedItems.ts       calculateTransfers.ts divideItems.ts        filterAllowedItems.ts formatItemName.ts
+[Código allowedItems.ts]
+export const ALLOWED_ITEMS = [
+  "a goanna meat",
+  "a sphinx feather",
+  "a sphinx tiara",
+  "a manticore tail",
+  "a manticore ear",
+  "a goanna claw",
+  "a red goanna scale",
+  "a blue goanna scale",
+  "a skull fetish",
+  "a lizard heart",
+  "a lamassu hoof",
+  "a lamassu horn",
+  "a shamanic talisman",
+];
+
+[Código calculateTransfers.ts]
+type ItemsMap = Record<string, number>;
+
+type Transfers = {
+  from: string;
+  to: string;
+  items: ItemsMap;
+}[];
+
+export function calculateItemTransfers(
+  current: Record<string, ItemsMap>,
+  target: Record<string, ItemsMap>
+): Transfers {
+  const surplus: Record<string, ItemsMap> = {};
+  const deficit: Record<string, ItemsMap> = {};
+
+  Object.keys(target).forEach((character) => {
+    surplus[character] = {};
+    deficit[character] = {};
+
+    Object.keys(target[character]).forEach((item) => {
+      const currentQty = current[character]?.[item] ?? 0;
+      const targetQty = target[character][item];
+      const diff = currentQty - targetQty;
+
+      if (diff > 0) surplus[character][item] = diff;
+      if (diff < 0) deficit[character][item] = Math.abs(diff);
+    });
+  });
+
+  const transfers: Transfers = [];
+
+  Object.keys(deficit).forEach((receiver) => {
+    Object.entries(deficit[receiver]).forEach(
+      ([item, needed]) => {
+        let remaining = needed;
+
+        Object.keys(surplus).forEach((sender) => {
+          const available = surplus[sender][item] ?? 0;
+          if (available <= 0 || remaining <= 0) return;
+
+          const qty = Math.min(available, remaining);
+
+          transfers.push({
+            from: sender,
+            to: receiver,
+            items: { [item]: qty },
+          });
+
+          surplus[sender][item] -= qty;
+          remaining -= qty;
+        });
+      }
+    );
+  });
+
+  return transfers;
+}
+
+[Código divideItems.ts]
+export type ItemsMap = Record<string, number>;
+export type CharacterItems = Record<string, ItemsMap>;
+
+export type DividedItems = Record<string, ItemsMap>;
+
+export function divideItemsFairly(
+  globalItems: ItemsMap,
+  characters: string[]
+): DividedItems {
+  const result: DividedItems = {};
+
+  characters.forEach((c) => {
+    result[c] = {};
+  });
+
+  Object.entries(globalItems).forEach(([item, total]) => {
+    const base = Math.floor(total / characters.length);
+    const remainder = total % characters.length;
+
+    characters.forEach((character) => {
+      result[character][item] = base;
+    });
+
+    // Distribui sobras para quem tem menos itens
+    const sortedByLoad = [...characters].sort(
+      (a, b) =>
+        Object.values(result[a]).reduce((s, v) => s + v, 0) -
+        Object.values(result[b]).reduce((s, v) => s + v, 0)
+    );
+
+    for (let i = 0; i < remainder; i++) {
+      const target = sortedByLoad[i];
+      result[target][item] += 1;
+    }
+  });
+
+  return result;
+}
+
+[Código filterAllowedItems.ts]
+import { ALLOWED_ITEMS } from "./allowedItems";
+
+export function filterAllowedItems(
+  items: Record<string, number>
+) {
+  const filtered: Record<string, number> = {};
+
+  Object.entries(items).forEach(([item, count]) => {
+    if (ALLOWED_ITEMS.includes(item)) {
+      filtered[item] = count;
+    }
+  });
+
+  return filtered;
+}
+
+[Código formatItemName.ts]
+export function formatItemName(itemName: string) {
+  if (itemName.startsWith("a ")) {
+    return itemName.slice(2);
+  }
+
+  return itemName;
+}
+
+
+./src/mappers:
+tibiaCharacterMapper.ts
+[Código tibiaCharacterMapper.ts]
+export function mapTibiaCharacterToPrisma(character: any) {
+  console.log("[MAPPER] Convertendo dados da API");
+
+  return {
+    name: character.name,
+    world: character.world ?? null,
+    vocation: character.vocation ?? null,
+    level: character.level ?? null,
+    experience: character.experience
+      ? BigInt(character.experience)
+      : null,
+    residence: character.residence ?? null,
+    sex: character.sex ?? null,
+    accountStatus: character.account_status ?? null,
+    achievementPoints: character.achievement_points ?? null,
+    guild: character.guild?.name ?? null,
+    lastSyncedAt: new Date(),
+  };
+}
+
+
+./src/services:
+api                 bestiary            hunt-session        tibia
+auth.service.ts     character           password.service.ts user.service.ts
+[Código auth.service.ts ]
+import jwt from "jsonwebtoken";
+import { getUserByUsername } from "./user.service";
+import { comparePassword } from "./password.service";
+
+const JWT_SECRET = process.env.JWT_SECRET as string;
+
+if (!JWT_SECRET) {
+  throw new Error("JWT_SECRET não definido no ambiente");
+}
+
+type LoginInput = {
+  username: string;
+  password: string;
+};
+
+export async function loginUser(input: LoginInput) {
+  console.log("[AUTH][LOGIN] Tentativa de login");
+
+  const username = input.username.trim().toLowerCase();
+  const password = input.password;
+
+  if (!username || !password) {
+    throw new Error("Credenciais inválidas");
+  }
+
+  const user = await getUserByUsername(username);
+
+  if (!user) {
+    throw new Error("Credenciais inválidas");
+  }
+
+  const passwordValid = await comparePassword(
+    password,
+    user.passwordHash
+  );
+
+  if (!passwordValid) {
+    throw new Error("Credenciais inválidas");
+  }
+
+  const token = jwt.sign(
+    {
+      userId: user.id,
+      username: user.username,
+    },
+    JWT_SECRET,
+    {
+      expiresIn: "7d",
+    }
+  );
+
+  console.log("[AUTH][LOGIN] Login realizado com sucesso", user.id);
+
+  return {
+    token,
+    user: {
+      id: user.id,
+      name: user.name,
+      username: user.username,
+    },
+  };
+}
+
+[Código password.service.ts]
+import bcrypt from "bcryptjs";
+
+const SALT_ROUNDS = 10;
+
+export async function hashPassword(password: string): Promise<string> {
+  console.log("[AUTH][HASH] Gerando hash da senha");
+  return bcrypt.hash(password, SALT_ROUNDS);
+}
+
+export async function comparePassword(
+  password: string,
+  hash: string
+): Promise<boolean> {
+  console.log("[AUTH][HASH] Comparando senha");
+  return bcrypt.compare(password, hash);
+}
+
+[Código user.service.ts]
+import { prisma } from "@/lib/prisma";
+import { hashPassword } from "./password.service";
+
+type CreateUserInput = {
+  name: string;
+  username: string;
+  password: string;
+};
+
+function normalizeUsername(username: string): string {
+  return username.trim().toLowerCase();
+}
+
+export async function createUser(input: CreateUserInput) {
+  console.log("[USER][CREATE] Payload recebido", input);
+
+  const name = input.name.trim();
+  const username = normalizeUsername(input.username);
+  const password = input.password;
+
+  if (!name || !username || !password) {
+    throw new Error("Campos obrigatórios não informados");
+  }
+
+  const existingUser = await prisma.user.findUnique({
+    where: { username },
+  });
+
+  if (existingUser) {
+    throw new Error("Username já em uso");
+  }
+
+  const passwordHash = await hashPassword(password);
+
+  const user = await prisma.user.create({
+    data: {
+      name,
+      username,
+      passwordHash,
+    },
+  });
+
+  console.log("[USER][CREATE] Usuário criado", user.id);
+
+  return {
+    id: user.id,
+    name: user.name,
+    username: user.username,
+  };
+}
+
+export async function getUserByUsername(username: string) {
+  return prisma.user.findUnique({
+    where: {
+      username: username.trim().toLowerCase(),
+    },
+  });
+}
+
+./src/services/api:
+apiClient.ts         character.service.ts hunt.service.ts
+[Código apiClient.ts]
+import { getAuthToken } from "@/lib/auth-token"
+
+export type HttpMethod = "GET" | "POST" | "PUT" | "DELETE"
+
+export interface ApiRequestOptions<TBody = unknown> {
+  body?: TBody
+  characterName?: string
+  headers?: Record<string, string>
+}
+
+export async function apiRequest<TResponse, TBody = unknown>(
+  method: HttpMethod,
+  url: string,
+  options?: ApiRequestOptions<TBody>
+): Promise<TResponse> {
+  const token = getAuthToken()
+
+  const headers: Record<string, string> = {
+    ...(options?.headers ?? {}),
+  }
+
+  if (token) {
+    headers.Authorization = `Bearer ${token}`
+  }
+
+  if (options?.characterName) {
+    headers["x-character-name"] = options.characterName
+  }
+
+  const isFormData = options?.body instanceof FormData
+
+  if (!isFormData) {
+    headers["Content-Type"] = "application/json"
+  }
+
+  const response = await fetch(url, {
+    method,
+    headers,
+    body: options?.body
+      ? isFormData
+        ? options.body
+        : JSON.stringify(options.body)
+      : undefined,
+  })
+
+  if (!response.ok) {
+    const text = await response.text()
+    console.error("[API][ERROR]", method, url, text)
+    throw new Error(text || "Erro inesperado")
+  }
+
+  if (response.status === 204) {
+    return null as TResponse
+  }
+
+  return response.json()
+}
+
+[Código character.service.ts]
+import { apiRequest } from "./apiClient"
+import { Character } from "@/types/character"
+
+export function listCharacters(): Promise<Character[]> {
+  return apiRequest("GET", "/api/characters")
+}
+
+export function createCharacter(name: string): Promise<Character> {
+  return apiRequest("POST", "/api/characters", {
+    body: { name },
+  })
+}
+
+export function deleteCharacter(name: string): Promise<void> {
+  return apiRequest("DELETE", `/api/characters/${name}`)
+}
+
+[Código hunt.service.ts]
+import { apiRequest } from "./apiClient"
+
+export function importHunt(
+  characterName: string,
+  file: File
+): Promise<void> {
+  const formData = new FormData()
+  formData.append("file", file)
+
+  return apiRequest("POST", "/api/hunt-sessions", {
+    body: formData,
+    characterName,
+  })
+}
+
+./src/services/bestiary:
+getConsolidatedBestiary.ts   removeBestiaryManualKills.ts setBestiaryManualKills.ts
+[Código getConsolidatedBestiary.ts]
+import { prisma } from "@/lib/prisma";
+import monstersData from "@/data/monsters_data.json";
+
+type BestiaryMonster = {
+  name: string;
+  type: string;
+  charms: number;
+  killComplete: number;
+  image: string;
+  totalKilled: number;
+  manualKilled: number;
+  completed: boolean;
+};
+
+export type BestiaryByType = Record<string, BestiaryMonster[]>;
+
+export async function getConsolidatedBestiary(characterName: string): Promise<BestiaryByType> {
+  console.log("[BESTIARY] Carregando bestiário", characterName);
+
+  if (!characterName) {
+    throw new Error("characterName é obrigatório");
+  }
+
+  // 1️⃣ Resolver characterId
+  const character = await prisma.character.findUnique({
+    where: { name: characterName },
+    select: { id: true },
+  });
+
+  if (!character) {
+    throw new Error("Personagem não encontrado");
+  }
+
+  const characterId = character.id;
+
+  // 2️⃣ Kills automáticos (hunt analyser)
+  const killedFromHunts = await prisma.huntKilledMonster.findMany({
+    where: {
+      huntSession: {
+        characterId,
+      },
+    },
+    select: {
+      name: true,
+      count: true,
+    },
+  });
+
+  const huntKillsMap = new Map<string, number>();
+
+  for (const entry of killedFromHunts) {
+    const name = entry.name.trim().toLowerCase();
+    huntKillsMap.set(name, (huntKillsMap.get(name) ?? 0) + entry.count);
+  }
+
+  // 3️⃣ Kills manuais (override)
+  const manualOverrides = await prisma.characterBestiaryOverride.findMany({
+    where: { characterId },
+    select: {
+      monsterName: true,
+      manualKills: true,
+    },
+  });
+
+  const manualKillsMap = new Map<string, number>();
+
+  for (const override of manualOverrides) {
+    const name = override.monsterName.trim().toLowerCase();
+    manualKillsMap.set(name, override.manualKills);
+  }
+
+  // 4️⃣ Consolidar com catálogo
+  const bestiaryByType: BestiaryByType = {};
+
+  for (const monster of monstersData) {
+    const normalizedName = monster.name.trim().toLowerCase();
+
+    const huntKills = huntKillsMap.get(normalizedName) ?? 0;
+    const manualKills = manualKillsMap.get(normalizedName) ?? 0;
+
+    const totalKilled = huntKills + manualKills;
+    const completed = totalKilled >= monster.kill_complete_bestiary;
+
+    const entry: BestiaryMonster = {
+      name: monster.name,
+      type: monster.type,
+      charms: monster.charms,
+      killComplete: monster.kill_complete_bestiary,
+      image:
+        monster.image ??
+        `https://tibiadraptor.com/images/monsters/${monster.name.replace(/ /g, "_")}.png`,
+      totalKilled,
+      manualKilled: manualKills,
+      completed,
+    };
+
+    if (!bestiaryByType[monster.type]) {
+      bestiaryByType[monster.type] = [];
+    }
+
+    bestiaryByType[monster.type].push(entry);
+  }
+
+  console.log("[BESTIARY] Bestiário consolidado pronto");
+
+  return bestiaryByType;
+}
+
+[Código removeBestiaryManualKills.ts]
+import { prisma } from "@/lib/prisma";
+
+export async function removeBestiaryManualKills(
+  characterName: string,
+  monsterName: string,
+  manualKills: number // DELTA
+) {
+  console.log("[BESTIARY][MANUAL_KILLS][REMOVE]", {
+    characterName,
+    monsterName,
+    manualKills,
+  });
+
+  if (!characterName || !monsterName) {
+    throw new Error("Dados obrigatórios ausentes");
+  }
+
+  if (manualKills <= 0) {
+    throw new Error("manualKills inválido");
+  }
+
+  const character = await prisma.character.findUnique({
+    where: { name: characterName },
+    select: { id: true },
+  });
+
+  if (!character) {
+    throw new Error("Personagem não encontrado");
+  }
+
+  const normalizedMonster = monsterName.trim().toLowerCase();
+
+  const current = await prisma.characterBestiaryOverride.findUnique({
+    where: {
+      characterId_monsterName: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+      },
+    },
+  });
+
+  if (!current) {
+    console.warn("[BESTIARY][REMOVE] Registro inexistente, ignorando");
+    return;
+  }
+
+  const remaining = current.manualKills - manualKills;
+
+  if (remaining <= 0) {
+    return prisma.characterBestiaryOverride.delete({
+      where: {
+        characterId_monsterName: {
+          characterId: character.id,
+          monsterName: normalizedMonster,
+        },
+      },
+    });
+  }
+
+  return prisma.characterBestiaryOverride.update({
+    where: {
+      characterId_monsterName: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+      },
+    },
+    data: {
+      manualKills: remaining,
+    },
+  });
+}
+
+[Código setBestiaryManualKills.ts]
+import { prisma } from "@/lib/prisma";
+
+type Input = {
+  characterName: string;
+  monsterName: string;
+  manualKills: number;
+};
+
+export async function setBestiaryManualKills({
+  characterName,
+  monsterName,
+  manualKills,
+}: Input) {
+  console.log("[BESTIARY][MANUAL_KILLS]", {
+    characterName,
+    monsterName,
+    manualKills,
+  });
+
+  if (!characterName) throw new Error("characterName obrigatório");
+  if (!monsterName) throw new Error("monsterName obrigatório");
+  if (manualKills < 0) throw new Error("manualKills inválido");
+
+  const character = await prisma.character.findUnique({
+    where: { name: characterName },
+    select: { id: true },
+  });
+
+  if (!character) throw new Error("Personagem não encontrado");
+
+  const normalizedMonster = monsterName.trim().toLowerCase();
+
+  const current = await prisma.characterBestiaryOverride.findUnique({
+    where: {
+      characterId_monsterName: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+      },
+    },
+  });
+
+  if (!current) {
+    return prisma.characterBestiaryOverride.create({
+      data: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+        manualKills,
+        source: "manual",
+      },
+    });
+  }
+
+  return prisma.characterBestiaryOverride.update({
+    where: {
+      characterId_monsterName: {
+        characterId: character.id,
+        monsterName: normalizedMonster,
+      },
+    },
+    data: {
+      manualKills: current.manualKills + manualKills, // ← ISSO
+    },
+  });
+}
+
+./src/services/character:
+createCharacter.ts    deleteCharacter.ts    getCharacterByName.ts listCharacters.ts     updateCharacter.ts
+[Código createCharacter.ts]
+import { prisma } from "@/lib/prisma";
+import { getCharacterFromTibia } from "../tibia/getCharacterFromTibia";
+import { mapTibiaCharacterToPrisma } from "@/mappers/tibiaCharacterMapper";
+
+type CreateCharacterInput = {
+  userId: string;
+  name: string;
+};
+
+export async function createCharacter({ userId, name }: CreateCharacterInput) {
+  console.log("[SERVICE] Criando character:", name, "para user:", userId);
+
+  const tibiaCharacter = await getCharacterFromTibia(name);
+
+  if (!tibiaCharacter) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
+
+  const data = mapTibiaCharacterToPrisma(tibiaCharacter);
+
+  const character = await prisma.character.create({
+    data: {
+      ...data,
+      userId,
+    },
+  });
+
+  console.log("[SERVICE] Character salvo no banco com userId");
+  return character;
+}
+
+[Código deleteCharacter.ts]
+import { prisma } from "@/lib/prisma";
+
+type DeleteCharacterInput = {
+  userId: string;
+  name: string;
+};
+
+export async function deleteCharacter({ userId, name }: DeleteCharacterInput) {
+  console.log("[SERVICE] Deletando character:", name, "user:", userId);
+
+  await prisma.character.deleteMany({
+    where: { userId, name },
+  });
+}
+
+[Código getCharacterByName.ts]
+import { prisma } from "@/lib/prisma";
+
+type GetCharacterByNameInput = {
+  userId: string;
+  name: string;
+};
+
+export async function getCharacterByName({
+  userId,
+  name,
+}: GetCharacterByNameInput) {
+  console.log("[SERVICE] Buscando character:", name, "user:", userId);
+
+  return prisma.character.findFirst({
+    where: {
+      userId,
+      name,
+    },
+  });
+}
+
+[Código listCharacters.ts]
+import { prisma } from "@/lib/prisma";
+
+export async function listCharacters(userId: string) {
+  console.log("[SERVICE] Listando characters do user:", userId);
+
+  return prisma.character.findMany({
+    where: {
+      userId,
+    },
+    orderBy: {
+      createdAt: "desc",
+    },
+  });
+}
+
+
+[Código updateCharacter.ts]
+import { prisma } from "@/lib/prisma";
+import { getCharacterFromTibia } from "../tibia/getCharacterFromTibia";
+import { mapTibiaCharacterToPrisma } from "@/mappers/tibiaCharacterMapper";
+
+type UpdateCharacterInput = {
+  userId: string;
+  name: string;
+};
+
+export async function updateCharacter({ userId, name }: UpdateCharacterInput) {
+  console.log("[SERVICE] Atualizando character:", name, "user:", userId);
+
+  const existing = await prisma.character.findFirst({
+    where: { userId, name },
+  });
+
+  if (!existing) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
+
+  const tibiaCharacter = await getCharacterFromTibia(name);
+
+  if (!tibiaCharacter) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
+
+  const data = mapTibiaCharacterToPrisma(tibiaCharacter);
+
+  await prisma.character.updateMany({
+    where: { userId, name },
+    data,
+  });
+
+  return prisma.character.findFirst({
+    where: { userId, name },
+  });
+}
+
+
+./src/services/hunt-session:
+createHuntSession.ts listHuntSessions.ts
+[Código createHuntSession.ts]
+import { normalizeHunt } from "@/lib/hunt/normalize";
+import { validateHunt } from "@/lib/hunt/validate";
+import { persistHunt } from "@/lib/hunt/persistHunt";
+import { getCharacterByName } from "@/services/character/getCharacterByName";
+
+type CreateHuntSessionInput = {
+  userId: string;
+  characterName: string;
+  rawData: unknown;
+};
+
+export async function createHuntSession({
+  userId,
+  characterName,
+  rawData,
+}: CreateHuntSessionInput) {
+  console.log(
+    "[SERVICE][HUNT] Criando hunt-session para",
+    characterName,
+    "user:",
+    userId
+  );
+
+  // 1. Garantir que o character pertence ao user
+  const character = await getCharacterByName({
+    userId,
+    name: characterName,
+  });
+
+  if (!character) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
+
+  // 2. Normalizar dados do analyser
+  const normalized = normalizeHunt(rawData);
+  console.log("[HUNT][NORMALIZE] Payload bruto:", rawData);
+  console.log("[HUNT][NORMALIZE] Payload bruto:", rawData);
+
+
+  // 3. Validar dados (contrato ORIGINAL)
+  validateHunt({
+    characterName,
+    data: normalized,
+  });
+
+  // 4. Persistir hunt usando contrato ORIGINAL
+  const huntSession = await persistHunt(character.id, normalized);
+
+  console.log("[SERVICE][HUNT] Hunt-session salva");
+
+  return huntSession;
+}
+
+[Código listHuntSessions.ts]
+import { prisma } from "@/lib/prisma";
+
+type ListHuntSessionsInput = {
+  userId: string;
+  characterName: string;
+};
+
+export async function listHuntSessions({
+  userId,
+  characterName,
+}: ListHuntSessionsInput) {
+  console.log(
+    "[SERVICE][HUNT] Listando hunt-sessions para",
+    characterName,
+    "user:",
+    userId
+  );
+
+  const character = await prisma.character.findFirst({
+    where: {
+      userId,
+      name: characterName,
+    },
+  });
+
+  if (!character) {
+    throw new Error("CHARACTER_NOT_FOUND");
+  }
+
+  return prisma.huntSession.findMany({
+    where: {
+      characterId: character.id,
+    },
+    orderBy: {
+      sessionStart: "desc",
+    },
+    include: {
+      killedMonsters: true,
+      lootedItems: true,
+    },
+  });
+}
+
+
+./src/services/tibia:
+getCharacterFromTibia.ts
+[Código getCharacterFromTibia.ts]
+export async function getCharacterFromTibia(name: string) {
+  console.log("[TIBIA API] Buscando personagem:", name);
+
+
+  const response = await fetch(
+    `https://api.tibiadata.com/v4/character/${encodeURIComponent(name)}`,
+    { cache: "no-store" }
+  );
+
+  if (!response.ok) {
+    console.log("[TIBIA API] Erro HTTP:", response.status);
+    return null;
+  }
+
+  const data = await response.json();
+
+  if (!data.character || data.character.character?.name !== name) {
+    console.log("[TIBIA API] Character não encontrado");
+    return null;
+  }
+
+  console.log("[TIBIA API] Character encontrado");
+  return data.character.character;
+}
+
+
+./src/types:
+api.ts       balance.ts   bestiary.ts  character.ts hunt.ts      tibia.ts
+[Código api.ts]
+export type ApiError = {
+  error: string
+}
+
+export type ApiSuccess<T> = T
+
+[Código balance.ts]
+export type BalancePeriod = {
+  date: string; // YYYY-MM-DD ou YYYY-MM
+  profit: number;
+  supplies: number;
+};
+
+export type CharacterBalanceSummary = {
+  characterName: string;
+  level: number;
+  vocation: string;
+  totalProfit: number;
+  totalLoot: number;
+  totalSupplies: number;
+};
+
+
+export type BalanceGlobalResponse = {
+  totalProfit: number;
+  totalLoot: number;
+  characters: CharacterBalanceSummary[];
+  lastSixMonths: BalancePeriod[];
+  lastSevenDays: BalancePeriod[];
+};
+
+export type BalanceCharacterResponse = {
+  characterName: string;
+  level: number;
+  vocation: string;
+  totalProfit: number;
+  totalLoot: number;
+  totalSupplies: number;
+  lastSixMonths: BalancePeriod[];
+  lastSevenDays: BalancePeriod[];
+};
+
+[Código bestiary.ts]
+export type BestiarySource = "hunt" | "manual";
+
+export type BestiaryMonster = {
+  id: string;
+  name: string;
+  type: string;
+  image: string;
+  charms: number;
+  totalKilled: number;
+  completed: boolean;
+  killComplete: number;
+  manualKilled: number; 
+  source: BestiarySource;
+};
+
+export type BestiaryByType = Record<string, BestiaryMonster[]>;
+
+export type BestiaryFilters = {
+  search: string;
+  type: string | null;
+  charms: number | null;
+  completed: boolean | null;
+};
+
+
+[Código character.ts]
+export interface Character {
+  id: string
+  name: string
+  vocation?: string
+  level?: number
+}
+
+[Código hunt.ts]
+export interface HuntMonster {
+  name: string
+  count: number
+}
+
+export interface HuntLootItem {
+  name: string
+  count: number
+}
+
+export interface NormalizedHunt {
+  sessionStart: Date
+  sessionEnd: Date
+  sessionLength: string
+
+  balance: number
+  loot: number
+  supplies: number
+
+  damage: number
+  damagePerHour: number
+  healing: number
+  healingPerHour: number
+
+  rawXpGain: number
+  rawXpPerHour: number
+  xpGain: number
+  xpPerHour: number
+
+  killedMonsters: HuntMonster[]
+  lootedItems: HuntLootItem[]
+}
+
+
+[Código tibia.ts]
+export interface TibiaCharacter {
+  name: string
+  world?: string
+  vocation?: string
+  level?: number
+  experience?: number
+  residence?: string
+  sex?: string
+  account_status?: string
+  achievement_points?: number
+  guild?: {
+    name?: string
+  }
+}
+
+
+{
+    1. Analise os códigos acima e faça um diagnostico completo;
+    2. Vamos refatorar os códigos para que o projeto cresca em camadas e nao em explosoes;
+    3. Liste os códigos que possuem relação que podemos chamar de areas para que eu envie separadamente para voce realizar as alterações necessárias;
+    4. Os códigos frontend não possuem responsividade, quebram quando estao sendo acessados em mobile, exceto, a pagina de bestiário;
+}
+
+{
+    “Resuma tudo o que já entendemos até agora em um plano numerado, simples, para alguém que não sabe codar. Isso vai ser meu guia para continuar em outro chat.”
+}
+{
+    “Tenho este plano numerado. Vamos continuar a partir do passo X. Não mude o escopo.”
+}
+

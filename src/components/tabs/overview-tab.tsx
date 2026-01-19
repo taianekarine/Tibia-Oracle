@@ -1,5 +1,4 @@
 "use client";
-
 interface OverviewTabProps {
   mode: "global" | "character";
   characterName?: string;

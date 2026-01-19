@@ -12,57 +12,70 @@ const secret = new TextEncoder().encode(JWT_SECRET);
 export async function middleware(req: NextRequest) {
   const authHeader = req.headers.get("authorization");
 
+  /**
+   * 🔹 REGRA 1
+   * Se NÃO existe Authorization, o middleware NÃO BLOQUEIA.
+   * Ele simplesmente deixa a request passar.
+   */
   if (!authHeader) {
-    return NextResponse.json(
-      { error: "Token não informado" },
-      { status: 401 }
-    );
+    return NextResponse.next();
   }
 
   const [type, token] = authHeader.split(" ");
 
+  /**
+   * 🔹 REGRA 2
+   * Se o header existe mas está mal formatado,
+   * também NÃO bloqueia aqui.
+   * A API decide se isso é erro ou não.
+   */
   if (type !== "Bearer" || !token) {
-    return NextResponse.json(
-      { error: "Token mal formatado" },
-      { status: 401 }
-    );
+    return NextResponse.next();
   }
 
   try {
     const { payload } = await jwtVerify(token, secret);
 
-    const userId = payload.userId as string;
+    const userId =
+      (payload.userId as string) ||
+      (payload.sub as string);
 
     if (!userId) {
-      return NextResponse.json(
-        { error: "Token sem userId" },
-        { status: 401 }
-      );
+      return NextResponse.next();
     }
 
-    console.log("[AUTH][MIDDLEWARE][JOSE] userId:", userId);
+    console.log("[AUTH][MIDDLEWARE] userId:", userId);
 
+    /**
+     * 🔹 REGRA 3
+     * Middleware apenas injeta contexto.
+     * NÃO faz regra de negócio.
+     */
     const headers = new Headers(req.headers);
     headers.set("x-user-id", userId);
 
     return NextResponse.next({
-      request: {
-        headers,
-      },
+      request: { headers },
     });
   } catch (err) {
-    console.error("[AUTH][MIDDLEWARE][JOSE] Erro JWT", err);
-
-    return NextResponse.json(
-      { error: "Token inválido ou expirado" },
-      { status: 401 }
-    );
+    /**
+     * 🔹 REGRA 4
+     * Token inválido NÃO quebra a app inteira.
+     * A API decide se isso é problema.
+     */
+    console.error("[AUTH][MIDDLEWARE] JWT inválido");
+    return NextResponse.next();
   }
 }
 
+/**
+ * 🔹 REGRA 5
+ * Middleware só roda onde FAZ SENTIDO.
+ * Não intercepta auth, nem rotas públicas.
+ */
 export const config = {
   matcher: [
-    "/api/characters/:path*",
-    "/api/hunt-sessions/:path*",
+    "/api/:path*",
+    "/dashboard/:path*",
   ],
 };

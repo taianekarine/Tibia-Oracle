@@ -6,9 +6,9 @@ import {
   BestiaryFilters,
   BestiaryMonster,
 } from "@/types/bestiary";
-import { BestiaryFiltersComponent } from "./bestiary/bestiary-filters";
-import { BestiaryGroup } from "./bestiary/bestiary-group";
-import { BestiaryManualModal } from "@/components/dashboard/tabs/bestiary/bestiary-manual-modal";
+import { BestiaryFiltersComponent } from "../bestiary/bestiary-filters";
+import { BestiaryGroup } from "../bestiary/bestiary-group";
+import { BestiaryManualModal } from "@/components/bestiary/bestiary-manual-modal";
 
 type BestiaryTabProps = {
   mode: "global" | "character";

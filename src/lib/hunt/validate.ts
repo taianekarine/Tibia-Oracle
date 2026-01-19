@@ -15,14 +15,37 @@ interface ValidateHuntParams {
   };
 }
 
+/**
+ * Valida um Hunt antes de ser persistido.
+ *
+ * Responsabilidades:
+ * 1. Impedir duplicidade global de hunt
+ * 2. Garantir que o personagem existe
+ *
+ * NÃO salva nada.
+ * NÃO normaliza dados.
+ */
 export async function validateHunt({
   characterName,
   data,
 }: ValidateHuntParams) {
-  console.log("[HUNT][VALIDATE] Validando duplicidade global");
+  console.log("[HUNT][VALIDATE] Iniciando validação do hunt");
 
-  const normalizedName = normalizeCharacterName(characterName)
+  /**
+   * 1️⃣ Garantir que o nome do personagem foi informado
+   * Defesa básica de contrato.
+   */
+  if (!characterName?.trim()) {
+    throw new Error("Header x-character-name não informado");
+  }
 
+  const normalizedName = normalizeCharacterName(characterName);
+
+  /**
+   * 2️⃣ Verificar duplicidade global
+   * Evita importar o mesmo Hunt Analyser mais de uma vez,
+   * mesmo que seja para outro personagem.
+   */
   const duplicate = await prisma.huntSession.findFirst({
     where: {
       sessionStart: data.sessionStart,
@@ -44,13 +67,12 @@ export async function validateHunt({
     );
   }
 
-  console.log("[HUNT][VALIDATE] Nenhuma duplicidade global encontrada");
+  console.log("[HUNT][VALIDATE] Nenhuma duplicidade encontrada");
 
-  // ⚠️ VALIDAÇÃO DO HEADER (BUG 2)
-  if (!characterName) {
-    throw new Error("Header x-character-name não informado");
-  }
-
+  /**
+   * 3️⃣ Garantir que o personagem existe
+   * (defesa extra, mesmo já validado no service)
+   */
   const character = await prisma.character.findFirst({
     where: {
       name: {
@@ -64,6 +86,14 @@ export async function validateHunt({
     throw new Error("Personagem não encontrado");
   }
 
-  
+  console.log(
+    "[HUNT][VALIDATE] Validação concluída com sucesso para",
+    normalizedName
+  );
+
+  /**
+   * Retornar o personagem validado pode ser útil
+   * no futuro, mas por enquanto apenas confirma sucesso.
+   */
   return character;
 }

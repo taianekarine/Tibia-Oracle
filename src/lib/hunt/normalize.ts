@@ -5,8 +5,8 @@ import {
 } from "@/types/hunt";
 
 /**
- * Estrutura mínima esperada do analyser.
- * Tudo é string ou número porque é isso que o Tibia gera.
+ * Estrutura mínima esperada do Hunt Analyser do Tibia.
+ * Aqui NÃO validamos negócio, apenas formato.
  */
 type RawHuntData = {
   ["Session start"]: string;
@@ -38,10 +38,15 @@ type RawHuntData = {
   }[];
 };
 
-/* -------------------------------------------------- */
-/* Parse externo (único lugar flexível)               */
-/* -------------------------------------------------- */
+/* ======================================================
+   PARSE DE ENTRADA (único ponto flexível)
+====================================================== */
 
+/**
+ * Recebe string ou objeto e garante que temos um objeto válido.
+ * NÃO decide se o Hunt faz sentido.
+ * Apenas garante formato mínimo.
+ */
 function parseRawInput(raw: string | object): RawHuntData {
   const parsed =
     typeof raw === "string" ? JSON.parse(raw) : raw;
@@ -53,10 +58,13 @@ function parseRawInput(raw: string | object): RawHuntData {
   return parsed as RawHuntData;
 }
 
-/* -------------------------------------------------- */
-/* Utils determinísticos                              */
-/* -------------------------------------------------- */
+/* ======================================================
+   CONVERSORES BÁSICOS (determinísticos)
+====================================================== */
 
+/**
+ * Converte datas do formato do Tibia para Date.
+ */
 function parseDate(value: string): Date {
   const isoLike = value.replace(", ", "T");
   const date = new Date(isoLike);
@@ -68,15 +76,29 @@ function parseDate(value: string): Date {
   return date;
 }
 
-function toInt(value: string | number): number {
+/**
+ * Converte números que vêm como string (com vírgula) ou number.
+ */
+function toNumber(value: string | number): number {
   if (typeof value === "number") return value;
   return Number(value.replace(/,/g, ""));
 }
 
-/* -------------------------------------------------- */
-/* Normalização principal                             */
-/* -------------------------------------------------- */
+/* ======================================================
+   NORMALIZAÇÃO PRINCIPAL
+====================================================== */
 
+/**
+ * Normaliza um Hunt Analyser do Tibia.
+ *
+ * Responsabilidades:
+ * - organizar estrutura
+ * - converter tipos (string → number / Date)
+ * - manter fidelidade ao dado original
+ *
+ * NÃO salva nada.
+ * NÃO valida duplicidade.
+ */
 export function normalizeHunt(
   raw: string | object
 ): NormalizedHunt {
@@ -89,40 +111,44 @@ export function normalizeHunt(
     sessionEnd: parseDate(data["Session end"]),
     sessionLength: data["Session length"],
 
-    balance: toInt(data["Balance"]),
-    loot: toInt(data["Loot"]),
-    supplies: toInt(data["Supplies"]),
+    balance: toNumber(data["Balance"]),
+    loot: toNumber(data["Loot"]),
+    supplies: toNumber(data["Supplies"]),
 
-    damage: toInt(data["Damage"]),
-    damagePerHour: toInt(data["Damage/h"]),
-    healing: toInt(data["Healing"]),
-    healingPerHour: toInt(data["Healing/h"]),
+    damage: toNumber(data["Damage"]),
+    damagePerHour: toNumber(data["Damage/h"]),
+    healing: toNumber(data["Healing"]),
+    healingPerHour: toNumber(data["Healing/h"]),
 
-    rawXpGain: toInt(data["Raw XP Gain"]),
-    rawXpPerHour: toInt(data["Raw XP/h"]),
-    xpGain: toInt(data["XP Gain"]),
-    xpPerHour: toInt(data["XP/h"]),
+    rawXpGain: toNumber(data["Raw XP Gain"]),
+    rawXpPerHour: toNumber(data["Raw XP/h"]),
+    xpGain: toNumber(data["XP Gain"]),
+    xpPerHour: toNumber(data["XP/h"]),
 
     killedMonsters: data["Killed Monsters"].map(
-      (m): HuntMonster => ({
-        name: m.Name,
-        count: m.Count,
+      (monster): HuntMonster => ({
+        name: monster.Name,
+        count: monster.Count,
       })
     ),
 
     lootedItems: data["Looted Items"].map(
-      (i): HuntLootItem => ({
-        name: i.Name,
-        count: i.Count,
+      (item): HuntLootItem => ({
+        name: item.Name,
+        count: item.Count,
       })
     ),
   };
 }
 
-/* -------------------------------------------------- */
-/* Normalização de nome                               */
-/* -------------------------------------------------- */
+/* ======================================================
+   NORMALIZAÇÕES AUXILIARES (reutilizáveis)
+====================================================== */
 
+/**
+ * Normaliza nomes de personagens para comparações.
+ * NÃO é usado para UI.
+ */
 export function normalizeCharacterName(
   name: string
 ): string {

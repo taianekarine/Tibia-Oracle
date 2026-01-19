@@ -131,7 +131,7 @@ export function BalanceCharts({
         </div>
 
         <ChartContainer
-          className="h-[320px]"
+          className="h-[300px]"
           config={{
             profit: {
               label: "Profit",

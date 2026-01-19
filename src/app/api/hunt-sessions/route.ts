@@ -1,7 +1,5 @@
 import { NextResponse } from "next/server";
 import { createHuntSession } from "@/services/hunt-session/createHuntSession";
-import { listHuntSessions } from "@/services/hunt-session/listHuntSessions";
-
 
 export async function POST(req: Request) {
   console.log("[API] POST /hunt-sessions");
@@ -33,13 +31,25 @@ export async function POST(req: Request) {
     );
   }
 
-  const rawText = await file.text();
+  /**
+   * 🔐 Aqui é o ponto-chave:
+   * File.text() SEMPRE retorna string.
+   * A partir daqui, rawData é oficialmente string.
+   */
+  const rawData: string = await file.text();
+
+  if (!rawData.trim()) {
+    return NextResponse.json(
+      { error: "Arquivo de hunt vazio" },
+      { status: 400 }
+    );
+  }
 
   try {
     const huntSession = await createHuntSession({
       userId,
       characterName,
-      rawData: rawText,
+      rawData, // agora é string, não unknown
     });
 
     return NextResponse.json(huntSession, { status: 201 });
@@ -58,45 +68,6 @@ export async function POST(req: Request) {
           { status: 400 }
         );
       }
-    }
-
-    throw err;
-  }
-}
-
-export async function GET(req: Request) {
-  console.log("[API] GET /hunt-sessions");
-
-  const userId = req.headers.get("x-user-id");
-  const characterName = req.headers.get("x-character-name");
-
-  if (!userId) {
-    return NextResponse.json(
-      { error: "Usuário não autenticado" },
-      { status: 401 }
-    );
-  }
-
-  if (!characterName) {
-    return NextResponse.json(
-      { error: "Character não informado" },
-      { status: 400 }
-    );
-  }
-
-  try {
-    const hunts = await listHuntSessions({
-      userId,
-      characterName,
-    });
-
-    return NextResponse.json(hunts);
-  } catch (err: unknown) {
-    if (err instanceof Error && err.message === "CHARACTER_NOT_FOUND") {
-      return NextResponse.json(
-        { error: "Character não pertence ao usuário" },
-        { status: 403 }
-      );
     }
 
     throw err;

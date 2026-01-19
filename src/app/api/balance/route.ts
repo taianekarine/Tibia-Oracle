@@ -1,45 +1,66 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/lib/prisma";
-import { startOfDay, subDays, subMonths } from "date-fns";
+import { subMonths, subDays, startOfDay } from "date-fns";
 
 export async function GET(req: Request) {
+  const userId = req.headers.get("x-user-id");
+
+  if (!userId) {
+    return NextResponse.json(
+      { error: "Usuário não autenticado" },
+      { status: 401 }
+    );
+  }
+
   const { searchParams } = new URL(req.url);
   const characterName = searchParams.get("character");
 
-  console.log("[BALANCE][API] Request", { characterName });
+  console.log("[BALANCE][API]", { userId, characterName });
 
   if (characterName) {
-    return characterBalance(characterName);
+    return characterBalance(userId, characterName);
   }
 
-  return globalBalance();
+  return globalBalance(userId);
 }
 
 /* ===========================
    GLOBAL BALANCE
 =========================== */
-async function globalBalance() {
+async function globalBalance(userId: string) {
   const now = new Date();
   const sixMonthsAgo = subMonths(now, 6);
   const sevenDaysAgo = startOfDay(subDays(now, 6));
 
+  const characters = await prisma.character.findMany({
+    where: { userId },
+  });
+
+  if (!characters.length) {
+    return NextResponse.json({
+      totalProfit: 0,
+      characters: [],
+      lastSixMonths: [],
+      lastSevenDays: [],
+    });
+  }
+
+  const characterIds = characters.map((c) => c.id);
+
   const sessions = await prisma.huntSession.findMany({
     where: {
-      sessionDate: {
-        gte: sixMonthsAgo,
-      },
+      characterId: { in: characterIds },
+      sessionDate: { gte: sixMonthsAgo },
     },
   });
 
-  const characters = await prisma.character.findMany();
-
-  const characterMap = new Map(
+  const charMap = new Map(
     characters.map((c) => [c.id, c])
   );
 
   let totalProfit = 0;
 
-  const summaryMap = new Map<
+  const summary = new Map<
     string,
     {
       characterName: string;
@@ -51,14 +72,14 @@ async function globalBalance() {
     }
   >();
 
-  for (const session of sessions) {
-    totalProfit += session.balance;
+  for (const s of sessions) {
+    totalProfit += s.balance;
 
-    const char = characterMap.get(session.characterId);
+    const char = charMap.get(s.characterId);
     if (!char) continue;
 
-    if (!summaryMap.has(char.name)) {
-      summaryMap.set(char.name, {
+    if (!summary.has(char.name)) {
+      summary.set(char.name, {
         characterName: char.name,
         level: char.level ?? 0,
         vocation: char.vocation ?? "Unknown",
@@ -68,15 +89,15 @@ async function globalBalance() {
       });
     }
 
-    const entry = summaryMap.get(char.name)!;
-    entry.totalProfit += session.balance;
-    entry.totalSupplies += session.supplies;
-    entry.totalLoot += session.loot; 
+    const entry = summary.get(char.name)!;
+    entry.totalProfit += s.balance;
+    entry.totalSupplies += s.supplies;
+    entry.totalLoot += s.loot;
   }
 
   return NextResponse.json({
     totalProfit,
-    characters: Array.from(summaryMap.values()),
+    characters: Array.from(summary.values()),
     lastSixMonths: aggregateByMonth(sessions),
     lastSevenDays: aggregateByDay(
       sessions.filter(
@@ -89,59 +110,39 @@ async function globalBalance() {
 /* ===========================
    CHARACTER BALANCE
 =========================== */
-async function characterBalance(characterName: string) {
+async function characterBalance(
+  userId: string,
+  characterName: string
+) {
   const now = new Date();
   const sixMonthsAgo = subMonths(now, 6);
   const sevenDaysAgo = startOfDay(subDays(now, 6));
 
-  const character = await prisma.character.findUnique({
-    where: { name: characterName },
+  const character = await prisma.character.findFirst({
+    where: { name: characterName, userId },
   });
 
   if (!character) {
-    return NextResponse.json({
-      characterName,
-      level: 0,
-      vocation: "Unknown",
-      totalProfit: 0,
-      totalSupplies: 0,
-      lastSixMonths: [],
-      lastSevenDays: [],
-    });
+    return NextResponse.json(
+      { error: "Personagem não encontrado" },
+      { status: 404 }
+    );
   }
 
   const sessions = await prisma.huntSession.findMany({
     where: {
       characterId: character.id,
-      sessionDate: {
-        gte: sixMonthsAgo,
-      },
+      sessionDate: { gte: sixMonthsAgo },
     },
   });
-
-  const totalProfit = sessions.reduce(
-    (acc, s) => acc + s.balance,
-    0
-  );
-
-  const totalSupplies = sessions.reduce(
-    (acc, s) => acc + s.supplies,
-    0
-  );
-
-  const totalLoot = sessions.reduce(
-    (acc, s) => acc + s.loot,
-    0
-  );
-
 
   return NextResponse.json({
     characterName: character.name,
     level: character.level ?? 0,
     vocation: character.vocation ?? "Unknown",
-    totalProfit,
-    totalSupplies,
-    totalLoot,
+    totalProfit: sum(sessions, "balance"),
+    totalSupplies: sum(sessions, "supplies"),
+    totalLoot: sum(sessions, "loot"),
     lastSixMonths: aggregateByMonth(sessions),
     lastSevenDays: aggregateByDay(
       sessions.filter(
@@ -154,12 +155,19 @@ async function characterBalance(characterName: string) {
 /* ===========================
    HELPERS
 =========================== */
+function sum<T extends Record<string, number>>(
+  items: T[],
+  key: keyof T
+) {
+  return items.reduce((acc, i) => acc + i[key], 0);
+}
+
 function aggregateByMonth(
-  sessions: Array<{
+  sessions: {
     sessionDate: Date;
     balance: number;
     supplies: number;
-  }>
+  }[]
 ) {
   const map = new Map<
     string,
@@ -167,32 +175,25 @@ function aggregateByMonth(
   >();
 
   for (const s of sessions) {
-    const key = s.sessionDate
-      .toISOString()
-      .slice(0, 7); // YYYY-MM
-
+    const key = s.sessionDate.toISOString().slice(0, 7);
     if (!map.has(key)) {
       map.set(key, { profit: 0, supplies: 0 });
     }
-
     map.get(key)!.profit += s.balance;
     map.get(key)!.supplies += s.supplies;
   }
 
   return Array.from(map.entries()).map(
-    ([date, values]) => ({
-      date,
-      ...values,
-    })
+    ([date, v]) => ({ date, ...v })
   );
 }
 
 function aggregateByDay(
-  sessions: Array<{
+  sessions: {
     sessionDate: Date;
     balance: number;
     supplies: number;
-  }>
+  }[]
 ) {
   const map = new Map<
     string,
@@ -202,20 +203,15 @@ function aggregateByDay(
   for (const s of sessions) {
     const key = s.sessionDate
       .toISOString()
-      .slice(0, 10); // YYYY-MM-DD
-
+      .slice(0, 10);
     if (!map.has(key)) {
       map.set(key, { profit: 0, supplies: 0 });
     }
-
     map.get(key)!.profit += s.balance;
     map.get(key)!.supplies += s.supplies;
   }
 
   return Array.from(map.entries()).map(
-    ([date, values]) => ({
-      date,
-      ...values,
-    })
+    ([date, v]) => ({ date, ...v })
   );
 }

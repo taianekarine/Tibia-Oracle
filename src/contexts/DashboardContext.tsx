@@ -1,79 +1,81 @@
-"use client"
+"use client";
 
 import React, {
   createContext,
   useContext,
-  useEffect,
   useState,
-} from "react"
-import { usePathname, useRouter } from "next/navigation"
+} from "react";
+import {
+  usePathname,
+  useRouter,
+  useSearchParams,
+} from "next/navigation";
 
-type DashboardContextType = {
-  activeCharacter: string | null
-  setActiveCharacter: (name: string, syncUrl?: boolean) => void
-  resetCharacter: () => void
-  isReady: boolean
-}
+import { DashboardContextType } from "@/types/dashboard";
 
 const DashboardContext =
-  createContext<DashboardContextType | null>(null)
+  createContext<DashboardContextType | null>(null);
+
+function getCharacterFromPath(
+  pathname: string | null
+): string | null {
+  if (!pathname) return null;
+
+  const parts = pathname.split("/");
+  const last = parts.at(-1);
+
+  if (!last || last === "dashboard") return null;
+
+  return decodeURIComponent(last);
+}
 
 export function DashboardProvider({
   children,
 }: {
-  children: React.ReactNode
+  children: React.ReactNode;
 }) {
-  const router = useRouter()
-  const pathname = usePathname()
+  const router = useRouter();
+  const pathname = usePathname();
+  const searchParams = useSearchParams();
 
+  // ✅ Estado nasce correto, sem useEffect
   const [activeCharacter, setActiveCharacterState] =
-    useState<string | null>(null)
+    useState<string | null>(() =>
+      getCharacterFromPath(pathname)
+    );
 
-  // 🔁 Sincronização inicial pela URL (apenas uma vez)
-  useEffect(() => {
-    if (!pathname || activeCharacter) return
-
-    const parts = pathname.split("/")
-    const possibleName = parts.at(-1)
-
-    if (possibleName && possibleName !== "dashboard") {
-      console.log(
-        "[DASHBOARD][URL] Inicializando personagem:",
-        possibleName
-      )
-      setActiveCharacterState(possibleName)
-    }
-  }, [pathname, activeCharacter])
+  // 🔹 Preserva query (?tab=...)
+  function getQueryString() {
+    const params = searchParams.toString();
+    return params ? `?${params}` : "";
+  }
 
   function setActiveCharacter(
     name: string,
     syncUrl = false
   ) {
-    const normalized = name.trim()
+    const normalized = name.trim();
+    if (!normalized) return;
 
-    if (!normalized) {
-      console.error("[DASHBOARD] Nome inválido:", name)
-      return
-    }
-
-    console.log("[DASHBOARD] Personagem ativo:", normalized)
-    setActiveCharacterState(normalized)
+    setActiveCharacterState(normalized);
 
     if (syncUrl) {
       router.push(
-        `/dashboard/${encodeURIComponent(normalized)}`
-      )
+        `/dashboard/${encodeURIComponent(
+          normalized
+        )}${getQueryString()}`
+      );
     }
   }
 
   function resetCharacter() {
-    console.log("[DASHBOARD] Reset personagem ativo")
-    setActiveCharacterState(null)
+    setActiveCharacterState(null);
+    router.push(`/dashboard${getQueryString()}`);
   }
 
   const isReady =
     typeof activeCharacter === "string" &&
-    activeCharacter.length > 0
+    activeCharacter.length > 0;
 
   return (
     <DashboardContext.Provider
@@ -86,17 +88,17 @@ export function DashboardProvider({
     >
       {children}
     </DashboardContext.Provider>
-  )
+  );
 }
 
 export function useDashboard() {
-  const ctx = useContext(DashboardContext)
+  const ctx = useContext(DashboardContext);
 
   if (!ctx) {
     throw new Error(
       "useDashboard deve ser usado dentro de DashboardProvider"
-    )
+    );
   }
 
-  return ctx
+  return ctx;
 }
