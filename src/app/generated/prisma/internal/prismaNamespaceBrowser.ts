@@ -152,7 +152,7 @@ export const HuntSessionScalarFieldEnum = {
   sessionDate: 'sessionDate',
   sessionStart: 'sessionStart',
   sessionEnd: 'sessionEnd',
-  sessionLength: 'sessionLength',
+  sessionLengthSeconds: 'sessionLengthSeconds',
   balance: 'balance',
   loot: 'loot',
   supplies: 'supplies',

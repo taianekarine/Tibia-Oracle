@@ -28,6 +28,7 @@ export type AggregateHuntSession = {
 
 export type HuntSessionAvgAggregateOutputType = {
   id: number | null
+  sessionLengthSeconds: number | null
   balance: number | null
   loot: number | null
   supplies: number | null
@@ -43,6 +44,7 @@ export type HuntSessionAvgAggregateOutputType = {
 
 export type HuntSessionSumAggregateOutputType = {
   id: number | null
+  sessionLengthSeconds: number | null
   balance: number | null
   loot: number | null
   supplies: number | null
@@ -62,7 +64,7 @@ export type HuntSessionMinAggregateOutputType = {
   sessionDate: Date | null
   sessionStart: Date | null
   sessionEnd: Date | null
-  sessionLength: string | null
+  sessionLengthSeconds: number | null
   balance: number | null
   loot: number | null
   supplies: number | null
@@ -83,7 +85,7 @@ export type HuntSessionMaxAggregateOutputType = {
   sessionDate: Date | null
   sessionStart: Date | null
   sessionEnd: Date | null
-  sessionLength: string | null
+  sessionLengthSeconds: number | null
   balance: number | null
   loot: number | null
   supplies: number | null
@@ -104,7 +106,7 @@ export type HuntSessionCountAggregateOutputType = {
   sessionDate: number
   sessionStart: number
   sessionEnd: number
-  sessionLength: number
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -123,6 +125,7 @@ export type HuntSessionCountAggregateOutputType = {
 
 export type HuntSessionAvgAggregateInputType = {
   id?: true
+  sessionLengthSeconds?: true
   balance?: true
   loot?: true
   supplies?: true
@@ -138,6 +141,7 @@ export type HuntSessionAvgAggregateInputType = {
 
 export type HuntSessionSumAggregateInputType = {
   id?: true
+  sessionLengthSeconds?: true
   balance?: true
   loot?: true
   supplies?: true
@@ -157,7 +161,7 @@ export type HuntSessionMinAggregateInputType = {
   sessionDate?: true
   sessionStart?: true
   sessionEnd?: true
-  sessionLength?: true
+  sessionLengthSeconds?: true
   balance?: true
   loot?: true
   supplies?: true
@@ -178,7 +182,7 @@ export type HuntSessionMaxAggregateInputType = {
   sessionDate?: true
   sessionStart?: true
   sessionEnd?: true
-  sessionLength?: true
+  sessionLengthSeconds?: true
   balance?: true
   loot?: true
   supplies?: true
@@ -199,7 +203,7 @@ export type HuntSessionCountAggregateInputType = {
   sessionDate?: true
   sessionStart?: true
   sessionEnd?: true
-  sessionLength?: true
+  sessionLengthSeconds?: true
   balance?: true
   loot?: true
   supplies?: true
@@ -307,7 +311,7 @@ export type HuntSessionGroupByOutputType = {
   sessionDate: Date
   sessionStart: Date
   sessionEnd: Date
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -351,7 +355,7 @@ export type HuntSessionWhereInput = {
   sessionDate?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionStart?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionEnd?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
-  sessionLength?: Prisma.StringFilter<"HuntSession"> | string
+  sessionLengthSeconds?: Prisma.IntFilter<"HuntSession"> | number
   balance?: Prisma.IntFilter<"HuntSession"> | number
   loot?: Prisma.IntFilter<"HuntSession"> | number
   supplies?: Prisma.IntFilter<"HuntSession"> | number
@@ -375,7 +379,7 @@ export type HuntSessionOrderByWithRelationInput = {
   sessionDate?: Prisma.SortOrder
   sessionStart?: Prisma.SortOrder
   sessionEnd?: Prisma.SortOrder
-  sessionLength?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -395,7 +399,6 @@ export type HuntSessionOrderByWithRelationInput = {
 
 export type HuntSessionWhereUniqueInput = Prisma.AtLeast<{
   id?: number
-  characterId_sessionDate?: Prisma.HuntSessionCharacterIdSessionDateCompoundUniqueInput
   AND?: Prisma.HuntSessionWhereInput | Prisma.HuntSessionWhereInput[]
   OR?: Prisma.HuntSessionWhereInput[]
   NOT?: Prisma.HuntSessionWhereInput | Prisma.HuntSessionWhereInput[]
@@ -403,7 +406,7 @@ export type HuntSessionWhereUniqueInput = Prisma.AtLeast<{
   sessionDate?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionStart?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionEnd?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
-  sessionLength?: Prisma.StringFilter<"HuntSession"> | string
+  sessionLengthSeconds?: Prisma.IntFilter<"HuntSession"> | number
   balance?: Prisma.IntFilter<"HuntSession"> | number
   loot?: Prisma.IntFilter<"HuntSession"> | number
   supplies?: Prisma.IntFilter<"HuntSession"> | number
@@ -419,7 +422,7 @@ export type HuntSessionWhereUniqueInput = Prisma.AtLeast<{
   killedMonsters?: Prisma.HuntKilledMonsterListRelationFilter
   lootedItems?: Prisma.HuntLootedItemListRelationFilter
   character?: Prisma.XOR<Prisma.CharacterScalarRelationFilter, Prisma.CharacterWhereInput>
-}, "id" | "characterId_sessionDate">
+}, "id">
 
 export type HuntSessionOrderByWithAggregationInput = {
   id?: Prisma.SortOrder
@@ -427,7 +430,7 @@ export type HuntSessionOrderByWithAggregationInput = {
   sessionDate?: Prisma.SortOrder
   sessionStart?: Prisma.SortOrder
   sessionEnd?: Prisma.SortOrder
-  sessionLength?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -456,7 +459,7 @@ export type HuntSessionScalarWhereWithAggregatesInput = {
   sessionDate?: Prisma.DateTimeWithAggregatesFilter<"HuntSession"> | Date | string
   sessionStart?: Prisma.DateTimeWithAggregatesFilter<"HuntSession"> | Date | string
   sessionEnd?: Prisma.DateTimeWithAggregatesFilter<"HuntSession"> | Date | string
-  sessionLength?: Prisma.StringWithAggregatesFilter<"HuntSession"> | string
+  sessionLengthSeconds?: Prisma.IntWithAggregatesFilter<"HuntSession"> | number
   balance?: Prisma.IntWithAggregatesFilter<"HuntSession"> | number
   loot?: Prisma.IntWithAggregatesFilter<"HuntSession"> | number
   supplies?: Prisma.IntWithAggregatesFilter<"HuntSession"> | number
@@ -475,7 +478,7 @@ export type HuntSessionCreateInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -499,7 +502,7 @@ export type HuntSessionUncheckedCreateInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -520,7 +523,7 @@ export type HuntSessionUpdateInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -544,7 +547,7 @@ export type HuntSessionUncheckedUpdateInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -567,7 +570,7 @@ export type HuntSessionCreateManyInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -586,7 +589,7 @@ export type HuntSessionUpdateManyMutationInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -607,7 +610,7 @@ export type HuntSessionUncheckedUpdateManyInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -632,18 +635,13 @@ export type HuntSessionOrderByRelationAggregateInput = {
   _count?: Prisma.SortOrder
 }
 
-export type HuntSessionCharacterIdSessionDateCompoundUniqueInput = {
-  characterId: string
-  sessionDate: Date | string
-}
-
 export type HuntSessionCountOrderByAggregateInput = {
   id?: Prisma.SortOrder
   characterId?: Prisma.SortOrder
   sessionDate?: Prisma.SortOrder
   sessionStart?: Prisma.SortOrder
   sessionEnd?: Prisma.SortOrder
-  sessionLength?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -660,6 +658,7 @@ export type HuntSessionCountOrderByAggregateInput = {
 
 export type HuntSessionAvgOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -679,7 +678,7 @@ export type HuntSessionMaxOrderByAggregateInput = {
   sessionDate?: Prisma.SortOrder
   sessionStart?: Prisma.SortOrder
   sessionEnd?: Prisma.SortOrder
-  sessionLength?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -700,7 +699,7 @@ export type HuntSessionMinOrderByAggregateInput = {
   sessionDate?: Prisma.SortOrder
   sessionStart?: Prisma.SortOrder
   sessionEnd?: Prisma.SortOrder
-  sessionLength?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -717,6 +716,7 @@ export type HuntSessionMinOrderByAggregateInput = {
 
 export type HuntSessionSumOrderByAggregateInput = {
   id?: Prisma.SortOrder
+  sessionLengthSeconds?: Prisma.SortOrder
   balance?: Prisma.SortOrder
   loot?: Prisma.SortOrder
   supplies?: Prisma.SortOrder
@@ -809,7 +809,7 @@ export type HuntSessionCreateWithoutCharacterInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -831,7 +831,7 @@ export type HuntSessionUncheckedCreateWithoutCharacterInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -883,7 +883,7 @@ export type HuntSessionScalarWhereInput = {
   sessionDate?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionStart?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
   sessionEnd?: Prisma.DateTimeFilter<"HuntSession"> | Date | string
-  sessionLength?: Prisma.StringFilter<"HuntSession"> | string
+  sessionLengthSeconds?: Prisma.IntFilter<"HuntSession"> | number
   balance?: Prisma.IntFilter<"HuntSession"> | number
   loot?: Prisma.IntFilter<"HuntSession"> | number
   supplies?: Prisma.IntFilter<"HuntSession"> | number
@@ -902,7 +902,7 @@ export type HuntSessionCreateWithoutKilledMonstersInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -925,7 +925,7 @@ export type HuntSessionUncheckedCreateWithoutKilledMonstersInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -961,7 +961,7 @@ export type HuntSessionUpdateWithoutKilledMonstersInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -984,7 +984,7 @@ export type HuntSessionUncheckedUpdateWithoutKilledMonstersInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1004,7 +1004,7 @@ export type HuntSessionCreateWithoutLootedItemsInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -1027,7 +1027,7 @@ export type HuntSessionUncheckedCreateWithoutLootedItemsInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -1063,7 +1063,7 @@ export type HuntSessionUpdateWithoutLootedItemsInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1086,7 +1086,7 @@ export type HuntSessionUncheckedUpdateWithoutLootedItemsInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1107,7 +1107,7 @@ export type HuntSessionCreateManyCharacterInput = {
   sessionDate: Date | string
   sessionStart: Date | string
   sessionEnd: Date | string
-  sessionLength: string
+  sessionLengthSeconds: number
   balance: number
   loot: number
   supplies: number
@@ -1126,7 +1126,7 @@ export type HuntSessionUpdateWithoutCharacterInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1148,7 +1148,7 @@ export type HuntSessionUncheckedUpdateWithoutCharacterInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1170,7 +1170,7 @@ export type HuntSessionUncheckedUpdateManyWithoutCharacterInput = {
   sessionDate?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionStart?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
   sessionEnd?: Prisma.DateTimeFieldUpdateOperationsInput | Date | string
-  sessionLength?: Prisma.StringFieldUpdateOperationsInput | string
+  sessionLengthSeconds?: Prisma.IntFieldUpdateOperationsInput | number
   balance?: Prisma.IntFieldUpdateOperationsInput | number
   loot?: Prisma.IntFieldUpdateOperationsInput | number
   supplies?: Prisma.IntFieldUpdateOperationsInput | number
@@ -1231,7 +1231,7 @@ export type HuntSessionSelect<ExtArgs extends runtime.Types.Extensions.InternalA
   sessionDate?: boolean
   sessionStart?: boolean
   sessionEnd?: boolean
-  sessionLength?: boolean
+  sessionLengthSeconds?: boolean
   balance?: boolean
   loot?: boolean
   supplies?: boolean
@@ -1256,7 +1256,7 @@ export type HuntSessionSelectCreateManyAndReturn<ExtArgs extends runtime.Types.E
   sessionDate?: boolean
   sessionStart?: boolean
   sessionEnd?: boolean
-  sessionLength?: boolean
+  sessionLengthSeconds?: boolean
   balance?: boolean
   loot?: boolean
   supplies?: boolean
@@ -1278,7 +1278,7 @@ export type HuntSessionSelectUpdateManyAndReturn<ExtArgs extends runtime.Types.E
   sessionDate?: boolean
   sessionStart?: boolean
   sessionEnd?: boolean
-  sessionLength?: boolean
+  sessionLengthSeconds?: boolean
   balance?: boolean
   loot?: boolean
   supplies?: boolean
@@ -1300,7 +1300,7 @@ export type HuntSessionSelectScalar = {
   sessionDate?: boolean
   sessionStart?: boolean
   sessionEnd?: boolean
-  sessionLength?: boolean
+  sessionLengthSeconds?: boolean
   balance?: boolean
   loot?: boolean
   supplies?: boolean
@@ -1315,7 +1315,7 @@ export type HuntSessionSelectScalar = {
   createdAt?: boolean
 }
 
-export type HuntSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "characterId" | "sessionDate" | "sessionStart" | "sessionEnd" | "sessionLength" | "balance" | "loot" | "supplies" | "damage" | "damagePerHour" | "healing" | "healingPerHour" | "rawXpGain" | "rawXpPerHour" | "xpGain" | "xpPerHour" | "createdAt", ExtArgs["result"]["huntSession"]>
+export type HuntSessionOmit<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = runtime.Types.Extensions.GetOmit<"id" | "characterId" | "sessionDate" | "sessionStart" | "sessionEnd" | "sessionLengthSeconds" | "balance" | "loot" | "supplies" | "damage" | "damagePerHour" | "healing" | "healingPerHour" | "rawXpGain" | "rawXpPerHour" | "xpGain" | "xpPerHour" | "createdAt", ExtArgs["result"]["huntSession"]>
 export type HuntSessionInclude<ExtArgs extends runtime.Types.Extensions.InternalArgs = runtime.Types.Extensions.DefaultArgs> = {
   killedMonsters?: boolean | Prisma.HuntSession$killedMonstersArgs<ExtArgs>
   lootedItems?: boolean | Prisma.HuntSession$lootedItemsArgs<ExtArgs>
@@ -1342,7 +1342,7 @@ export type $HuntSessionPayload<ExtArgs extends runtime.Types.Extensions.Interna
     sessionDate: Date
     sessionStart: Date
     sessionEnd: Date
-    sessionLength: string
+    sessionLengthSeconds: number
     balance: number
     loot: number
     supplies: number
@@ -1786,7 +1786,7 @@ export interface HuntSessionFieldRefs {
   readonly sessionDate: Prisma.FieldRef<"HuntSession", 'DateTime'>
   readonly sessionStart: Prisma.FieldRef<"HuntSession", 'DateTime'>
   readonly sessionEnd: Prisma.FieldRef<"HuntSession", 'DateTime'>
-  readonly sessionLength: Prisma.FieldRef<"HuntSession", 'String'>
+  readonly sessionLengthSeconds: Prisma.FieldRef<"HuntSession", 'Int'>
   readonly balance: Prisma.FieldRef<"HuntSession", 'Int'>
   readonly loot: Prisma.FieldRef<"HuntSession", 'Int'>
   readonly supplies: Prisma.FieldRef<"HuntSession", 'Int'>

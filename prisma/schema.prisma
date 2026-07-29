@@ -96,9 +96,9 @@ model HuntSession {
   characterId String
   sessionDate DateTime
 
-  sessionStart  DateTime
-  sessionEnd    DateTime
-  sessionLength String
+  sessionStart         DateTime
+  sessionEnd           DateTime
+  sessionLengthSeconds Int
 
   balance  Int
   loot     Int
@@ -121,7 +121,7 @@ model HuntSession {
 
   createdAt DateTime @default(now())
 
-  @@unique([characterId, sessionDate])
+  @@index([characterId, sessionDate])
 }
 
 model HuntKilledMonster {

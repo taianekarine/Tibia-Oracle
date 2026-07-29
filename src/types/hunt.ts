@@ -11,7 +11,7 @@ export interface HuntLootItem {
 export interface NormalizedHunt {
   sessionStart: Date
   sessionEnd: Date
-  sessionLength: string
+  sessionLengthSeconds: number
 
   balance: number
   loot: number
@@ -29,4 +29,23 @@ export interface NormalizedHunt {
 
   killedMonsters: HuntMonster[]
   lootedItems: HuntLootItem[]
+}
+
+export interface RawHunt {
+  "Session start": string
+  "Session end": string
+  "Session length": string
+  Balance: string | number
+  Loot: string | number
+  Supplies: string | number
+  Damage: string | number
+  "Damage/h": string | number
+  Healing: string | number
+  "Healing/h": string | number
+  "Raw XP Gain": string | number
+  "Raw XP/h": string | number
+  "XP Gain": string | number
+  "XP/h": string | number
+  "Killed Monsters": Array<{ Name: string; Count: number }>
+  "Looted Items": Array<{ Name: string; Count: number }>
 }

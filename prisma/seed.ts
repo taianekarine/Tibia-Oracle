@@ -1,4 +1,4 @@
-import { PrismaClient } from "../src/generated/prisma/client";
+import { PrismaClient } from "../src/app/generated/prisma/client";
 import { PrismaPg } from "@prisma/adapter-pg";
 import "dotenv/config";
 
@@ -13,7 +13,7 @@ export async function main() {
     data: {
       sessionStart: new Date("2025-12-05T09:27:08"),
       sessionEnd: new Date("2025-12-05T14:34:42"),
-      sessionLength: "05:07h",
+      sessionLengthSeconds: 18420,
 
       balance: 813820,
       loot: 1061096,
